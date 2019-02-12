@@ -7,7 +7,7 @@ public class Main extends GameApplication {
     protected void initSettings(GameSettings settings) {
         settings.setWidth(800);
         settings.setHeight(600);
-        settings.setTitle("Basic Game App");
+        settings.setTitle("Relictus");
     }
 
     public static void main(String[] args) {
