@@ -9,12 +9,12 @@ javafx {
 }
 
 javafx {
-    version = "11.0.1"
+    version = "11.0.2"
 }
 
 version '5.2.1'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
