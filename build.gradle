@@ -26,3 +26,5 @@ dependencies {
 
     implementation 'com.github.almasb:fxgl:11.0-alpha'
 }
+
+mainClassName = 'src.main.java.Main'
