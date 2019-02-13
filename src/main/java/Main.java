@@ -1,6 +1,5 @@
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-
 import java.util.Map;
 
 public class Main extends GameApplication {
