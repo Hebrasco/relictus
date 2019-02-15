@@ -5,7 +5,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
+
 	public static void main(String[] args) {
+		JsonController.getInstance().loadTextsJson();
 		launch(args);
 	}
 
@@ -14,7 +16,7 @@ public class Launcher extends Application {
 		Parent root = fxmlLoader.load();
 		Stage stage = new Stage();
 
-		stage.setTitle("RELICTUS Launcher");
+		stage.setTitle(String.valueOf(JsonController.getInstance().json.getJSONObject("launcher").getString("name")));
 		stage.setScene(new Scene(root));
 		stage.setResizable(false);
 		stage.centerOnScreen();

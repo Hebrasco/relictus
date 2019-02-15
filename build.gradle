@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation 'com.github.almasb:fxgl:11.0-alpha'
+    implementation group: 'org.json', name: 'json', version: '20180813'
 }
 
 javafx {

@@ -35,12 +35,12 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #eee;" GridPane.columnSpan="3">
                <children>
-                  <Label fx:id="statusLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="500.0" text="JUMP AND RUN" textAlignment="CENTER">
+                  <Label fx:id="statusLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="500.0" text="set text in controller" textAlignment="CENTER">
                      <font>
                         <Font name="Impact" size="33.0" />
                      </font>
                   </Label>
-                  <Label fx:id="statusLabel1" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="500.0" text="by Kamelrad" textAlignment="CENTER" translateY="-5.0">
+                  <Label fx:id="statusLabel1" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="500.0" text="set text in controller" textAlignment="CENTER" translateY="-5.0">
                      <font>
                         <Font name="Impact" size="16.0" />
                      </font>
@@ -48,13 +48,13 @@
                   <Separator layoutY="60.0" prefWidth="500.0" valignment="BOTTOM" />
                </children>
             </Pane>
-            <Label text="Nickname:" translateX="30.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <Label text="set text in controller" translateX="30.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="14.0" />
                </font></Label>
             <TextField maxWidth="-Infinity" prefHeight="27.0" prefWidth="225.0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
             <Separator prefWidth="500.0" valignment="BOTTOM" GridPane.rowIndex="4" />
-            <Label text="MultiPlayer" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label text="set text in controller" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font name="Impact" size="22.0" />
                </font>
@@ -62,23 +62,23 @@
             <Separator prefWidth="500.0" valignment="BOTTOM" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #eee;" GridPane.columnSpan="3" GridPane.rowIndex="9">
                <children>
-                  <Button disable="true" layoutX="150.0" layoutY="17.0" mnemonicParsing="false" prefWidth="200.0" text="LAUNCH GAME" />
+                  <Button disable="true" layoutX="150.0" layoutY="17.0" mnemonicParsing="false" prefWidth="200.0" text="set text in controller" />
                   <Separator prefWidth="500.0" valignment="BOTTOM" />
                </children>
             </Pane>
-            <RadioButton mnemonicParsing="false" text="Join Server" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+            <RadioButton mnemonicParsing="false" text="set text in controller" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <font>
                   <Font size="14.0" />
                </font></RadioButton>
-            <RadioButton mnemonicParsing="false" text="Host Server" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP">
+            <RadioButton mnemonicParsing="false" text="set text in controller" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP">
                <font>
                   <Font size="14.0" />
                </font></RadioButton>
-            <Label text="Enter your firends IP to join them / Give your friend your IP:" textAlignment="CENTER" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+            <Label text="set text in controller" textAlignment="CENTER" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <TextField maxWidth="-Infinity" prefHeight="27.0" prefWidth="225.0" promptText="Your IP: 192.168.0.1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="TOP" />
+            <TextField maxWidth="-Infinity" prefHeight="27.0" prefWidth="225.0" promptText="set text in controller" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="TOP" />
          </children>
       </GridPane>
    </children>
