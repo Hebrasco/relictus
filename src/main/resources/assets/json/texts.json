@@ -3,6 +3,17 @@
     "name": "R E L I C T U S"
   },
   "launcher": {
-    "name": "Launcher"
+    "name": "Launcher",
+    "xml": {
+      "header": "JUMP AND RUN",
+      "subheader": "by Kamelrad",
+      "launchGame": "LAUNCH GAME",
+      "friendsIP": "Enter your firends IP to join them / Give your friend your IP",
+      "yourIP": "Your IP: 192.168.0.1",
+      "hostServer": "Host Server",
+      "JjoinServer": "Join Server",
+      "multiplayer": "Multiplayer",
+      "nickname": "Nickname:"
+    }
   }
 }
