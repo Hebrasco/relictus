@@ -16,7 +16,7 @@ public class Launcher extends Application {
 		Parent root = fxmlLoader.load();
 		Stage stage = new Stage();
 
-		stage.setTitle("RELICTUS Launcher");
+		stage.setTitle(String.valueOf(JsonController.getInstance().json.getJSONObject("launcher").getString("name")));
 		stage.setScene(new Scene(root));
 		stage.setResizable(false);
 		stage.centerOnScreen();

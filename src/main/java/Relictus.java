@@ -9,7 +9,7 @@ public class Relictus extends GameApplication {
 	protected void initSettings(GameSettings settings) {
 		settings.setWidth(800);
 		settings.setHeight(600);
-		settings.setTitle("R E L I C T U S");
+		settings.setTitle(String.valueOf(JsonController.getInstance().json.getJSONObject("application").get("name")));
 		settings.setVersion("");
 	}
 
