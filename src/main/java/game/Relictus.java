@@ -2,6 +2,7 @@ package game;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.MenuItem;
 import controllers.JsonController;
 
 import java.util.Map;
@@ -13,9 +14,10 @@ public class Relictus extends GameApplication {
 		settings.setWidth(800);
 		settings.setHeight(600);
 		settings.setTitle(String.valueOf(JsonController.getInstance().json.getJSONObject("application").get("name")));
-		settings.setVersion("");
+		settings.setVersion("0.1.0");
+		settings.setMenuEnabled(true);
 	}
-
+	
 	@Override
 	protected void initInput() {
 		super.initInput();
@@ -39,5 +41,12 @@ public class Relictus extends GameApplication {
 	@Override
 	protected void onUpdate(double tpf) {
 		super.onUpdate(tpf);
+	}
+
+	public static void main(String[] args) {
+		if (JsonController.getInstance().json == null) {
+			JsonController.getInstance().loadTextsJson();
+		}
+		launch(args);
 	}
 }
