@@ -1,3 +1,5 @@
+package controllers;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -9,8 +11,8 @@ import java.net.URL;
 /**
  * @author Daniel Bedrich
  */
-class JsonController {
-    JSONObject json;
+public class JsonController {
+    public JSONObject json;
     private String textsJsonRelativePath = "/assets/json/texts.json";
     private URL textsJsonURL = getClass().getResource(textsJsonRelativePath);
     private static JsonController jsonController = new JsonController( );
@@ -19,12 +21,12 @@ class JsonController {
 
     }
 
-    static JsonController getInstance( ) {
+    public static JsonController getInstance( ) {
         return jsonController;
     }
 
     // Call before starting Launcher
-    void loadTextsJson() {
+    public void loadTextsJson() {
         String jsonData = "";
         BufferedReader br = null;
         try {

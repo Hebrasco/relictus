@@ -1,5 +1,8 @@
+package game;
+
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import controllers.JsonController;
 
 import java.util.Map;
 

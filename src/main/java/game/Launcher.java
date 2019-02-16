@@ -1,3 +1,6 @@
+package game;
+
+import controllers.JsonController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
