@@ -15,7 +15,7 @@ public class Launcher extends Application {
 	}
 
 	@Override public void start(Stage primaryStage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("assets/ui/launcher.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/assets/ui/launcher.fxml"));
 		Parent root = fxmlLoader.load();
 		Stage stage = new Stage();
 
