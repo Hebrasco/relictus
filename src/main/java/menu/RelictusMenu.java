@@ -8,19 +8,24 @@ import com.almasb.fxgl.scene.MenuType;
 import com.almasb.fxgl.ui.FXGLButton;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import java.util.EnumSet;
@@ -30,6 +35,7 @@ public class RelictusMenu extends FXGLMenu {
 
     public RelictusMenu(@NotNull MenuType type) {
         super(type);
+        createMainMenu();
     }
 
     @NotNull
@@ -52,26 +58,61 @@ public class RelictusMenu extends FXGLMenu {
 
     @NotNull
     @Override
-    protected Node createBackground(double v, double v1) {
-        return null;
+    protected Node createBackground(double width, double height) {
+        Rectangle background = new Rectangle(width, height, Color.RED);
+        return background;
     }
 
     @NotNull
     @Override
-    protected Node createProfileView(@NotNull String s) {
-        return null;
+    protected Node createProfileView(@NotNull String profileName) {
+        final Text view = FXGL.getUIFactory().newText(profileName);
+        view.setTranslateY((FXGL.getAppHeight() - 2));
+        view.setTranslateX(FXGL.getAppWidth() - view.getLayoutBounds().getWidth());
+        return view;
     }
 
     @NotNull
     @Override
-    protected Node createTitleView(@NotNull String s) {
-        return null;
+    protected Node createTitleView(@NotNull String title) {
+        final SimpleObjectProperty<Color> titleColor = new SimpleObjectProperty<>(Color.WHITE);
+
+        final Text text = FXGL.getUIFactory().newText(title.substring(0, 1), 50.0);
+        text.setFill(null);
+        text.strokeProperty().bind(titleColor);
+        text.setStrokeWidth(1.5);
+
+        final Text text2 = FXGL.getUIFactory().newText(title.substring(1), 50.0);
+        text2.setFill(null);
+        text2.setStroke(titleColor.getValue());
+        text2.setStrokeWidth(1.5);
+
+        final Double textWidth = text.getLayoutBounds().getWidth() + text2.getLayoutBounds().getWidth();
+
+        final Rectangle bg = new Rectangle(textWidth + 30, 65.0, null);
+        bg.setStroke(Color.WHITE);
+        bg.setStrokeWidth(4.0);
+        bg.setArcWidth(25.0);
+        bg.setArcHeight(25.0);
+
+        final HBox box = new HBox(text, text2);
+        box.setAlignment(Pos.CENTER);
+
+        final StackPane titleRoot = new StackPane();
+        titleRoot.getChildren().addAll(bg, box);
+
+        titleRoot.setTranslateX(FXGL.getAppWidth() / 2 - (textWidth + 30) / 2);
+        titleRoot.setTranslateY(50);
+
+        return titleRoot;
     }
 
     @NotNull
     @Override
-    protected Node createVersionView(@NotNull String s) {
-        return null;
+    protected Node createVersionView(@NotNull String version) {
+        final Text view = FXGL.getUIFactory().newText(version);
+        view.setTranslateY((FXGL.getAppHeight() - 2));
+        return view;
     }
 
     private MenuBox createMainMenu() {
@@ -143,6 +184,7 @@ public class RelictusMenu extends FXGLMenu {
     protected void switchMenuContentTo(@NotNull Node content) {
         getMenuContentRoot().getChildren().set(0, content);
     }
+
     class MenuButton extends Pane {
         private MenuBox parent = null;
         private MenuContent cachedContent = null;
@@ -158,7 +200,7 @@ public class RelictusMenu extends FXGLMenu {
 
             final LinearGradient g = new LinearGradient(0.0, 1.0, 1.0, 0.2, true, CycleMethod.NO_CYCLE,
                     new Stop(0.6, Color.color(1.0, 0.8, 0.0, 0.34)),
-                    new Stop(0.85, Color.color(1.0, 0.8, 0.0, 074)),
+                    new Stop(0.85, Color.color(1.0, 0.8, 0.0, 0.74)),
                     new Stop(1.0, Color.WHITE));
         }
 
@@ -199,6 +241,7 @@ public class RelictusMenu extends FXGLMenu {
             btn.addEventHandler(ActionEvent.ACTION, event -> switchMenuTo(menuBox));
         }
     }
+
     class MenuBox extends VBox {
         MenuBox(MenuButton... items) {
             for (MenuButton item : items) {
