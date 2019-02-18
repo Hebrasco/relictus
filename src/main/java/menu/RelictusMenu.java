@@ -32,10 +32,38 @@ import java.util.EnumSet;
 import java.util.function.Supplier;
 
 public class RelictusMenu extends FXGLMenu {
+    private VBox emptyVBox = new MenuContent();
 
     public RelictusMenu(@NotNull MenuType type) {
         super(type);
         createMainMenu();
+
+        final MenuBox menu;
+
+        if (type == MenuType.MAIN_MENU)
+            menu = createMainMenu();
+        else {
+            menu = createMenuBodyGameMenu();
+        }
+
+        final double menuX = 50.0;
+        final double menuY = FXGL.getAppHeight() / 2 - menu.getLayoutBounds().getHeight() / 2;
+
+        getMenuRoot().setTranslateX(menuX);
+        getMenuRoot().setTranslateY(menuY);
+
+        getMenuContentRoot().setTranslateX((FXGL.getAppWidth() - 500));
+        getMenuContentRoot().setTranslateY(menuY);
+
+        getMenuRoot().getChildren().addAll(menu);
+        getMenuContentRoot().getChildren().add(emptyVBox);
+
+        activeProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                switchMenuTo(menu);
+                switchMenuContentTo(emptyVBox);
+            }
+        });
     }
 
     @NotNull
