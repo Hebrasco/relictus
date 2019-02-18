@@ -100,16 +100,16 @@ public class RelictusMenu extends FXGLMenu {
     private MenuBox createOptionsMenu() {
 
         final MenuButton itemGameplay = new MenuButton("menu.gameplay");
-        itemGameplay.setMenuContent((Supplier<MenuContent>) () -> createContentGameplay());
+        itemGameplay.setMenuContent((Supplier<MenuContent>) this::createContentGameplay);
 
         final MenuButton itemControls = new MenuButton("menu.controls");
-        itemControls.setMenuContent((Supplier<MenuContent>) () -> createContentControls());
+        itemControls.setMenuContent((Supplier<MenuContent>) this::createContentControls);
 
         final MenuButton itemVideo = new  MenuButton("menu.video");
-        itemVideo.setMenuContent((Supplier<MenuContent>) () -> createContentVideo());
+        itemVideo.setMenuContent((Supplier<MenuContent>) this::createContentVideo);
 
         final MenuButton itemAudio = new MenuButton("menu.audio");
-        itemAudio.setMenuContent((Supplier<MenuContent>) () -> createContentAudio());
+        itemAudio.setMenuContent((Supplier<MenuContent>) this::createContentAudio);
 
         final MenuButton btnRestore = new MenuButton("menu.restore");
         btnRestore.setOnAction(event -> FXGL.getDisplay().showConfirmationBox(Local.getLocalizedString("menu.settingsRestore"), arg -> {
