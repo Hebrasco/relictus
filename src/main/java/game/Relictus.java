@@ -15,6 +15,7 @@ public class Relictus extends GameApplication {
 		settings.setVersion("0.1.0");
 		settings.setMenuEnabled(true);
 		settings.setIntroEnabled(false);
+		// settings.setCSS(); TODO: Default CSS einfügen und anpassen
 
 	}
 	
