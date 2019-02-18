@@ -166,28 +166,78 @@ public class RelictusMenu extends FXGLMenu {
         return box;
     }
 
+    private MenuBox createMenuBodyGameMenu() {
+        final MenuBox box = new MenuBox();
+
+        final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
+
+        final MenuButton itemResume = new MenuButton("menu.resume");
+        itemResume.setOnAction(event -> fireResume());
+        box.add(itemResume);
+
+        if (enabledItems.contains(MenuItem.SAVE_LOAD)) {
+            final MenuButton itemSave = new MenuButton("menu.save");
+            itemSave.setOnAction(event -> fireSave());
+
+            final MenuButton itemLoad = new MenuButton("menu.load");
+            itemLoad.setMenuContent(this::createContentLoad);
+
+            box.add(itemSave);
+            box.add(itemLoad);
+        }
+
+        final MenuButton itemOptions = new MenuButton("menu.options");
+        itemOptions.setChild(createOptionsMenu());
+        box.add(itemOptions);
+
+        if (enabledItems.contains(MenuItem.EXTRA)) {
+            final MenuButton itemExtra = new MenuButton("menu.extra");
+            itemExtra.setChild(createExtraMenu());
+            box.add(itemExtra);
+        }
+
+        final MenuButton itemExit = new MenuButton("menu.mainMenu");
+        itemExit.setOnAction(event -> fireExitToMainMenu());
+        box.add(itemExit);
+
+        return box;
+    }
+
     private MenuBox createOptionsMenu() {
 
         final MenuButton itemGameplay = new MenuButton("menu.gameplay");
-        itemGameplay.setMenuContent((Supplier<MenuContent>) this::createContentGameplay);
+        itemGameplay.setMenuContent(this::createContentGameplay);
 
         final MenuButton itemControls = new MenuButton("menu.controls");
-        itemControls.setMenuContent((Supplier<MenuContent>) this::createContentControls);
+        itemControls.setMenuContent(this::createContentControls);
 
         final MenuButton itemVideo = new  MenuButton("menu.video");
-        itemVideo.setMenuContent((Supplier<MenuContent>) this::createContentVideo);
+        itemVideo.setMenuContent(this::createContentVideo);
 
         final MenuButton itemAudio = new MenuButton("menu.audio");
-        itemAudio.setMenuContent((Supplier<MenuContent>) this::createContentAudio);
+        itemAudio.setMenuContent(this::createContentAudio);
 
         final MenuButton btnRestore = new MenuButton("menu.restore");
         btnRestore.setOnAction(event -> FXGL.getDisplay().showConfirmationBox(Local.getLocalizedString("menu.settingsRestore"), arg -> {
             if (arg) {
-                switchMenuContentTo(getMenuContentRoot());
+                switchMenuContentTo(emptyVBox);
             }
         }));
 
         return new MenuBox(itemGameplay, itemControls, itemVideo, itemAudio, btnRestore);
+    }
+
+    private MenuBox createExtraMenu() {
+        final MenuButton itemAchievements = new MenuButton("menu.trophies");
+        itemAchievements.setMenuContent(this::createContentAchievements);
+
+        final MenuButton itemCredits = new MenuButton("menu.credits");
+        itemCredits.setMenuContent(this::createContentCredits);
+
+        final MenuButton itemFeedback = new MenuButton("menu.feedback");
+        itemFeedback.setMenuContent(this::createContentFeedback);
+
+        return new MenuBox(itemAchievements, itemCredits, itemFeedback);
     }
 
     @Override
