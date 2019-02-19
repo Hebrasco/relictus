@@ -15,13 +15,16 @@ public class JsonController {
     public JSONObject json;
     private String textsJsonRelativePath = "/assets/json/texts.json";
     private URL textsJsonURL = getClass().getResource(textsJsonRelativePath);
-    private static JsonController jsonController = new JsonController( );
+    private static JsonController jsonController;
 
     private JsonController() {
 
     }
 
     public static JsonController getInstance( ) {
+        if (jsonController == null) {
+            jsonController = new JsonController( );
+        }
         return jsonController;
     }
 
