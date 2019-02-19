@@ -19,7 +19,7 @@ public class Relictus extends GameApplication {
 		settings.setIntroEnabled(false);
 		settings.setSceneFactory(new RelictusSceneFactory());
 		// settings.setCSS(); TODO: Default CSS einfügen und anpassen
-
+		// settings.setEnabledMenuItems(...); TODO: Set enabled menu itemes (Online and extras)
 	}
 	
 	@Override
