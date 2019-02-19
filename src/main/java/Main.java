@@ -1,8 +1,8 @@
-import game.Launcher;
+import game.Relictus;
 
 public class Main {
 
     public static void main(String[] args) {
-        Launcher.main(args);
+        Relictus.main(args);
     }
 }
