@@ -29,7 +29,6 @@ public class Relictus extends GameApplication {
 				MenuItem.ONLINE, // TODO: Online buttons und input felder implementieren
 				MenuItem.EXTRA
 		);
-		// TODO: Credist String Liste einfügen
 		Credits credits = new Credits(
 				List.of(
 						"Relictus created by Kamelrad",
