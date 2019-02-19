@@ -17,6 +17,7 @@ public class JsonController {
     private URL textsJsonURL = getClass().getResource(textsJsonRelativePath);
     private static JsonController jsonController;
 
+    // TODO: Farben in JSON speichern und auslesen (JsonController lädt im moment nur texts.json - muss angepasst werden, um auch die farben auszulesen
     private JsonController() {
 
     }

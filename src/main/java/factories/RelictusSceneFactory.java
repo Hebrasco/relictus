@@ -6,6 +6,9 @@ import com.almasb.fxgl.scene.MenuType;
 import menu.RelictusMenu;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @author Daniel Bedrich
+ */
 public class RelictusSceneFactory extends SceneFactory {
 
     @NotNull
