@@ -113,7 +113,7 @@ public class RelictusMenu extends FXGLMenu {
         text2.setStroke(titleColor.getValue());
         text2.setStrokeWidth(1.5);
 
-        final Double textWidth = text.getLayoutBounds().getWidth() + text2.getLayoutBounds().getWidth();
+        final double textWidth = text.getLayoutBounds().getWidth() + text2.getLayoutBounds().getWidth();
 
         final Rectangle bg = new Rectangle(textWidth + 30, 65.0, null);
         bg.setStroke(Color.WHITE);
