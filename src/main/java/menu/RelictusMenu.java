@@ -7,6 +7,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.MenuType;
 import com.almasb.fxgl.ui.FXGLButton;
 import javafx.animation.FadeTransition;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -14,17 +15,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
+import javafx.scene.paint.*;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
@@ -87,7 +85,7 @@ public class RelictusMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        Rectangle background = new Rectangle(width, height, Color.RED);
+        Rectangle background = new Rectangle(width, height, Color.BLACK);
         return background;
     }
 
@@ -266,34 +264,35 @@ public class RelictusMenu extends FXGLMenu {
     class MenuButton extends Pane {
         private MenuBox parent = null;
         private MenuContent cachedContent = null;
-        private final Shape p = new Polygon(0.0, 0.0, 220.0, 0.0, 250.0, 35.0, 0.0, 35.0);
-        final FXGLButton btn = new FXGLButton();
+        private final Polygon polygon = new Polygon(0.0, 0.0, 220.0, 0.0, 250.0, 35.0, 0.0, 35.0);
+        private final FXGLButton btn = new FXGLButton();
 
         MenuButton(String key) {
             btn.setAlignment(Pos.CENTER_LEFT);
             btn.setStyle("-fx-background-color: transparent");
             btn.textProperty().bind(Local.localizedStringProperty(key));
 
-            p.setMouseTransparent(true);
+            polygon.setMouseTransparent(true);
 
             final LinearGradient g = new LinearGradient(0.0, 1.0, 1.0, 0.2, true, CycleMethod.NO_CYCLE,
                     new Stop(0.6, Color.color(1.0, 0.8, 0.0, 0.34)),
                     new Stop(0.85, Color.color(1.0, 0.8, 0.0, 0.74)),
                     new Stop(1.0, Color.WHITE));
+
+            polygon.fillProperty().bind(
+                    Bindings.when(btn.pressedProperty()).then((Paint)Color.color(1.0, 0.8, 0.0, 0.75)).otherwise(g)
+            );
+
+            polygon.setStroke(Color.color(0.1, 0.1, 0.1, 0.15));
+            polygon.setEffect(new GaussianBlur());
+
+            polygon.visibleProperty().bind(btn.hoverProperty());
+
+            getChildren().addAll(btn, polygon);
         }
 
-        /* TODO: Zu java übersetzen
-         p.fillProperty().bind(
-                    Bindings.`when`(btn.pressedProperty()).then(Color.color(1.0, 0.8, 0.0, 0.75) as Paint).otherwise(g)
-            )
 
-            p.stroke = Color.color(0.1, 0.1, 0.1, 0.15)
-            p.effect = GaussianBlur()
 
-            p.visibleProperty().bind(btn.hoverProperty())
-
-            children.addAll(btn, p)
-        */
         void setOnAction(EventHandler<ActionEvent> e) {
             btn.setOnAction(e);
         }
