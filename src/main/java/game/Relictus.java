@@ -4,21 +4,29 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import controllers.JsonController;
 import factories.RelictusSceneFactory;
-
 import java.util.Map;
 
+/**
+ * @author Daniel Bedrich
+ */
 public class Relictus extends GameApplication {
 
 	@Override
 	protected void initSettings(GameSettings settings) {
-		settings.setWidth(800);
-		settings.setHeight(600);
-		settings.setTitle(String.valueOf(JsonController.getInstance().json.getJSONObject("application").get("name")));
-		settings.setVersion("0.1.0");
+		int windowWidth = 800;
+		int windowHeight = 600;
+		String cssName = "ui_style.css";
+		String title = String.valueOf(JsonController.getInstance().json.getJSONObject("application").get("name"));
+		String version = "0.1";
+
+		settings.setWidth(windowWidth);
+		settings.setHeight(windowHeight);
+		settings.setTitle(title);
+		settings.setVersion(version);
 		settings.setMenuEnabled(true);
 		settings.setIntroEnabled(false);
 		settings.setSceneFactory(new RelictusSceneFactory());
-		// settings.setCSS(); TODO: Default CSS einfügen und anpassen
+		settings.setCSS(cssName);
 		// settings.setEnabledMenuItems(...); TODO: Set enabled menu itemes (Online and extras)
 	}
 	
