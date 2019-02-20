@@ -45,17 +45,17 @@
 }
 
 .fxgl_button:hover {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%, rgba(179, 122, 54, 0.6) 0%, rgba(0, 92, 31, 0.8) 100%);
-    -fx-text-fill: white;
+     -fx-background-color: black;
+    -fx-text-fill: rgba(255, 215, 25, 0.8);
 }
 
 .fxgl_button:pressed, .fxgl_button:default:hover:pressed {
-    -fx-background-color: rgba(255, 215, 25, 0.8);
-    -fx-text-fill: white;
+    -fx-background-color: black;
+    -fx-text-fill: rgba(255, 215, 25, 0.8);
 }
 
 .fxgl_button:focused {
-    -fx-text-fill: white;
+    -fx-text-fill: rgba(255, 215, 25, 0.8);
 }
 
 .fxgl_button:disabled, .fxgl_button:default:disabled {
