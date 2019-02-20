@@ -49,6 +49,8 @@ public class Relictus extends GameApplication {
 		settings.setVersion(version);
 		settings.setMenuEnabled(true);
 		settings.setIntroEnabled(false);
+		settings.setFullScreenAllowed(false);
+		settings.setManualResizeEnabled(false);
 		settings.setSceneFactory(new RelictusSceneFactory());
 		settings.setCSS(cssName);
 		settings.setEnabledMenuItems(menuItems);
