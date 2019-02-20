@@ -217,7 +217,7 @@ public class RelictusMenu extends FXGLMenu {
     private MenuBox createOnlineMenu() {
         return new MenuBox(
                 createMenuItemOnlineMenuConnect(),
-                createMenuitemOnlineMenuHost(),
+                createMenuItemOnlineMenuHost(),
                 createMenuItemOnlineMenuOptions()
         );
     }
@@ -248,7 +248,7 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuButton createMenuItemOnline() {
         final MenuButton onlineMenuButton = new MenuButton("menu.online");
-        onlineMenuButton.setOnAction(event -> createOnlineMenu());
+        onlineMenuButton.setOnAction(event -> onlineMenuButton.setChild(createOnlineMenu(), this));
         return onlineMenuButton;
     }
 
@@ -338,6 +338,45 @@ public class RelictusMenu extends FXGLMenu {
         final MenuButton feedbackMenuButton = new MenuButton("menu.feedback");
         feedbackMenuButton.setMenuContent(this::createContentFeedback, this);
         return feedbackMenuButton;
+    }
+
+    // TODO: Multiplayer menu - btn.setChild(create....)
+    private MenuButton createMenuItemOnlineMenuConnect() {
+        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.connect");
+        feedbackMenuButton.setMenuContent(this::createMultiplayerConnect, this);
+        return feedbackMenuButton;
+    }
+
+    private MenuButton createMenuItemOnlineMenuHost() {
+        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.host");
+        feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
+        return feedbackMenuButton;
+    }
+
+    private MenuButton createMenuItemOnlineMenuOptions() {
+        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.options");
+        feedbackMenuButton.setMenuContent(this::createMultiplayerOptions, this);
+        return feedbackMenuButton;
+    }
+
+    private MenuContent createMultiplayerConnect() {
+        // TODO: IP input feld einfügen
+        final MenuContent connectMenuContent = new MenuContent();
+
+        /* TODO: needed?
+        connectMenuContent.setOnOpen();
+        connectMenuContent.setOnClose();
+        */
+        System.out.println("created multiplayer connect");
+        return connectMenuContent;
+    }
+
+    private MenuContent createMultiplayerHost() {
+        return new MenuContent();
+    }
+
+    private MenuContent createMultiplayerOptions() {
+        return new MenuContent();
     }
 }
 
