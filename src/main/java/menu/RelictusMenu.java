@@ -20,7 +20,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.EnumSet;
 
 /**
@@ -96,7 +95,7 @@ public class RelictusMenu extends FXGLMenu {
         final StackPane titleRoot = new StackPane();
         titleRoot.getChildren().addAll(createTitleBorder(textWidth), box);
 
-        titleRoot.setTranslateX(FXGL.getAppWidth() / 2 - (textWidth + 30) / 2);
+        titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30) / 2.0);
         titleRoot.setTranslateY(50);
         return titleRoot;
     }
@@ -126,31 +125,31 @@ public class RelictusMenu extends FXGLMenu {
 
     private Text createProfileTextView(String profileName) {
         final Text view = FXGL.getUIFactory().newText(profileName);
-        view.setTranslateY((FXGL.getAppHeight() - 2));
+        view.setTranslateY((FXGL.getAppHeight() - 2.0));
         view.setTranslateX(FXGL.getAppWidth() - view.getLayoutBounds().getWidth());
         return view;
     }
 
     private Text createVersionTextView(String version) {
         final Text view = FXGL.getUIFactory().newText(version);
-        view.setTranslateY((FXGL.getAppHeight() - 2));
+        view.setTranslateY((FXGL.getAppHeight() - 2.0));
         return view;
     }
 
     private void playTransition(Node menuBox) {
         final Node oldMenu = getMenuRoot().getChildren().get(0);
-        final FadeTransition ft = new FadeTransition(Duration.seconds(0.33), oldMenu);
-        ft.setToValue(0.0);
-        ft.setOnFinished(event -> {
+        final FadeTransition fadeTransitionOldMenu = new FadeTransition(Duration.seconds(0.33), oldMenu);
+        fadeTransitionOldMenu.setToValue(0.0);
+        fadeTransitionOldMenu.setOnFinished(event -> {
             menuBox.setOpacity(0.0);
             getMenuRoot().getChildren().set(0, menuBox);
             oldMenu.setOpacity(1.0);
 
-            final FadeTransition ft2 = new FadeTransition(Duration.seconds(0.33), menuBox);
-            ft2.setToValue(1.0);
-            ft2.play();
+            final FadeTransition fadeTransitionMenuBox = new FadeTransition(Duration.seconds(0.33), menuBox);
+            fadeTransitionMenuBox.setToValue(1.0);
+            fadeTransitionMenuBox.play();
         });
-        ft.play();
+        fadeTransitionOldMenu.play();
     }
 
     private void inflateMenu(MenuType menuType) {
@@ -159,11 +158,11 @@ public class RelictusMenu extends FXGLMenu {
         if (menuType == MenuType.MAIN_MENU)
             menu = createMainMenu();
         else {
-            menu = createMenuBodyGameMenu();
+            menu = createInGameMenu();
         }
 
         final double menuX = 50.0;
-        final double menuY = FXGL.getAppHeight() / 2 - menu.getLayoutBounds().getHeight() / 2;
+        final double menuY = FXGL.getAppHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
 
         getMenuRoot().setTranslateX(menuX);
         getMenuRoot().setTranslateY(menuY);
@@ -184,15 +183,21 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuBox createMainMenu() {
         final MenuBox box = new MenuBox();
+        final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
         box.add(createMenuItemNewGame());
         box.add(createMenuItemOptions());
+
+        if (enabledItems.contains(MenuItem.EXTRA)) {
+            box.add(createGameMenuItemExtra());
+        }
+
         box.add(createMenuItemExit());
 
         return box;
     }
 
-    private MenuBox createMenuBodyGameMenu() {
+    private MenuBox createInGameMenu() {
         final MenuBox box = new MenuBox();
         final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 

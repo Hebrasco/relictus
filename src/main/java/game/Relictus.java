@@ -2,8 +2,15 @@ package game;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.MenuItem;
+import com.almasb.fxgl.core.util.Credits;
+import com.almasb.fxgl.dsl.FXGL;
 import controllers.JsonController;
 import factories.RelictusSceneFactory;
+
+import java.awt.*;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +25,20 @@ public class Relictus extends GameApplication {
 		String cssName = "ui_style.css";
 		String title = String.valueOf(JsonController.getInstance().json.getJSONObject("application").get("name"));
 		String version = "0.1";
+		EnumSet<MenuItem> menuItems = EnumSet.of(
+				MenuItem.ONLINE, // TODO: Online buttons und input felder implementieren
+				MenuItem.EXTRA
+		);
+		Credits credits = new Credits(
+				List.of(
+						"Relictus created by Kamelrad",
+						"Kevin Ortmeier",
+						"Markus Kremer",
+						"Lara-Marie Mann",
+						"Roman Rubbashkin",
+						"Daniel Bedrich"
+				)
+		);
 
 		settings.setWidth(windowWidth);
 		settings.setHeight(windowHeight);
@@ -27,7 +48,8 @@ public class Relictus extends GameApplication {
 		settings.setIntroEnabled(false);
 		settings.setSceneFactory(new RelictusSceneFactory());
 		settings.setCSS(cssName);
-		// settings.setEnabledMenuItems(...); TODO: Set enabled menu itemes (Online and extras)
+		settings.setEnabledMenuItems(menuItems);
+		settings.setCredits(credits);
 	}
 	
 	@Override
