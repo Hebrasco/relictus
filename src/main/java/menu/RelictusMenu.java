@@ -20,7 +20,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.EnumSet;
 
 /**
@@ -184,9 +183,15 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuBox createMainMenu() {
         final MenuBox box = new MenuBox();
+        final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
         box.add(createMenuItemNewGame());
         box.add(createMenuItemOptions());
+
+        if (enabledItems.contains(MenuItem.EXTRA)) {
+            box.add(createGameMenuItemExtra());
+        }
+
         box.add(createMenuItemExit());
 
         return box;
