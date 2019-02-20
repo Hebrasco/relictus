@@ -20,11 +20,14 @@ public class Relictus extends GameApplication {
 
 	@Override
 	protected void initSettings(GameSettings settings) {
+		//PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
 		int windowWidth = 800;
 		int windowHeight = 600;
 		String cssName = "ui_style.css";
-		String title = String.valueOf(JsonController.getInstance().json.getJSONObject("application").get("name"));
-		String version = "0.1";
+		//String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
+		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
+		String title = "Relictus"; // Replace with above
+		String version = "0.1"; // Replace with above
 		EnumSet<MenuItem> menuItems = EnumSet.of(
 				MenuItem.ONLINE, // TODO: Online buttons und input felder implementieren
 				MenuItem.EXTRA
