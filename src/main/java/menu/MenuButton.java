@@ -3,14 +3,10 @@ package menu;
 import com.almasb.fxgl.app.FXGLMenu;
 import com.almasb.fxgl.core.local.Local;
 import com.almasb.fxgl.ui.FXGLButton;
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.*;
-import javafx.scene.shape.Polygon;
 import java.util.function.Supplier;
 
 /**
