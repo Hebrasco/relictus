@@ -186,6 +186,7 @@ public class RelictusMenu extends FXGLMenu {
         final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
         box.add(createMenuItemNewGame());
+        box.add(createMenuItemOnline());
         box.add(createMenuItemOptions());
 
         if (enabledItems.contains(MenuItem.EXTRA)) {
@@ -202,12 +203,6 @@ public class RelictusMenu extends FXGLMenu {
         final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
         box.add(createGameMenuItemResume());
-
-        if (enabledItems.contains(MenuItem.SAVE_LOAD)) {
-            box.add(createGameMenuItemSave());
-            box.add(createGameMenuItemLoad());
-        }
-
         box.add(createGameMenuItemOptions());
 
         if (enabledItems.contains(MenuItem.EXTRA)) {
@@ -217,6 +212,14 @@ public class RelictusMenu extends FXGLMenu {
         box.add(createGameMenuItemExit());
 
         return box;
+    }
+
+    private MenuBox createOnlineMenu() {
+        return new MenuBox(
+                createMenuItemOnlineMenuConnect(),
+                createMenuitemOnlineMenuHost(),
+                createMenuItemOnlineMenuOptions()
+        );
     }
 
     private MenuBox createOptionsMenu() {
@@ -243,6 +246,12 @@ public class RelictusMenu extends FXGLMenu {
         return newGameMenuButton;
     }
 
+    private MenuButton createMenuItemOnline() {
+        final MenuButton onlineMenuButton = new MenuButton("menu.online");
+        onlineMenuButton.setOnAction(event -> createOnlineMenu());
+        return onlineMenuButton;
+    }
+
     private MenuButton createMenuItemOptions() {
         final MenuButton optionsMenuButton = new MenuButton("menu.options");
         optionsMenuButton.setOnAction(event -> optionsMenuButton.setChild(createOptionsMenu(), this));
@@ -259,18 +268,6 @@ public class RelictusMenu extends FXGLMenu {
         final MenuButton resumeMenuButton = new MenuButton("menu.resume");
         resumeMenuButton.setOnAction(event -> fireResume());
         return resumeMenuButton;
-    }
-
-    private MenuButton createGameMenuItemSave() {
-        final MenuButton saveMenuButton = new MenuButton("menu.save");
-        saveMenuButton.setOnAction(event -> fireSave());
-        return saveMenuButton;
-    }
-
-    private MenuButton createGameMenuItemLoad() {
-        final MenuButton loadMenuButton = new MenuButton("menu.load");
-        loadMenuButton.setMenuContent(this::createContentLoad, this);
-        return loadMenuButton;
     }
 
     private MenuButton createGameMenuItemOptions() {
