@@ -303,6 +303,7 @@ public class RelictusMenu extends FXGLMenu {
         return controlsMenuButton;
     }
 
+    // TODO: Sprache dropdown Menü aus video Einstellungen entfernen (eigene implementation von "createContentVideo()" erstellen)
     private MenuButton createMenuItemOptionsMenuVideo() {
         final MenuButton videoMenuButton = new MenuButton("menu.video");
         videoMenuButton.setMenuContent(this::createContentVideo, this);
@@ -325,6 +326,7 @@ public class RelictusMenu extends FXGLMenu {
         return restoreMenuButton;
     }
 
+    // TODO: Trophäen Menü entfernen
     private MenuButton createMenuItemExtraMenuTrophies() {
         final MenuButton trophiesMenuButton = new MenuButton("menu.trophies");
         trophiesMenuButton.setMenuContent(this::createContentAchievements, this);
@@ -337,6 +339,7 @@ public class RelictusMenu extends FXGLMenu {
         return creditsMenuButton;
     }
 
+    // TODO: Feedback menü entfernen
     private MenuButton createMenuItemExtraMenuFeedback() {
         final MenuButton feedbackMenuButton = new MenuButton("menu.feedback");
         feedbackMenuButton.setMenuContent(this::createContentFeedback, this);
