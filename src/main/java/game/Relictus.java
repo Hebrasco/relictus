@@ -4,11 +4,9 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.core.util.Credits;
-import com.almasb.fxgl.dsl.FXGL;
-import controllers.JsonController;
 import factories.RelictusSceneFactory;
-
-import java.awt.*;
+import javafx.beans.binding.StringBinding;
+import utils.PropertiesLoader;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +81,6 @@ public class Relictus extends GameApplication {
 	}
 
 	public static void main(String[] args) {
-		if (JsonController.getInstance().json == null) {
-			JsonController.getInstance().loadTextsJson();
-		}
 		launch(args);
 	}
 }
