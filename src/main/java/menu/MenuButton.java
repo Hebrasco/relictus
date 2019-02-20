@@ -1,12 +1,14 @@
 package menu;
 
 import com.almasb.fxgl.app.FXGLMenu;
-import com.almasb.fxgl.core.local.Local;
 import com.almasb.fxgl.ui.FXGLButton;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
+import utils.PropertiesLoader;
 import java.util.function.Supplier;
 
 /**
@@ -20,10 +22,14 @@ class MenuButton extends Pane {
     MenuButton(String key) {
         button.setAlignment(Pos.CENTER_LEFT);
         button.setStyle("-fx-background-color: transparent");
-        button.textProperty().bind(Local.localizedStringProperty(key));
+        //button.textProperty().bind(Local.localizedStringProperty(key));
+        StringBinding bindings = Bindings.createStringBinding(() -> PropertiesLoader.getInstance().getResourceProperties(key));
+        button.textProperty().bind(bindings);
 
         getChildren().add(button);
     }
+
+
 
     void setOnAction(EventHandler<ActionEvent> e) {
         button.setOnAction(e);

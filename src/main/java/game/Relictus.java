@@ -4,11 +4,9 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.core.util.Credits;
-import com.almasb.fxgl.dsl.FXGL;
-import controllers.JsonController;
 import factories.RelictusSceneFactory;
-
-import java.awt.*;
+import javafx.beans.binding.StringBinding;
+import utils.PropertiesLoader;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +18,14 @@ public class Relictus extends GameApplication {
 
 	@Override
 	protected void initSettings(GameSettings settings) {
+		//PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
 		int windowWidth = 800;
 		int windowHeight = 600;
 		String cssName = "ui_style.css";
-		String title = String.valueOf(JsonController.getInstance().json.getJSONObject("application").get("name"));
-		String version = "0.1";
+		//String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
+		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
+		String title = "Relictus"; // Replace with above
+		String version = "0.1"; // Replace with above
 		EnumSet<MenuItem> menuItems = EnumSet.of(
 				MenuItem.ONLINE, // TODO: Online buttons und input felder implementieren
 				MenuItem.EXTRA
@@ -46,6 +47,8 @@ public class Relictus extends GameApplication {
 		settings.setVersion(version);
 		settings.setMenuEnabled(true);
 		settings.setIntroEnabled(false);
+		settings.setFullScreenAllowed(false);
+		settings.setManualResizeEnabled(false);
 		settings.setSceneFactory(new RelictusSceneFactory());
 		settings.setCSS(cssName);
 		settings.setEnabledMenuItems(menuItems);
@@ -78,9 +81,6 @@ public class Relictus extends GameApplication {
 	}
 
 	public static void main(String[] args) {
-		if (JsonController.getInstance().json == null) {
-			JsonController.getInstance().loadTextsJson();
-		}
 		launch(args);
 	}
 }
