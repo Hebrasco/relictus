@@ -2,6 +2,9 @@ package utils;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author Daniel Bedrich
+ */
 public class PropertiesLoader {
     private static PropertiesLoader ourInstance = new PropertiesLoader();
     private static Localization localization = new Localization();

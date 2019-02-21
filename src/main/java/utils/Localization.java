@@ -3,7 +3,10 @@ package utils;
 import com.almasb.fxgl.dsl.FXGL;
 import data.Language;
 
-public class Localization {
+/**
+ * @author Daniel Bedrich
+ */
+class Localization {
     private final String langName = "relictus";
     private final String languagesPath = "languages/";
     private final String fileEndingProperties = ".properties";

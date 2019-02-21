@@ -3,6 +3,9 @@ package utils;
 import javax.sound.sampled.*;
 import java.io.IOException;
 
+/**
+ * @author Daniel Bedrich
+ */
 public class AudioPlayer {
     private static AudioPlayer ourInstance = new AudioPlayer();
 
