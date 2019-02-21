@@ -21,7 +21,7 @@ public class Relictus extends GameApplication {
 		int windowWidth = 800;
 		int windowHeight = 600;
 		String cssFileName = "ui_style.css";
-		String appIcon = "relictus.png";
+		String appIcon = "icon/relictus.png";
 		String soundPath = "menu/";
 		String soundMenuPressFileName = soundPath + "menu_click.wav";
 		String soundMenuSelectFileName = soundPath + "menu_move.wav";
