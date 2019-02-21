@@ -26,7 +26,9 @@ public class Relictus extends GameApplication {
 		int windowHeight = 600;
 		String cssFileName = "ui_style.css";
 		String appIcon = "relictus.png";
-		String soundFileName = "menu/menu_klick.wav"; // TODO: Fix sound wird nicht abgespielt
+		String soundPath = "menu/";
+		String soundMenuPressFileName = soundPath + "menu_klick.wav";
+		String soundMenuSelectFileName = soundPath + "menu_move.wav";
 		//String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
 		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
 		String title = "R E L I C T U S"; // Replace with above
@@ -59,9 +61,8 @@ public class Relictus extends GameApplication {
 		settings.setEnabledMenuItems(menuItems);
 		settings.setCredits(credits);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER);
-		settings.setSoundMenuBack(soundFileName);
-		settings.setSoundMenuPress(soundFileName);
-		settings.setSoundMenuSelect(soundFileName);
+		settings.setSoundMenuPress(soundMenuPressFileName);
+		settings.setSoundMenuSelect(soundMenuSelectFileName);
 		settings.setAppIcon(appIcon);
 	}
 	
