@@ -1,12 +1,15 @@
 package game;
 
+import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.core.util.Credits;
+import com.almasb.fxgl.dsl.FXGL;
 import factories.RelictusSceneFactory;
 import javafx.beans.binding.StringBinding;
-import utils.PropertiesLoader;
+
+import java.net.URISyntaxException;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +24,9 @@ public class Relictus extends GameApplication {
 		//PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
 		int windowWidth = 800;
 		int windowHeight = 600;
-		String cssName = "ui_style.css";
+		String cssFileName = "ui_style.css";
+		String appIcon = "relictus.png";
+		String soundFileName = "menu/menu_klick.wav"; // TODO: Fix sound wird nicht abgespielt
 		//String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
 		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
 		String title = "Relictus"; // Replace with above
@@ -50,9 +55,14 @@ public class Relictus extends GameApplication {
 		settings.setFullScreenAllowed(false);
 		settings.setManualResizeEnabled(false);
 		settings.setSceneFactory(new RelictusSceneFactory());
-		settings.setCSS(cssName);
+		settings.setCSS(cssFileName);
 		settings.setEnabledMenuItems(menuItems);
 		settings.setCredits(credits);
+		settings.setApplicationMode(ApplicationMode.DEVELOPER);
+		settings.setSoundMenuBack(soundFileName);
+		settings.setSoundMenuPress(soundFileName);
+		settings.setSoundMenuSelect(soundFileName);
+		settings.setAppIcon(appIcon);
 	}
 	
 	@Override
