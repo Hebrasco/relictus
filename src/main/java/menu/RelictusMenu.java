@@ -123,6 +123,7 @@ public class RelictusMenu extends FXGLMenu {
         return titleBorder;
     }
 
+    // TODO: Profile anlegen können (Profil Name == Online Spieler Name)
     private Text createProfileTextView(String profileName) {
         final Text view = FXGL.getUIFactory().newText(profileName);
         view.setTranslateY((FXGL.getAppHeight() - 2.0));
@@ -226,7 +227,7 @@ public class RelictusMenu extends FXGLMenu {
         return new MenuBox(
                 createMenuItemOptionsMenuGameplay(),
                 createMenuItemOptionsMenuControls(),
-                createMenuItemOptionsMenuVideo(),
+                //createMenuItemOptionsMenuVideo(), // Temporär deaktiviert, siehe Funktionbeschreibung
                 createMenuItemOptionsMenuAudio(),
                 createMenuItemOptionsMenuRestore()
         );
@@ -234,9 +235,7 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuBox createExtraMenu() {
         return new MenuBox(
-                createMenuItemExtraMenuTrophies(),
-                createMenuItemExtraMenuCredits(),
-                createMenuItemExtraMenuFeedback()
+                createMenuItemExtraMenuCredits()
         );
     }
 
@@ -300,7 +299,10 @@ public class RelictusMenu extends FXGLMenu {
         return controlsMenuButton;
     }
 
-    // TODO: Sprache dropdown Menü aus video Einstellungen entfernen (eigene implementation von "createContentVideo()" erstellen)
+    // TODO: Sprache-Dropdown-Menü aus video Einstellungen entfernen (eigene implementation von "createContentVideo()" erstellen)
+    // Temporär deaktiviert, da Sprachen-Dropdown-Menü nicht benötigt wird.
+    // Aktivierung, wenn weitere Einstellmöglichkeiten eingebaut werden.
+    // (eigene implementation von "createContentVideo()" erstellen, ohne Sprachen-Dropdown-Menü)
     private MenuButton createMenuItemOptionsMenuVideo() {
         final MenuButton videoMenuButton = new MenuButton("menu.video");
         videoMenuButton.setMenuContent(this::createContentVideo, this);
@@ -323,27 +325,12 @@ public class RelictusMenu extends FXGLMenu {
         return restoreMenuButton;
     }
 
-    // TODO: Trophäen Menü entfernen
-    private MenuButton createMenuItemExtraMenuTrophies() {
-        final MenuButton trophiesMenuButton = new MenuButton("menu.trophies");
-        trophiesMenuButton.setMenuContent(this::createContentAchievements, this);
-        return trophiesMenuButton;
-    }
-
     private MenuButton createMenuItemExtraMenuCredits() {
         final MenuButton creditsMenuButton = new MenuButton("menu.credits");
         creditsMenuButton.setMenuContent(this::createContentCredits, this);
         return creditsMenuButton;
     }
 
-    // TODO: Feedback menü entfernen
-    private MenuButton createMenuItemExtraMenuFeedback() {
-        final MenuButton feedbackMenuButton = new MenuButton("menu.feedback");
-        feedbackMenuButton.setMenuContent(this::createContentFeedback, this);
-        return feedbackMenuButton;
-    }
-
-    // TODO: Multiplayer menu - btn.setChild(create....)
     private MenuButton createMenuItemOnlineMenuConnect() {
         final MenuButton feedbackMenuButton = new MenuButton("multiplayer.connect");
         feedbackMenuButton.setMenuContent(this::createMultiplayerConnect, this);
