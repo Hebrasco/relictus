@@ -39,7 +39,7 @@ public class Relictus extends GameApplication {
 						"Kevin Ortmeier",
 						"Markus Kremer",
 						"Lara-Marie Mann",
-						"Roman Rubbashkin",
+						"Roman Rubashkin",
 						"Daniel Bedrich"
 				)
 		);
