@@ -5,11 +5,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.core.util.Credits;
-import com.almasb.fxgl.dsl.FXGL;
 import factories.RelictusSceneFactory;
-import javafx.beans.binding.StringBinding;
-
-import java.net.URISyntaxException;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +23,7 @@ public class Relictus extends GameApplication {
 		String cssFileName = "ui_style.css";
 		String appIcon = "relictus.png";
 		String soundPath = "menu/";
-		String soundMenuPressFileName = soundPath + "menu_klick.wav";
+		String soundMenuPressFileName = soundPath + "menu_click.wav";
 		String soundMenuSelectFileName = soundPath + "menu_move.wav";
 		//String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
 		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
