@@ -19,8 +19,8 @@ public class Relictus extends GameApplication {
 	@Override
 	protected void initSettings(GameSettings settings) {
 		//PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
-		int windowWidth = 800;
-		int windowHeight = 600;
+		int windowWidth = 1280;
+		int windowHeight = 720;
 		String cssFileName = "ui_style.css";
 		String appIcon = "icon/relictus.png";
 		String soundPath = "menu/";
