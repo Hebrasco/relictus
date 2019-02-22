@@ -27,6 +27,7 @@ class MenuButton extends Pane {
 
         addText(key);
         addClickSoundEffects();
+        button.setMinWidth(FXGL.getAppWidth() / 2.0);
 
         getChildren().add(button);
     }
