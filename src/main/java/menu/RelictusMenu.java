@@ -108,7 +108,7 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private Text createTitle(String title, SimpleObjectProperty<Color> titleColor) {
-        Text titleText = FXGL.getUIFactory().newText(title, 50.0);
+        Text titleText = FXGL.getUIFactory().newText(title, 55.0);
         titleText.setFill(null);
         titleText.strokeProperty().bind(titleColor);
         titleText.setStrokeWidth(1.5);
