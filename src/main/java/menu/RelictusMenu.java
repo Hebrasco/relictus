@@ -13,9 +13,9 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -49,11 +49,7 @@ public class RelictusMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        // load background graphic for menus
-        Node bgimg = FXGL.getAssetLoader().loadTexture("menu/launcher_background.gif");
-        ((Texture) bgimg).setFitWidth(width);
-        ((Texture) bgimg).setFitHeight(height);
-        return bgimg;
+        return createBackgroundTexture(width, height);
     }
 
     @NotNull
@@ -140,6 +136,13 @@ public class RelictusMenu extends FXGLMenu {
         final Text view = FXGL.getUIFactory().newText(version);
         view.setTranslateY((FXGL.getAppHeight() - 2.0));
         return view;
+    }
+
+    private Texture createBackgroundTexture(double width, double height) {
+        Texture backgroundImage = FXGL.getAssetLoader().loadTexture("menu/launcher_background.gif");
+        backgroundImage.setFitWidth(width);
+        backgroundImage.setFitHeight(height);
+        return backgroundImage;
     }
 
     private void playTransition(Node menuBox) {
