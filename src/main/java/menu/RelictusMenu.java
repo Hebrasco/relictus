@@ -161,14 +161,14 @@ public class RelictusMenu extends FXGLMenu {
     private void createMenu(MenuType menuType) {
         final MenuBox menu = inflateMenu(menuType);
 
-        final double menuX = 50.0;
-        final double menuY = FXGL.getAppHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
+        final double menuPosX = 50.0;
+        final double menuPosY = FXGL.getAppHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
 
-        getMenuRoot().setTranslateX(menuX);
-        getMenuRoot().setTranslateY(menuY);
+        getMenuRoot().setTranslateX(menuPosX);
+        getMenuRoot().setTranslateY(menuPosY);
 
-        getMenuContentRoot().setTranslateX((FXGL.getAppWidth() - 500));
-        getMenuContentRoot().setTranslateY(menuY);
+        getMenuContentRoot().setTranslateX((FXGL.getAppWidth()));
+        getMenuContentRoot().setTranslateY(menuPosY);
 
         getMenuRoot().getChildren().addAll(menu);
         getMenuContentRoot().getChildren().add(emptyVBox);
@@ -186,8 +186,8 @@ public class RelictusMenu extends FXGLMenu {
         final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
         if (isMainMenu(menuType)) {
-            box.add(createMenuItemNewGame());
-            box.add(createMenuItemOnline());
+            box.add(createMenuItemSingleplayer());
+            box.add(createMenuItemMultiplayer());
         } else {
             box.add(createGameMenuItemResume());
         }
@@ -195,6 +195,7 @@ public class RelictusMenu extends FXGLMenu {
         // Deaktiviert, da nicht benötigt
         // box.add(createMenuItemOptions());
 
+        // TODO: Extras druch Credits tauschen
         if (enabledItems.contains(MenuItem.EXTRA)) {
             box.add(createGameMenuItemExtra());
         }
@@ -236,18 +237,19 @@ public class RelictusMenu extends FXGLMenu {
         );
     }
 
-    private MenuButton createMenuItemNewGame() {
-        final MenuButton newGameMenuButton = new MenuButton("menu.singleplayer");
-        newGameMenuButton.setOnAction(event -> fireNewGame());
-        return newGameMenuButton;
+    private MenuButton createMenuItemSingleplayer() {
+        final MenuButton singleplayerMenuButton = new MenuButton("menu.singleplayer");
+        singleplayerMenuButton.setOnAction(event -> fireNewGame());
+        return singleplayerMenuButton;
     }
 
-    private MenuButton createMenuItemOnline() {
-        final MenuButton onlineMenuButton = new MenuButton("menu.multiplayer");
-        onlineMenuButton.setOnAction(event -> onlineMenuButton.setChild(createOnlineMenu(), this));
-        return onlineMenuButton;
+    private MenuButton createMenuItemMultiplayer() {
+        final MenuButton multiplayerMenuButton = new MenuButton("menu.multiplayer");
+        multiplayerMenuButton.setOnAction(event -> multiplayerMenuButton.setChild(createOnlineMenu(), this));
+        return multiplayerMenuButton;
     }
 
+    // Deaktiviert, da nicht benötigt
     private MenuButton createMenuItemOptions() {
         final MenuButton optionsMenuButton = new MenuButton("menu.options");
         optionsMenuButton.setOnAction(event -> optionsMenuButton.setChild(createOptionsMenu(), this));
