@@ -27,7 +27,9 @@ class MenuButton extends Pane {
 
         addText(key);
         addClickSoundEffects();
-        button.setMinWidth(FXGL.getAppWidth() / 2.0);
+
+        // TODO: Butten größe an Textbreite anpassen
+        button.setMinWidth(300);
 
         getChildren().add(button);
     }
@@ -45,6 +47,7 @@ class MenuButton extends Pane {
             if (cachedContent == null) {
                 cachedContent = contentSupplier.get();
             }
+
             relictusMenu.switchMenuContentTo(cachedContent);
         });
     }

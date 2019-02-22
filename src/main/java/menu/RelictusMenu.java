@@ -1,8 +1,6 @@
 package menu;
 
 import com.almasb.fxgl.app.FXGLMenu;
-import com.almasb.fxgl.app.MenuItem;
-import com.almasb.fxgl.core.local.Local;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.MenuType;
 import com.almasb.fxgl.texture.Texture;
@@ -21,7 +19,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import java.util.EnumSet;
 
 /**
  * @author Daniel Bedrich
@@ -186,11 +183,11 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuBox inflateMenu(MenuType menuType) {
         final MenuBox box = new MenuBox();
-        final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
         if (isMainMenu(menuType)) {
             box.add(createMenuItemSingleplayer());
             box.add(createMenuItemMultiplayer());
+            // TODO: Profile menü hinzufügen (im Profile menü wird der Spielername festgelegt)
             box.add(createMenuItemCredits());
             box.add(createMenuItemExit());
         } else {
@@ -208,8 +205,7 @@ public class RelictusMenu extends FXGLMenu {
     private MenuBox createOnlineMenu() {
         return new MenuBox(
                 createMenuItemMultiplayerConnect(),
-                createMenuItemMultiplayerHost(),
-                createMenuItemMultiplayerOptions()
+                createMenuItemMultiplayerHost()
         );
     }
 
@@ -238,10 +234,8 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private MenuButton createMenuItemCredits() {
-        System.out.println("Credits pressed");
         final MenuButton creditsMenuButton = new MenuButton("menu.credits");
         creditsMenuButton.setMenuContent(this::createContentCredits, this);
-        creditsMenuButton.setOnAction(event -> createContentCredits());
         return creditsMenuButton;
     }
 
@@ -263,11 +257,6 @@ public class RelictusMenu extends FXGLMenu {
         return feedbackMenuButton;
     }
 
-    private MenuButton createMenuItemMultiplayerOptions() {
-        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.options");
-        feedbackMenuButton.setMenuContent(this::createMultiplayerOptions, this);
-        return feedbackMenuButton;
-    }
 
     private MenuContent createMultiplayerConnect() {
         // TODO: IP input feld einfügen
