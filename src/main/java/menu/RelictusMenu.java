@@ -5,6 +5,7 @@ import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.core.local.Local;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.MenuType;
+import com.almasb.fxgl.texture.Texture;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleObjectProperty;
@@ -48,7 +49,11 @@ public class RelictusMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        return new Rectangle(width, height, Color.BLACK);
+        // load background graphic for menus
+        Node bgimg = FXGL.getAssetLoader().loadTexture("menu/launcher_background.gif");
+        ((Texture) bgimg).setFitWidth(width);
+        ((Texture) bgimg).setFitHeight(height);
+        return bgimg;
     }
 
     @NotNull
