@@ -191,22 +191,11 @@ public class RelictusMenu extends FXGLMenu {
         if (isMainMenu(menuType)) {
             box.add(createMenuItemSingleplayer());
             box.add(createMenuItemMultiplayer());
-        } else {
-            box.add(createGameMenuItemResume());
-        }
-
-        // Deaktiviert, da nicht benötigt
-        // box.add(createMenuItemOptions());
-
-        // TODO: Extras druch Credits tauschen
-        if (enabledItems.contains(MenuItem.EXTRA)) {
-            box.add(createGameMenuItemExtra());
-        }
-
-        if (isMainMenu(menuType)) {
+            box.add(createMenuItemCredits());
             box.add(createMenuItemExit());
         } else {
-            box.add(createGameMenuItemExit());
+            box.add(createMenuItemResume());
+            box.add(createMenuItemExitMainMenu());
         }
 
         return box;
@@ -218,25 +207,9 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuBox createOnlineMenu() {
         return new MenuBox(
-                createMenuItemOnlineMenuConnect(),
-                createMenuItemOnlineMenuHost(),
-                createMenuItemOnlineMenuOptions()
-        );
-    }
-
-    private MenuBox createOptionsMenu() {
-        return new MenuBox(
-                createMenuItemOptionsMenuGameplay(),
-                createMenuItemOptionsMenuControls(),
-                //createMenuItemOptionsMenuVideo(), // Temporär deaktiviert, siehe Funktionbeschreibung
-                createMenuItemOptionsMenuAudio(),
-                createMenuItemOptionsMenuRestore()
-        );
-    }
-
-    private MenuBox createExtraMenu() {
-        return new MenuBox(
-                createMenuItemExtraMenuCredits()
+                createMenuItemMultiplayerConnect(),
+                createMenuItemMultiplayerHost(),
+                createMenuItemMultiplayerOptions()
         );
     }
 
@@ -252,101 +225,45 @@ public class RelictusMenu extends FXGLMenu {
         return multiplayerMenuButton;
     }
 
-    // Deaktiviert, da nicht benötigt
-    private MenuButton createMenuItemOptions() {
-        final MenuButton optionsMenuButton = new MenuButton("menu.options");
-        optionsMenuButton.setOnAction(event -> optionsMenuButton.setChild(createOptionsMenu(), this));
-        return optionsMenuButton;
-    }
-
     private MenuButton createMenuItemExit() {
         final MenuButton exitMenuButton = new MenuButton("menu.exit");
         exitMenuButton.setOnAction(event -> fireExit());
         return exitMenuButton;
     }
 
-    private MenuButton createGameMenuItemResume() {
+    private MenuButton createMenuItemResume() {
         final MenuButton resumeMenuButton = new MenuButton("menu.resume");
         resumeMenuButton.setOnAction(event -> fireResume());
         return resumeMenuButton;
     }
 
-    // ### VERALTET - DEPRECATED ###
-    private MenuButton createGameMenuItemOptions() {
-        final MenuButton optionsMenuButton = new MenuButton("menu.options");
-        optionsMenuButton.setChild(createOptionsMenu(), this);
-        return optionsMenuButton;
+    private MenuButton createMenuItemCredits() {
+        System.out.println("Credits pressed");
+        final MenuButton creditsMenuButton = new MenuButton("menu.credits");
+        creditsMenuButton.setMenuContent(this::createContentCredits, this);
+        creditsMenuButton.setOnAction(event -> createContentCredits());
+        return creditsMenuButton;
     }
 
-    private MenuButton createGameMenuItemExtra() {
-        final MenuButton extraMenuButton = new MenuButton("menu.extra");
-        extraMenuButton.setChild(createExtraMenu(), this);
-        return extraMenuButton;
-    }
-
-    private MenuButton createGameMenuItemExit() {
+    private MenuButton createMenuItemExitMainMenu() {
         final MenuButton exitMainMenuButton = new MenuButton("menu.mainMenu");
         exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
         return exitMainMenuButton;
     }
 
-    private MenuButton createMenuItemOptionsMenuGameplay() {
-        final MenuButton gameplayMenuButton = new MenuButton("menu.gameplay");
-        gameplayMenuButton.setMenuContent(this::createContentGameplay, this);
-        return gameplayMenuButton;
-    }
-
-    private MenuButton createMenuItemOptionsMenuControls() {
-        final MenuButton controlsMenuButton = new MenuButton("menu.controls");
-        controlsMenuButton.setMenuContent(this::createContentControls, this);
-        return controlsMenuButton;
-    }
-
-    // TODO: Sprache-Dropdown-Menü aus video Einstellungen entfernen (eigene implementation von "createContentVideo()" erstellen)
-    // Temporär deaktiviert, da Sprachen-Dropdown-Menü nicht benötigt wird.
-    // Aktivierung, wenn weitere Einstellmöglichkeiten eingebaut werden.
-    // (eigene implementation von "createContentVideo()" erstellen, ohne Sprachen-Dropdown-Menü)
-    private MenuButton createMenuItemOptionsMenuVideo() {
-        final MenuButton videoMenuButton = new MenuButton("menu.video");
-        videoMenuButton.setMenuContent(this::createContentVideo, this);
-        return videoMenuButton;
-    }
-
-    private MenuButton createMenuItemOptionsMenuAudio() {
-        final MenuButton audioMenuButton = new MenuButton("menu.audio");
-        audioMenuButton.setMenuContent(this::createContentAudio, this);
-        return audioMenuButton;
-    }
-
-    private MenuButton createMenuItemOptionsMenuRestore() {
-        final MenuButton restoreMenuButton = new MenuButton("menu.restore");
-        restoreMenuButton.setOnAction(event -> FXGL.getDisplay().showConfirmationBox(Local.getLocalizedString("menu.settingsRestore"), arg -> {
-            if (arg) {
-                switchMenuContentTo(emptyVBox);
-            }
-        }));
-        return restoreMenuButton;
-    }
-
-    private MenuButton createMenuItemExtraMenuCredits() {
-        final MenuButton creditsMenuButton = new MenuButton("menu.credits");
-        creditsMenuButton.setMenuContent(this::createContentCredits, this);
-        return creditsMenuButton;
-    }
-
-    private MenuButton createMenuItemOnlineMenuConnect() {
+    private MenuButton createMenuItemMultiplayerConnect() {
         final MenuButton feedbackMenuButton = new MenuButton("multiplayer.connect");
         feedbackMenuButton.setMenuContent(this::createMultiplayerConnect, this);
         return feedbackMenuButton;
     }
 
-    private MenuButton createMenuItemOnlineMenuHost() {
+    private MenuButton createMenuItemMultiplayerHost() {
         final MenuButton feedbackMenuButton = new MenuButton("multiplayer.host");
         feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
         return feedbackMenuButton;
     }
 
-    private MenuButton createMenuItemOnlineMenuOptions() {
+    private MenuButton createMenuItemMultiplayerOptions() {
         final MenuButton feedbackMenuButton = new MenuButton("multiplayer.options");
         feedbackMenuButton.setMenuContent(this::createMultiplayerOptions, this);
         return feedbackMenuButton;
