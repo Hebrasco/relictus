@@ -30,7 +30,7 @@ public class RelictusMenu extends FXGLMenu {
 
     public RelictusMenu(@NotNull MenuType type) {
         super(type);
-        inflateMenu(type);
+        createMenu(type);
     }
 
     @NotNull
@@ -153,14 +153,8 @@ public class RelictusMenu extends FXGLMenu {
         fadeTransitionOldMenu.play();
     }
 
-    private void inflateMenu(MenuType menuType) {
-        final MenuBox menu;
-
-        if (menuType == MenuType.MAIN_MENU)
-            menu = createMainMenu();
-        else {
-            menu = createInGameMenu();
-        }
+    private void createMenu(MenuType menuType) {
+        final MenuBox menu = inflateMenu(menuType);
 
         final double menuX = 50.0;
         final double menuY = FXGL.getAppHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
@@ -182,37 +176,35 @@ public class RelictusMenu extends FXGLMenu {
         });
     }
 
-    private MenuBox createMainMenu() {
+    private MenuBox inflateMenu(MenuType menuType) {
         final MenuBox box = new MenuBox();
         final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
-        box.add(createMenuItemNewGame());
-        box.add(createMenuItemOnline());
-        box.add(createMenuItemOptions());
+        if (isMainMenu(menuType)) {
+            box.add(createMenuItemNewGame());
+            box.add(createMenuItemOnline());
+        } else {
+            box.add(createGameMenuItemResume());
+        }
+
+        // Deaktiviert, da nicht benötigt
+        // box.add(createMenuItemOptions());
 
         if (enabledItems.contains(MenuItem.EXTRA)) {
             box.add(createGameMenuItemExtra());
         }
 
-        box.add(createMenuItemExit());
+        if (isMainMenu(menuType)) {
+            box.add(createMenuItemExit());
+        } else {
+            box.add(createGameMenuItemExit());
+        }
 
         return box;
     }
 
-    private MenuBox createInGameMenu() {
-        final MenuBox box = new MenuBox();
-        final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
-
-        box.add(createGameMenuItemResume());
-        box.add(createGameMenuItemOptions());
-
-        if (enabledItems.contains(MenuItem.EXTRA)) {
-            box.add(createGameMenuItemExtra());
-        }
-
-        box.add(createGameMenuItemExit());
-
-        return box;
+    private boolean isMainMenu(MenuType menuType) {
+        return menuType == MenuType.MAIN_MENU;
     }
 
     private MenuBox createOnlineMenu() {
@@ -269,6 +261,7 @@ public class RelictusMenu extends FXGLMenu {
         return resumeMenuButton;
     }
 
+    // ### VERALTET - DEPRECATED ###
     private MenuButton createGameMenuItemOptions() {
         final MenuButton optionsMenuButton = new MenuButton("menu.options");
         optionsMenuButton.setChild(createOptionsMenu(), this);
