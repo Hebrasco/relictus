@@ -240,13 +240,13 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private MenuButton createMenuItemNewGame() {
-        final MenuButton newGameMenuButton = new MenuButton("menu.newGame");
+        final MenuButton newGameMenuButton = new MenuButton("menu.singleplayer");
         newGameMenuButton.setOnAction(event -> fireNewGame());
         return newGameMenuButton;
     }
 
     private MenuButton createMenuItemOnline() {
-        final MenuButton onlineMenuButton = new MenuButton("menu.online");
+        final MenuButton onlineMenuButton = new MenuButton("menu.multiplayer");
         onlineMenuButton.setOnAction(event -> onlineMenuButton.setChild(createOnlineMenu(), this));
         return onlineMenuButton;
     }
