@@ -29,7 +29,7 @@ public class Particles {
         final Texture particleTexture = FXGL.texture("particles/dust.png", 8, 8).brighter().brighter();
         final Image particleImage = particleTexture.getImage();
         final BlendMode blendMode = BlendMode.ADD;
-        final double emissionRate = 0.0025;
+        final double emissionRate = 0.005;
         final int numParticlePerEmission = 35;
         final double particleSize = 0.01;
 
@@ -64,6 +64,15 @@ public class Particles {
         return new Point2D(
                 FXGLMath.random(minVelocity, maxVelocity),
                 FXGLMath.random(minVelocity, maxVelocity)
+        ).add(
+                FXGLMath.random(-minVelocity, maxVelocity),
+                FXGLMath.random(-minVelocity, maxVelocity)
+        ).add(
+                FXGLMath.random(-maxVelocity, -minVelocity),
+                FXGLMath.random(-maxVelocity, -minVelocity)
+        ).add(
+                FXGLMath.random(-minVelocity, -maxVelocity),
+                FXGLMath.random(-minVelocity, -maxVelocity)
         );
     }
 
