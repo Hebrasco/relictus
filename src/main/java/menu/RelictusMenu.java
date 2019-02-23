@@ -202,7 +202,7 @@ public class RelictusMenu extends FXGLMenu {
         return menuType == MenuType.MAIN_MENU;
     }
 
-    private MenuBox createOnlineMenu() {
+    private MenuBox createMultiplayerMenu() {
         return new MenuBox(
                 createMenuItemMultiplayerConnect(),
                 createMenuItemMultiplayerHost()
@@ -217,7 +217,7 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuButton createMenuItemMultiplayer() {
         final MenuButton multiplayerMenuButton = new MenuButton("menu.multiplayer");
-        multiplayerMenuButton.setOnAction(event -> multiplayerMenuButton.setChild(createOnlineMenu(), this));
+        multiplayerMenuButton.setOnAction(event -> multiplayerMenuButton.setChild(createMultiplayerMenu(), this));
         return multiplayerMenuButton;
     }
 
