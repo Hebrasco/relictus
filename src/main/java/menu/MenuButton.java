@@ -30,7 +30,6 @@ class MenuButton extends Pane {
 
         addText(key);
         addClickSoundEffects();
-        button.setOnKeyPressed(e -> button.fire());
 
         // TODO: Button größe an Textbreite anpassen
         button.setMinWidth(250);
@@ -75,6 +74,7 @@ class MenuButton extends Pane {
         button.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 audioPlayer.play(soundMenuPressFilePath);
+                button.fire();
             } else {
                 audioPlayer.play(soundMenuMoveFilePath);
             }
