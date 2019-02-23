@@ -3,11 +3,9 @@ package game;
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.core.util.Credits;
 import factories.RelictusSceneFactory;
 import javafx.stage.StageStyle;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +50,7 @@ public class Relictus extends GameApplication {
 		settings.setSceneFactory(new RelictusSceneFactory());
 		settings.setCSS(cssFileName);
 		settings.setCredits(credits);
-		settings.setApplicationMode(ApplicationMode.DEBUG); // bei release version auf "Release" ändern
+		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
 		settings.setSoundMenuPress(soundMenuPressFileName);
 		settings.setSoundMenuSelect(soundMenuSelectFileName);
 		settings.setAppIcon(appIcon);
