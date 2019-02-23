@@ -2,6 +2,8 @@ package menu;
 
 import com.almasb.fxgl.app.FXGLMenu;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.particle.ParticleEmitter;
+import com.almasb.fxgl.particle.ParticleSystem;
 import com.almasb.fxgl.scene.MenuType;
 import com.almasb.fxgl.texture.Texture;
 import javafx.animation.FadeTransition;
@@ -11,20 +13,24 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import utils.Particles;
 
 /**
  * @author Daniel Bedrich
  */
 public class RelictusMenu extends FXGLMenu {
+    //private final ArrayList<Animation> animations = new ArrayList<>();
+    private final ParticleSystem particleSystem = new ParticleSystem();
     private VBox emptyVBox = new MenuContent();
+    //private double t = 0.0;
 
     public RelictusMenu(@NotNull MenuType type) {
         super(type);
@@ -79,6 +85,11 @@ public class RelictusMenu extends FXGLMenu {
     @Override
     protected void switchMenuContentTo(@NotNull Node content) {
         getMenuContentRoot().getChildren().set(0, content);
+    }
+
+    @Override
+    protected void onUpdate(double tpf) {
+        particleSystem.onUpdate(tpf);
     }
 
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
@@ -174,6 +185,10 @@ public class RelictusMenu extends FXGLMenu {
         getMenuContentRoot().setTranslateX(256);
         getMenuContentRoot().setTranslateY(menuPosY);
 
+        ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
+        particleSystem.addParticleEmitter(dustParticleEmitter, 0.0, -FXGL.getAppHeight());
+        getContentRoot().getChildren().add(3, particleSystem.getPane());
+
         getMenuRoot().getChildren().addAll(menu);
         getMenuContentRoot().getChildren().add(emptyVBox);
 
@@ -260,7 +275,6 @@ public class RelictusMenu extends FXGLMenu {
         feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
         return feedbackMenuButton;
     }
-
 
     private MenuContent createMultiplayerConnect() {
         // TODO: IP input feld einfügen
