@@ -167,7 +167,11 @@ public class RelictusMenu extends FXGLMenu {
         getMenuRoot().setTranslateX(menuPosX);
         getMenuRoot().setTranslateY(menuPosY);
 
-        getMenuContentRoot().setTranslateX((FXGL.getAppWidth()));
+        // TODO: setTranslateX nicht statisch, sondern dynamisch darstellen
+        // FXGL.getAppWidth() / 2.0 - menu.getLayoutBounds().getWidth() - menuPosX
+        // Problem: Menü breite ist immer 0.0
+        // Credits breite ist FXGL.getAppWidth() * 3 / 5
+        getMenuContentRoot().setTranslateX(256);
         getMenuContentRoot().setTranslateY(menuPosY);
 
         getMenuRoot().getChildren().addAll(menu);
