@@ -8,7 +8,10 @@ import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import jdk.jfr.EventType;
 import utils.AudioPlayer;
 import utils.PropertiesLoader;
 import java.util.function.Supplier;
@@ -27,9 +30,10 @@ class MenuButton extends Pane {
 
         addText(key);
         addClickSoundEffects();
+        button.setOnKeyPressed(e -> button.fire());
 
-        // TODO: Butten größe an Textbreite anpassen
-        button.setMinWidth(300);
+        // TODO: Button größe an Textbreite anpassen
+        button.setMinWidth(250);
 
         getChildren().add(button);
     }
@@ -68,7 +72,13 @@ class MenuButton extends Pane {
         button.setOnMousePressed(e -> audioPlayer.play(soundMenuPressFilePath));
         button.setOnMouseEntered(e -> audioPlayer.play(soundMenuMoveFilePath));
         // TODO: menu_move.wav beim bewegen mit den Pfeiltasten abspielen (Zurseit wird der menu_klick.wav abgespielt)
-        button.setOnKeyPressed(e -> audioPlayer.play(soundMenuPressFilePath));
+        button.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                audioPlayer.play(soundMenuPressFilePath);
+            } else {
+                audioPlayer.play(soundMenuMoveFilePath);
+            }
+        });
     }
 
     private void addText(String key) {
