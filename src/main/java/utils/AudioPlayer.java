@@ -7,21 +7,12 @@ import java.io.IOException;
  * @author Daniel Bedrich
  */
 public class AudioPlayer {
-    private static AudioPlayer ourInstance = new AudioPlayer();
-
-    public static AudioPlayer getInstance() {
-        return ourInstance;
-    }
-
-    private AudioPlayer() {
-    }
-
-    public synchronized void play(String soundFilePath) {
+    public static synchronized void play(String soundFilePath) {
         new Thread(() -> {
             try {
                 Clip clip = AudioSystem.getClip();
                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                        getClass().getResource("/assets/sounds/" + soundFilePath)
+                        AudioPlayer.class.getResource("/assets/sounds/" + soundFilePath)
                 );
                 clip.open(inputStream);
                 clip.start();

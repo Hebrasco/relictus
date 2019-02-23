@@ -9,11 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import jdk.jfr.EventType;
 import utils.AudioPlayer;
 import utils.PropertiesLoader;
+
 import java.util.function.Supplier;
 
 /**
@@ -29,7 +28,7 @@ class MenuButton extends Pane {
         button.setStyle("-fx-background-color: transparent");
 
         addText(key);
-        addClickSoundEffects();
+        addClickEvents();
 
         // TODO: Button größe an Textbreite anpassen
         button.setMinWidth(250);
@@ -63,26 +62,25 @@ class MenuButton extends Pane {
         button.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(menuBox));
     }
 
-    private void addClickSoundEffects() {
-        AudioPlayer audioPlayer = AudioPlayer.getInstance();
+    private void addClickEvents() {
         String soundMenuPressFilePath = FXGL.getSettings().getSoundMenuPress();
         String soundMenuMoveFilePath = FXGL.getSettings().getSoundMenuSelect();
 
-        button.setOnMousePressed(e -> audioPlayer.play(soundMenuPressFilePath));
-        button.setOnMouseEntered(e -> audioPlayer.play(soundMenuMoveFilePath));
+        button.setOnMousePressed(e -> AudioPlayer.play(soundMenuPressFilePath));
+        button.setOnMouseEntered(e -> AudioPlayer.play(soundMenuMoveFilePath));
         // TODO: menu_move.wav beim bewegen mit den Pfeiltasten abspielen (Zurseit wird der menu_klick.wav abgespielt)
         button.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                audioPlayer.play(soundMenuPressFilePath);
+                AudioPlayer.play(soundMenuPressFilePath);
                 button.fire();
             } else {
-                audioPlayer.play(soundMenuMoveFilePath);
+                AudioPlayer.play(soundMenuMoveFilePath);
             }
         });
     }
 
     private void addText(String key) {
-        StringBinding bindings = Bindings.createStringBinding(() -> PropertiesLoader.getInstance().getResourceProperties(key));
+        StringBinding bindings = Bindings.createStringBinding(() -> PropertiesLoader.getResourceProperties(key));
         button.textProperty().bind(bindings);
     }
 }

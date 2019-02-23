@@ -6,6 +6,7 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.util.Credits;
 import factories.RelictusSceneFactory;
 import javafx.stage.StageStyle;
+
 import java.util.List;
 import java.util.Map;
 

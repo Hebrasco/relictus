@@ -6,17 +6,9 @@ import java.util.ResourceBundle;
  * @author Daniel Bedrich
  */
 public class PropertiesLoader {
-    private static PropertiesLoader ourInstance = new PropertiesLoader();
     private static Localization localization = new Localization();
 
-    public static PropertiesLoader getInstance() {
-        return ourInstance;
-    }
-
-    private PropertiesLoader() {
-    }
-
-    public String getResourceProperties(String key) {
+    public static String getResourceProperties(String key) {
         ResourceBundle bundle = localization.selectedLanguage.resourceBundle;
 
         try {
