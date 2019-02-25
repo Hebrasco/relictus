@@ -244,7 +244,7 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private MenuButton createMenuItemExit() {
-        final MenuButton exitMenuButton = new MenuButton("menu.exit");
+        final MenuButton exitMenuButton = new MenuButton("menu.quit");
         exitMenuButton.setOnAction(event -> fireExit());
         return exitMenuButton;
     }
