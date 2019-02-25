@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 class MenuButton extends Pane {
     final FXGLButton button = new FXGLButton();
     private MenuBox parent = null;
-    private VBox cachedContent = new MenuContent();
+    private MenuContent cachedContent = new MenuContent();
 
     MenuButton(String key) {
 
@@ -46,7 +46,7 @@ class MenuButton extends Pane {
         parent = menuBox;
     }
 
-    void setMenuContent(Supplier<VBox> contentSupplier, RelictusMenu relictusMenu) {
+    void setMenuContent(Supplier<MenuContent> contentSupplier, RelictusMenu relictusMenu) {
         button.addEventHandler(ActionEvent.ACTION, event -> {
             if (cachedContent == null) {
                 cachedContent = contentSupplier.get();
