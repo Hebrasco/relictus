@@ -10,6 +10,7 @@ import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -35,6 +36,8 @@ public class RelictusMenu extends FXGLMenu {
     public RelictusMenu(@NotNull MenuType type) {
         super(type);
         createMenu(type);
+
+        setCursor("cursor.png", new Point2D(0, 0));
     }
 
     @NotNull
