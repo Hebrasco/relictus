@@ -4,11 +4,9 @@ import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.util.Credits;
-import factories.RelictusSceneFactory;
+import com.sun.tools.javac.util.List;
 import javafx.stage.StageStyle;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,9 +28,9 @@ public class Relictus extends GameApplication {
 		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
 		String title = "R E L I C T U S"; // Replace with above
 		String version = "0.1"; // Replace with above
-		/*
+
 		Credits credits = new Credits(
-				Li(
+				List.of(
 						"Relictus created by Kamelrad",
 						"Kevin Ortmeier",
 						"Markus Kremer",
@@ -41,7 +39,7 @@ public class Relictus extends GameApplication {
 						"Daniel Bedrich"
 				)
 		);
-		*/
+
 
 
 		settings.setWidth(windowWidth);
@@ -52,9 +50,9 @@ public class Relictus extends GameApplication {
 		settings.setIntroEnabled(false);
 		settings.setFullScreenAllowed(false);
 		settings.setManualResizeEnabled(false);
-		//settings.setSceneFactory(new RelictusSceneFactory());
+		//settings.setSceneFactory(new RelictusSceneFactory()); // TODO: Fix custom main menu
 		settings.setCSS(cssFileName);
-		//settings.setCredits(credits);
+		settings.setCredits(credits);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
 		settings.setSoundMenuPress(soundMenuPressFileName);
 		settings.setSoundMenuSelect(soundMenuSelectFileName);
