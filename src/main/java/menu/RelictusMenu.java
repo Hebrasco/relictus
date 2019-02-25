@@ -8,6 +8,7 @@ import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.scene.menu.MenuType;
 import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.FXGLScrollPane;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleObjectProperty;
@@ -26,6 +27,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import utils.Particles;
+import utils.PropertiesLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -309,7 +311,6 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private menu.MenuContent createCreditsContent() {
-
         ScrollPane pane = new FXGLScrollPane();
         pane.setPrefWidth(getApp().getWidth() * 3.0 / 5.0);
         pane.setPrefHeight(getApp().getHeight() / 2.0);
@@ -319,20 +320,33 @@ public class RelictusMenu extends FXGLMenu {
         vbox.setAlignment(Pos.CENTER);
         vbox.setPrefWidth(pane.getPrefWidth() - 15);
 
-        List<String> credits = new ArrayList<>(getSettings().getCredits().getList());
-        credits.add("");
-        credits.add("Powered by FXGL " + FXGL.getVersion());
-        credits.add("Author: Almas Baimagambetov");
-        credits.add("https://github.com/AlmasB/FXGL");
-        credits.add("");
-
-        for (String credit : credits) {
-            vbox.getChildren().add(getUIFactory().newText(credit));
+        String[] creditEntries = getCreditsEntries();
+        for (String credit : creditEntries) {
+            String creditText = PropertiesLoader.getResourceProperties(credit);
+            if (credit.equals(creditEntries[creditEntries.length - 2])) {
+                creditText += FXGL.getVersion();
+            }
+            vbox.getChildren().add(getUIFactory().newText(creditText));
         }
 
         pane.setContent(vbox);
 
         return new menu.MenuContent(pane);
+    }
+
+    private String[] getCreditsEntries() {
+        return new String[] {
+                "credits.relictusCreatedBy",
+                "credits.kevinOrtmeier",
+                "credits.markusKremer",
+                "credits.laraMarieMann",
+                "credits.romanRubashkin",
+                "credits.danielBedrich",
+                "",
+                "credits.poweredByFXGL",
+                "credits.FXGLAuthor",
+                "credits.FXGLRepo"
+        };
     }
 }
 

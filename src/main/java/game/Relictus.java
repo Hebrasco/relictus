@@ -30,17 +30,6 @@ public class Relictus extends GameApplication {
 		String title = "R E L I C T U S"; // Replace with above
 		String version = "0.1"; // Replace with above
 
-		Credits credits = new Credits(
-				List.of(
-						"Relictus created by Kamelrad",
-						"Kevin Ortmeier",
-						"Markus Kremer",
-						"Lara-Marie Mann",
-						"Roman Rubashkin",
-						"Daniel Bedrich"
-				)
-		);
-
 
 
 		settings.setWidth(windowWidth);
@@ -53,7 +42,6 @@ public class Relictus extends GameApplication {
 		settings.setManualResizeEnabled(false);
 		settings.setSceneFactory(new RelictusSceneFactory());
 		settings.setCSS(cssFileName);
-		settings.setCredits(credits);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
 		settings.setSoundMenuPress(soundMenuPressFileName);
 		settings.setSoundMenuSelect(soundMenuSelectFileName);
