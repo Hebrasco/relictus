@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.almasb:fxgl:11.0-alpha'
+    implementation 'com.github.almasb:fxgl:0.5.4'
     implementation group: 'org.json', name: 'json', version: '20180813'
 }
 
