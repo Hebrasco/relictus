@@ -30,7 +30,7 @@ class MenuButton extends Pane {
         button.setStyle("-fx-background-color: transparent");
 
         addText(key);
-        //addClickEvents();
+        addClickEvents();
 
         // TODO: Button größe an Textbreite anpassen
         button.setMinWidth(250);
