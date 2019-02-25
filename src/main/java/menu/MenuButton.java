@@ -1,7 +1,6 @@
 package menu;
 
 import com.almasb.fxgl.app.FXGL;
-import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.ui.FXGLButton;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -10,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import utils.AudioPlayer;
 import utils.PropertiesLoader;
 
@@ -21,8 +19,8 @@ import java.util.function.Supplier;
  */
 class MenuButton extends Pane {
     final FXGLButton button = new FXGLButton();
-    private MenuBox parent = null;
-    private MenuContent cachedContent = new MenuContent();
+    private MenuRoot parent = null;
+    private MenuItem cachedContent = new MenuItem();
 
     MenuButton(String key) {
 
@@ -42,11 +40,11 @@ class MenuButton extends Pane {
         button.setOnAction(e);
     }
 
-    void setParent(MenuBox menuBox) {
-        parent = menuBox;
+    void setParent(MenuRoot root) {
+        parent = root;
     }
 
-    void setMenuContent(Supplier<MenuContent> contentSupplier, RelictusMenu relictusMenu) {
+    void setMenuContent(Supplier<MenuItem> contentSupplier, RelictusMenu relictusMenu) {
         button.addEventHandler(ActionEvent.ACTION, event -> {
             if (cachedContent == null) {
                 cachedContent = contentSupplier.get();
@@ -56,12 +54,12 @@ class MenuButton extends Pane {
         });
     }
 
-    void setChild(MenuBox menuBox, RelictusMenu relictusMenu) {
+    void setChild(MenuRoot menuRoot, RelictusMenu relictusMenu) {
         final MenuButton back = new MenuButton("menu.back");
-        menuBox.getChildren().add(0, back);
+        menuRoot.getChildren().add(0, back);
 
         back.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(parent));
-        button.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(menuBox));
+        button.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(menuRoot));
     }
 
     private void addClickEvents() {

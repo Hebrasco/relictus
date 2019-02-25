@@ -1,12 +1,16 @@
 package game;
 
 import com.almasb.fxgl.app.ApplicationMode;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.util.Credits;
 import com.sun.tools.javac.util.List;
 import factories.RelictusSceneFactory;
+import javafx.geometry.Point2D;
 import javafx.stage.StageStyle;
+import utils.CustomCursor;
+import utils.UIPreferences;
 
 import java.util.Map;
 
@@ -61,7 +65,7 @@ public class Relictus extends GameApplication {
 
 	@Override
 	protected void initGame() {
-		super.initGame();
+		setCustomCursor();
 	}
 
 	@Override
@@ -76,5 +80,9 @@ public class Relictus extends GameApplication {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	private void setCustomCursor() {
+		FXGL.getGameScene().setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
 	}
 }

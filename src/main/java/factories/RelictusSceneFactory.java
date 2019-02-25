@@ -2,6 +2,7 @@ package factories;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.scene.FXGLMenu;
+import com.almasb.fxgl.scene.LoadingScene;
 import com.almasb.fxgl.scene.SceneFactory;
 import com.almasb.fxgl.scene.menu.MenuType;
 import javafx.scene.layout.VBox;
@@ -24,5 +25,12 @@ public class RelictusSceneFactory extends SceneFactory {
     @Override
     public FXGLMenu newMainMenu(@NotNull GameApplication app) {
         return new RelictusMenu(app, MenuType.MAIN_MENU, emptyContent);
+    }
+
+    @NotNull
+    @Override
+    public LoadingScene newLoadingScene() {
+        // TODO: Eigene LoadingScene Implementieren (Primär für Cursor)
+        return super.newLoadingScene();
     }
 }

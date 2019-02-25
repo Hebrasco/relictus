@@ -6,8 +6,8 @@ import javafx.scene.layout.VBox;
 /**
  * @author Daniel Bedrich
  */
-class MenuContent extends VBox {
-    MenuContent(Node... items) {
+class MenuItem extends VBox {
+    MenuItem(Node... items) {
 
         if (items.length > 0) {
             int maxWidth = (int) items[0].getLayoutBounds().getWidth();
