@@ -1,9 +1,11 @@
 package game;
 
 import com.almasb.fxgl.app.ApplicationMode;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.util.Credits;
+import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
 import javafx.stage.StageStyle;
 
@@ -53,7 +55,7 @@ public class Relictus extends GameApplication {
 		settings.setFullScreenAllowed(false);
 		settings.setManualResizeEnabled(false);
 		//settings.setSceneFactory(new RelictusSceneFactory());
-		settings.setCSS(cssFileName);
+		//settings.setCSS(cssFileName);
 		//settings.setCredits(credits);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
 		settings.setSoundMenuPress(soundMenuPressFileName);
@@ -61,30 +63,11 @@ public class Relictus extends GameApplication {
 		settings.setAppIcon(appIcon);
 		settings.setStageStyle(StageStyle.UNDECORATED);
 	}
-	
-	@Override
-	protected void initInput() {
-		super.initInput();
-	}
-
-	@Override
-	protected void initGameVars(Map<String, Object> vars) {
-		super.initGameVars(vars);
-	}
-
 	@Override
 	protected void initGame() {
-		super.initGame();
-	}
+		getGameWorld().addEntityFactory(new RelictusEntityFactory());
+		getGameWorld().setLevelFromMap("relictusTileMap.json");
 
-	@Override
-	protected void initUI() {
-		super.initUI();
-	}
-
-	@Override
-	protected void onUpdate(double tpf) {
-		super.onUpdate(tpf);
 	}
 
 	public static void main(String[] args) {
