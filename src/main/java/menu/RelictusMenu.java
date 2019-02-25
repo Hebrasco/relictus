@@ -7,6 +7,7 @@ import com.almasb.fxgl.particle.ParticleSystem;
 import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.scene.menu.MenuType;
 import com.almasb.fxgl.texture.Texture;
+import com.almasb.fxgl.ui.FXGLScrollPane;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,6 +16,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,6 +26,11 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import utils.Particles;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.almasb.fxgl.app.FXGL.*;
 
 /**
  * @author Daniel Bedrich
@@ -259,7 +266,7 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuButton createMenuItemCredits() {
         final MenuButton creditsMenuButton = new MenuButton("menu.credits");
-        creditsMenuButton.setMenuContent(this::createContentCredits, this);
+        creditsMenuButton.setMenuContent(this::createCreditsContent, this);
         return creditsMenuButton;
     }
 
@@ -275,15 +282,15 @@ public class RelictusMenu extends FXGLMenu {
         return feedbackMenuButton;
     }
 
-    private MenuButton createMenuItemMultiplayerHost() {
+    private menu.MenuButton createMenuItemMultiplayerHost() {
         final MenuButton feedbackMenuButton = new MenuButton("multiplayer.host");
         feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
         return feedbackMenuButton;
     }
 
-    private MenuContent createMultiplayerConnect() {
+    private menu.MenuContent createMultiplayerConnect() {
         // TODO: IP input feld einfügen
-        final MenuContent connectMenuContent = new MenuContent();
+        final menu.MenuContent connectMenuContent = new menu.MenuContent();
 
         /* TODO: needed?
         connectMenuContent.setOnOpen();
@@ -293,12 +300,39 @@ public class RelictusMenu extends FXGLMenu {
         return connectMenuContent;
     }
 
-    private MenuContent createMultiplayerHost() {
-        return new MenuContent();
+    private menu.MenuContent createMultiplayerHost() {
+        return new menu.MenuContent();
     }
 
-    private MenuContent createMultiplayerOptions() {
-        return new MenuContent();
+    private menu.MenuContent createMultiplayerOptions() {
+        return new menu.MenuContent();
+    }
+
+    private menu.MenuContent createCreditsContent() {
+
+        ScrollPane pane = new FXGLScrollPane();
+        pane.setPrefWidth(getApp().getWidth() * 3.0 / 5.0);
+        pane.setPrefHeight(getApp().getHeight() / 2.0);
+        pane.setStyle("-fx-background:black;");
+
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPrefWidth(pane.getPrefWidth() - 15);
+
+        List<String> credits = new ArrayList<>(getSettings().getCredits().getList());
+        credits.add("");
+        credits.add("Powered by FXGL " + FXGL.getVersion());
+        credits.add("Author: Almas Baimagambetov");
+        credits.add("https://github.com/AlmasB/FXGL");
+        credits.add("");
+
+        for (String credit : credits) {
+            vbox.getChildren().add(getUIFactory().newText(credit));
+        }
+
+        pane.setContent(vbox);
+
+        return new menu.MenuContent(pane);
     }
 }
 
