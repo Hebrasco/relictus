@@ -1,8 +1,10 @@
 package factories;
 
-import com.almasb.fxgl.app.FXGLMenu;
-import com.almasb.fxgl.app.SceneFactory;
-import com.almasb.fxgl.scene.MenuType;
+import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.scene.FXGLMenu;
+import com.almasb.fxgl.scene.SceneFactory;
+import com.almasb.fxgl.scene.menu.MenuType;
+import javafx.scene.layout.VBox;
 import menu.RelictusMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,16 +12,17 @@ import org.jetbrains.annotations.NotNull;
  * @author Daniel Bedrich
  */
 public class RelictusSceneFactory extends SceneFactory {
+    private VBox emptyContent = new VBox();
 
     @NotNull
     @Override
-    public FXGLMenu newMainMenu() {
-        return new RelictusMenu(MenuType.MAIN_MENU);
+    public FXGLMenu newGameMenu(@NotNull GameApplication app) {
+        return new RelictusMenu(app, MenuType.GAME_MENU, emptyContent);
     }
 
     @NotNull
     @Override
-    public FXGLMenu newGameMenu() {
-        return new RelictusMenu(MenuType.GAME_MENU);
+    public FXGLMenu newMainMenu(@NotNull GameApplication app) {
+        return new RelictusMenu(app, MenuType.MAIN_MENU, emptyContent);
     }
 }

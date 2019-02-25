@@ -1,7 +1,8 @@
 package utils;
 
+import com.almasb.fxgl.app.DSLKt;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.particle.ParticleEmitter;
 import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
@@ -26,7 +27,7 @@ public class Particles {
     }
 
     private static void setParticleEmitterSettings(ParticleEmitter particleEmitter) {
-        final Texture particleTexture = FXGL.texture("particles/dust.png", 8, 8).brighter().brighter();
+        final Texture particleTexture = DSLKt.texture("particles/dust.png", 8, 8).brighter().brighter();
         final Image particleImage = particleTexture.getImage();
         final BlendMode blendMode = BlendMode.ADD;
         final double emissionRate = 0.01;

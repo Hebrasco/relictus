@@ -1,6 +1,6 @@
 package utils;
 
-import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.app.FXGL;
 import data.Language;
 
 /**

@@ -2,8 +2,8 @@ package game;
 
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.core.util.Credits;
+import com.almasb.fxgl.settings.GameSettings;
+import com.almasb.fxgl.util.Credits;
 import factories.RelictusSceneFactory;
 import javafx.stage.StageStyle;
 
@@ -40,6 +40,7 @@ public class Relictus extends GameApplication {
 				)
 		);
 
+
 		settings.setWidth(windowWidth);
 		settings.setHeight(windowHeight);
 		settings.setTitle(title);
@@ -48,7 +49,7 @@ public class Relictus extends GameApplication {
 		settings.setIntroEnabled(false);
 		settings.setFullScreenAllowed(false);
 		settings.setManualResizeEnabled(false);
-		settings.setSceneFactory(new RelictusSceneFactory());
+		//settings.setSceneFactory(new RelictusSceneFactory());
 		settings.setCSS(cssFileName);
 		settings.setCredits(credits);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern

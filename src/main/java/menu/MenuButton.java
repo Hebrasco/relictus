@@ -1,7 +1,7 @@
 package menu;
 
-import com.almasb.fxgl.app.FXGLMenu;
-import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.app.FXGL;
+import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.ui.FXGLButton;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import utils.AudioPlayer;
 import utils.PropertiesLoader;
 
@@ -21,14 +22,15 @@ import java.util.function.Supplier;
 class MenuButton extends Pane {
     final FXGLButton button = new FXGLButton();
     private MenuBox parent = null;
-    private FXGLMenu.MenuContent cachedContent = null;
+    private VBox cachedContent = new MenuContent();
 
     MenuButton(String key) {
+
         button.setAlignment(Pos.CENTER_LEFT);
         button.setStyle("-fx-background-color: transparent");
 
         addText(key);
-        addClickEvents();
+        //addClickEvents();
 
         // TODO: Button größe an Textbreite anpassen
         button.setMinWidth(250);
@@ -44,7 +46,7 @@ class MenuButton extends Pane {
         parent = menuBox;
     }
 
-    void setMenuContent(Supplier<FXGLMenu.MenuContent> contentSupplier, RelictusMenu relictusMenu) {
+    void setMenuContent(Supplier<VBox> contentSupplier, RelictusMenu relictusMenu) {
         button.addEventHandler(ActionEvent.ACTION, event -> {
             if (cachedContent == null) {
                 cachedContent = contentSupplier.get();

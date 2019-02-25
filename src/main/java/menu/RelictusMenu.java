@@ -1,10 +1,11 @@
 package menu;
 
-import com.almasb.fxgl.app.FXGLMenu;
-import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.app.FXGL;
+import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.particle.ParticleEmitter;
 import com.almasb.fxgl.particle.ParticleSystem;
-import com.almasb.fxgl.scene.MenuType;
+import com.almasb.fxgl.scene.FXGLMenu;
+import com.almasb.fxgl.scene.menu.MenuType;
 import com.almasb.fxgl.texture.Texture;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
@@ -30,11 +31,12 @@ import utils.Particles;
 public class RelictusMenu extends FXGLMenu {
     //private final ArrayList<Animation> animations = new ArrayList<>();
     private final ParticleSystem particleSystem = new ParticleSystem();
-    private VBox emptyVBox = new MenuContent();
+    private VBox emptyVBox;
     //private double t = 0.0;
 
-    public RelictusMenu(@NotNull MenuType type) {
-        super(type);
+    public RelictusMenu(GameApplication app, MenuType type, VBox emptyVBox) {
+        super(app, type);
+        this.emptyVBox = emptyVBox;
         createMenu(type);
 
         setCursor("cursor.png", new Point2D(0, 0));
@@ -87,11 +89,11 @@ public class RelictusMenu extends FXGLMenu {
 
     @Override
     protected void switchMenuContentTo(@NotNull Node content) {
-        getMenuContentRoot().getChildren().set(0, content);
+        getContentRoot().getChildren().set(0, content);
     }
 
     @Override
-    protected void onUpdate(double tpf) {
+    public void onUpdate(double tpf) {
         particleSystem.onUpdate(tpf);
     }
 
@@ -157,12 +159,12 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private void playTransition(Node menuBox) {
-        final Node oldMenu = getMenuRoot().getChildren().get(0);
+        final Node oldMenu = getRoot().getChildren().get(0);
         final FadeTransition fadeTransitionOldMenu = new FadeTransition(Duration.seconds(0.33), oldMenu);
         fadeTransitionOldMenu.setToValue(0.0);
         fadeTransitionOldMenu.setOnFinished(event -> {
             menuBox.setOpacity(0.0);
-            getMenuRoot().getChildren().set(0, menuBox);
+            getRoot().getChildren().set(0, menuBox);
             oldMenu.setOpacity(1.0);
 
             final FadeTransition fadeTransitionMenuBox = new FadeTransition(Duration.seconds(0.33), menuBox);
@@ -178,22 +180,22 @@ public class RelictusMenu extends FXGLMenu {
         final double menuPosX = 50.0;
         final double menuPosY = FXGL.getAppHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
 
-        getMenuRoot().setTranslateX(menuPosX);
-        getMenuRoot().setTranslateY(menuPosY);
+        getRoot().setTranslateX(menuPosX);
+        getRoot().setTranslateY(menuPosY);
 
         // TODO: setTranslateX nicht statisch, sondern dynamisch darstellen
         // FXGL.getAppWidth() / 2.0 - menu.getLayoutBounds().getWidth() - menuPosX
         // Problem: Menü breite ist immer 0.0
         // Credits breite ist FXGL.getAppWidth() * 3 / 5
-        getMenuContentRoot().setTranslateX(256);
-        getMenuContentRoot().setTranslateY(menuPosY);
+        getContentRoot().setTranslateX(256);
+        getContentRoot().setTranslateY(menuPosY);
 
         ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
         particleSystem.addParticleEmitter(dustParticleEmitter, 0.0, -FXGL.getAppHeight());
         getContentRoot().getChildren().add(3, particleSystem.getPane());
 
-        getMenuRoot().getChildren().addAll(menu);
-        getMenuContentRoot().getChildren().add(emptyVBox);
+        getRoot().getChildren().addAll(menu);
+        getContentRoot().getChildren().add(emptyVBox);
 
         activeProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
