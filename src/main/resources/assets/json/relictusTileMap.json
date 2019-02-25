@@ -194,7 +194,7 @@
          "tilecount":160,
          "tileheight":32,
          "tilewidth":32
-        },
+        }, 
         {
          "columns":16,
          "firstgid":1345,
@@ -207,7 +207,7 @@
          "tilecount":160,
          "tileheight":32,
          "tilewidth":32
-        },
+        }, 
         {
          "columns":16,
          "firstgid":1505,
