@@ -7,6 +7,7 @@ import com.almasb.fxgl.util.Credits;
 import factories.RelictusSceneFactory;
 import javafx.stage.StageStyle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +30,9 @@ public class Relictus extends GameApplication {
 		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
 		String title = "R E L I C T U S"; // Replace with above
 		String version = "0.1"; // Replace with above
+		/*
 		Credits credits = new Credits(
-				List.of(
+				Li(
 						"Relictus created by Kamelrad",
 						"Kevin Ortmeier",
 						"Markus Kremer",
@@ -39,6 +41,7 @@ public class Relictus extends GameApplication {
 						"Daniel Bedrich"
 				)
 		);
+		*/
 
 
 		settings.setWidth(windowWidth);
@@ -51,7 +54,7 @@ public class Relictus extends GameApplication {
 		settings.setManualResizeEnabled(false);
 		//settings.setSceneFactory(new RelictusSceneFactory());
 		settings.setCSS(cssFileName);
-		settings.setCredits(credits);
+		//settings.setCredits(credits);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
 		settings.setSoundMenuPress(soundMenuPressFileName);
 		settings.setSoundMenuSelect(soundMenuSelectFileName);
