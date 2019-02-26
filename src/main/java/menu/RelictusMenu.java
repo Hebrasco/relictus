@@ -22,11 +22,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utils.CustomCursor;
 import utils.Particles;
 import utils.PropertiesLoader;
+
+import java.io.File;
 
 /**
  * @author Daniel Bedrich
@@ -102,7 +105,7 @@ public class RelictusMenu extends FXGLMenu {
         final double textWidth = titleText.getLayoutBounds().getWidth();
 
         final StackPane titleRoot = new StackPane();
-        titleRoot.getChildren().addAll(createTitleBorder(textWidth), box);
+        titleRoot.getChildren().add(box);
 
         titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30) / 2);
         titleRoot.setTranslateY(50);
@@ -116,10 +119,14 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private Text createTitle(String title, SimpleObjectProperty<Color> color) {
-        final Text titleText = FXGL.getUIFactory().newText(title, 55.0);
+        final double fontSize = 55.0;
+        final String fontName = "CinzelDecorative-Bold.ttf";
+        final Text titleText = FXGL.getUIFactory().newText(title);
+        final Font font = FXGL.getAssetLoader().loadFont(fontName).newFont(fontSize);
         titleText.setFill(null);
         titleText.strokeProperty().bind(color);
         titleText.setStrokeWidth(1.5);
+        titleText.setFont(font);
         return titleText;
     }
 
@@ -134,15 +141,6 @@ public class RelictusMenu extends FXGLMenu {
         profileText.setTranslateY(FXGL.getAppHeight() - 2);
         profileText.setTranslateX(FXGL.getAppWidth() - profileText.getLayoutBounds().getWidth());
         return profileText;
-    }
-
-    private Rectangle createTitleBorder(double textWidth) {
-        final Rectangle border = new Rectangle(textWidth + 30, 65, null);
-        border.setStroke(Color.WHITE);
-        border.setStrokeWidth(4);
-        border.setArcWidth(25);
-        border.setArcHeight(25);
-        return border;
     }
 
     private MenuRoot inflateMenu(MenuType menuType) {
