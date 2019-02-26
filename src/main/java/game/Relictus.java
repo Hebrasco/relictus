@@ -1,18 +1,34 @@
 package game;
 
 import com.almasb.fxgl.app.ApplicationMode;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.input.Input;
+import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
+import com.almasb.fxgl.time.LocalTimer;
 import com.almasb.fxgl.util.Credits;
-import com.sun.tools.javac.util.List;
+import factories.RelictusEntityFactory;
+import factories.RelictusSceneFactory;
+import factories.RelictusType;
+import javafx.scene.input.KeyCode;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.util.Map;
 
 /**
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Kevin Ortmeier
  */
 public class Relictus extends GameApplication {
+	private Entity player;
+	PlayerControl playerComponent;
+	private PhysicsComponent physics;
+
+	private LocalTimer timer;
 
 	@Override
 	protected void initSettings(GameSettings settings) {
@@ -28,7 +44,7 @@ public class Relictus extends GameApplication {
 		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
 		String title = "R E L I C T U S"; // Replace with above
 		String version = "0.1"; // Replace with above
-
+        /*
 		Credits credits = new Credits(
 				List.of(
 						"Relictus created by Kamelrad",
@@ -39,9 +55,7 @@ public class Relictus extends GameApplication {
 						"Daniel Bedrich"
 				)
 		);
-
-
-
+		*/
 		settings.setWidth(windowWidth);
 		settings.setHeight(windowHeight);
 		settings.setTitle(title);
@@ -50,39 +64,61 @@ public class Relictus extends GameApplication {
 		settings.setIntroEnabled(false);
 		settings.setFullScreenAllowed(false);
 		settings.setManualResizeEnabled(false);
-		//settings.setSceneFactory(new RelictusSceneFactory()); // TODO: Fix custom main menu
-		settings.setCSS(cssFileName);
-		settings.setCredits(credits);
+		//settings.setSceneFactory(new RelictusSceneFactory());
+		//settings.setCSS(cssFileName);
+		//settings.setCredits(credits);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
 		settings.setSoundMenuPress(soundMenuPressFileName);
 		settings.setSoundMenuSelect(soundMenuSelectFileName);
 		settings.setAppIcon(appIcon);
 		settings.setStageStyle(StageStyle.UNDECORATED);
 	}
-	
-	@Override
-	protected void initInput() {
-		super.initInput();
-	}
-
-	@Override
-	protected void initGameVars(Map<String, Object> vars) {
-		super.initGameVars(vars);
-	}
 
 	@Override
 	protected void initGame() {
-		super.initGame();
+		getGameWorld().addEntityFactory(new RelictusEntityFactory());
+		getGameWorld().setLevelFromMap("relictusTileMap.json");
+
+		//getAudioPlayer().playSound("start.mp3");
+		player = getGameWorld().spawn("player", 50, 50);
+
+			getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
+			getGameScene().getViewport().bindToEntity(player, getWidth() / 2 , getHeight() / 2);
 	}
 
 	@Override
-	protected void initUI() {
-		super.initUI();
+	protected void initPhysics() {
+		getPhysicsWorld().addCollisionHandler(new CollisionHandler(RelictusType.PLAYER, RelictusType.POWERUP) {
+			@Override
+			protected void onCollision(Entity player, Entity powerup) {
+				powerup.removeFromWorld();
+				getAudioPlayer().playSound("powerup.mp3");
+			}
+		});
 	}
 
 	@Override
-	protected void onUpdate(double tpf) {
-		super.onUpdate(tpf);
+	public void initInput() {
+	getInput().addAction(new UserAction("Move Right") {
+		@Override
+		protected void onAction() {
+			player.getComponent(PlayerControl.class).moveRight();
+		}
+	}, KeyCode.D);
+
+		getInput().addAction(new UserAction("Move Left") {
+			@Override
+			protected void onAction() {
+				player.getComponent(PlayerControl.class).moveLeft();
+			}
+		}, KeyCode.A);
+
+		getInput().addAction(new UserAction("jump") {
+			@Override
+			protected void onAction() {
+				player.getComponent(PlayerControl.class).jump();
+			}
+		}, KeyCode.W);
 	}
 
 	public static void main(String[] args) {
