@@ -171,7 +171,7 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuButton createMenuItemMultiplayer() {
         final MenuButton multiplayerMenuButton = new MenuButton("menu.multiplayer");
-        multiplayerMenuButton.setOnAction(event -> multiplayerMenuButton.setChild(createMultiplayerMenu(), this));
+        multiplayerMenuButton.setChild(createMultiplayerMenu(), this);
         return multiplayerMenuButton;
     }
 
