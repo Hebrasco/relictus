@@ -21,7 +21,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -29,13 +28,11 @@ import utils.CustomCursor;
 import utils.Particles;
 import utils.PropertiesLoader;
 
-import java.io.File;
-
 /**
  * @author Daniel Bedrich
  */
 public class RelictusMenu extends FXGLMenu {
-    private ParticleSystem particleSystem = new ParticleSystem();
+    private final ParticleSystem particleSystem = new ParticleSystem();
 
     public RelictusMenu(GameApplication app, MenuType type) {
         super(app, type);
@@ -203,15 +200,15 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private MenuButton createMenuItemMultiplayerConnect() {
-        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.connect");
-        //feedbackMenuButton.setMenuContent(this::createMultiplayerConnect, this);
-        return feedbackMenuButton;
+        final MenuButton mpConnectMenuButton = new MenuButton("multiplayer.connect");
+        mpConnectMenuButton.setMenuContent(this::createMultiplayerConnect, this);
+        return mpConnectMenuButton;
     }
 
     private MenuButton createMenuItemMultiplayerHost() {
-        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.host");
-        //feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
-        return feedbackMenuButton;
+        final MenuButton mpHostMenuButton = new MenuButton("multiplayer.host");
+        mpHostMenuButton.setMenuContent(this::createMultiplayerHost, this);
+        return mpHostMenuButton;
     }
 
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
@@ -253,7 +250,7 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private String[] getCreditsEntries() {
-        return new String[] {
+        return new String[]{
                 "credits.relictusCreatedBy",
                 "credits.kevinOrtmeier",
                 "credits.markusKremer",

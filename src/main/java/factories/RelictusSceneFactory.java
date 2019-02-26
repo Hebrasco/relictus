@@ -5,7 +5,6 @@ import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.scene.LoadingScene;
 import com.almasb.fxgl.scene.SceneFactory;
 import com.almasb.fxgl.scene.menu.MenuType;
-import javafx.scene.paint.Color;
 import menu.LoadingScreen;
 import menu.RelictusMenu;
 import org.jetbrains.annotations.NotNull;

@@ -56,7 +56,7 @@ class MenuButton extends Pane {
     }
 
     private void addText(String key) {
-        StringBinding bindings = Bindings.createStringBinding(() -> PropertiesLoader.getResourceProperties(key));
+        final StringBinding bindings = Bindings.createStringBinding(() -> PropertiesLoader.getResourceProperties(key));
         button.textProperty().bind(bindings);
     }
 

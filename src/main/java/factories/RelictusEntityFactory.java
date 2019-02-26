@@ -7,10 +7,6 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import game.PlayerControl;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 /**
  * @author Kevin Ortmeier
@@ -28,17 +24,17 @@ public class RelictusEntityFactory implements EntityFactory {
 
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
-        PhysicsComponent physics= new PhysicsComponent();
+        PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
 
         return Entities.builder()
                 .type(RelictusType.PLAYER)
                 .from(data)
                 //.viewFromAnimatedTexture("character.png", 3, Duration.seconds(0.5))
-                .bbox(new HitBox(BoundingShape.box(32,42)))
+                .bbox(new HitBox(BoundingShape.box(32, 42)))
                 //.viewFromNodeWithBBox(new Rectangle(30, 30, Color.BLUE))
                 .with(physics)
-                .with(new CollidableComponent(true ))
+                .with(new CollidableComponent(true))
                 .with(new PlayerControl())
                 .build();
     }
