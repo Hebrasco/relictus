@@ -75,8 +75,10 @@ public class Relictus extends GameApplication {
 		//getAudioPlayer().playSound("start.mp3");
 		player = getGameWorld().spawn("player", 50, 50);
 
-			getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
-			getGameScene().getViewport().bindToEntity(player, getWidth() / 2 , getHeight() / 2);
+		getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
+		getGameScene().getViewport().bindToEntity(player, getWidth() / 2.0 , getHeight() / 2.0);
+
+		getGameWorld().spawn("enemy", 400, 50);
 	}
 	
 	protected void initPhysics() {

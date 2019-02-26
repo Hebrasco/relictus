@@ -53,4 +53,17 @@ public class RelictusEntityFactory implements EntityFactory {
                 .with(new CollidableComponent(true))
                 .build();
     }
+
+    @Spawns("enemy")
+    public Entity newEnemy(SpawnData data) {
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.DYNAMIC);
+
+        return Entities.builder()
+                .type(RelictusType.ENEMY)
+                .from(data)
+                .viewFromNodeWithBBox(new Rectangle(30, 30, Color.RED))
+                .with(physics)
+                .build();
+    }
 }
