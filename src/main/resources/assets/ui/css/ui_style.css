@@ -54,9 +54,12 @@
     -fx-text-fill: rgba(255, 215, 25, 0.8);
 }
 
+/* Disable for disabling key controls in menu */
+/*
 .fxgl_button:focused {
     -fx-text-fill: rgba(255, 215, 25, 0.8);
 }
+*/
 
 .fxgl_button:disabled, .fxgl_button:default:disabled {
     -fx-opacity: 0.4;

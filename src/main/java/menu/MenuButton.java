@@ -55,17 +55,7 @@ class MenuButton extends Pane {
     }
 
     private void overrideKeyPressedEvents() {
-        String soundMenuPressFilePath = FXGL.getSettings().getSoundMenuPress();
-        String soundMenuMoveFilePath = FXGL.getSettings().getSoundMenuSelect();
-
-        button.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                FXGL.getAudioPlayer().playSound(soundMenuPressFilePath);
-                button.fire();
-            } else {
-                FXGL.getAudioPlayer().playSound(soundMenuMoveFilePath);
-            }
-        });
+        button.setOnKeyPressed(e -> {/*DO NOTHING*/});
     }
 
     private void addText(String key) {

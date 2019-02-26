@@ -107,8 +107,8 @@ public class RelictusMenu extends FXGLMenu {
         final StackPane titleRoot = new StackPane();
         titleRoot.getChildren().add(box);
 
-        titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30) / 2);
-        titleRoot.setTranslateY(50);
+        titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30.0) / 2.0);
+        titleRoot.setTranslateY(50.0);
         return titleRoot;
     }
 
@@ -138,7 +138,7 @@ public class RelictusMenu extends FXGLMenu {
 
     private Text createProfileTextView(String profileName) {
         final Text profileText = FXGL.getUIFactory().newText(profileName);
-        profileText.setTranslateY(FXGL.getAppHeight() - 2);
+        profileText.setTranslateY(FXGL.getAppHeight() - 2.0);
         profileText.setTranslateX(FXGL.getAppWidth() - profileText.getLayoutBounds().getWidth());
         return profileText;
     }
