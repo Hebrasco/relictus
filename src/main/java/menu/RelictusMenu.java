@@ -106,21 +106,8 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     @Override
-    protected void switchMenuTo(Node menu) {
-        Node oldMenu = menuRoot.getChildren().get(0);
-
-        FadeTransition ft = new FadeTransition(Duration.seconds(0.33), oldMenu);
-        ft.setToValue(0);
-        ft.setOnFinished(e -> {
-            menu.setOpacity(0);
-            menuRoot.getChildren().set(0, menu);
-            oldMenu.setOpacity(1);
-
-            FadeTransition ft2 = new FadeTransition(Duration.seconds(0.33), menu);
-            ft2.setToValue(1);
-            ft2.play();
-        });
-        ft.play();
+    protected void switchMenuTo(Node menuRoot) {
+        playTransition(menuRoot);
     }
 
     @Override
@@ -237,6 +224,23 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuItem createCredits() {
         return new MenuItem(new Pane());
+    }
+
+    private void playTransition(Node menu) {
+        Node oldMenu = menuRoot.getChildren().get(0);
+
+        FadeTransition fadeTransitionOldMenu = new FadeTransition(Duration.seconds(0.33), oldMenu);
+        fadeTransitionOldMenu.setToValue(0);
+        fadeTransitionOldMenu.setOnFinished(e -> {
+            menu.setOpacity(0);
+            menuRoot.getChildren().set(0, menu);
+            oldMenu.setOpacity(1);
+
+            FadeTransition fadeTransitionMenuBox = new FadeTransition(Duration.seconds(0.33), menu);
+            fadeTransitionMenuBox.setToValue(1.0);
+            fadeTransitionMenuBox.play();
+        });
+        fadeTransitionOldMenu.play();
     }
 
     private void setCustomCursor() {
