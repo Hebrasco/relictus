@@ -12,8 +12,11 @@ import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.time.LocalTimer;
 import com.almasb.fxgl.util.Credits;
 import com.sun.tools.javac.util.List;
+import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
+import factories.RelictusType;
 import javafx.geometry.Point2D;
+import javafx.scene.input.KeyCode;
 import javafx.stage.StageStyle;
 import utils.CustomCursor;
 import utils.UIPreferences;
@@ -84,6 +87,7 @@ public class Relictus extends GameApplication {
 				getAudioPlayer().playSound("powerup.mp3");
 			}
 		});
+	}
 
 	@Override
 	public void initInput() {
