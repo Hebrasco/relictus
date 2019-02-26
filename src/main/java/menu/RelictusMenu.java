@@ -89,30 +89,10 @@ public class RelictusMenu extends FXGLMenu {
     @Override
     protected Node createTitleView(String title) {
         final SimpleObjectProperty<Color> titleColor = new SimpleObjectProperty<>(Color.WHITE);
+        final Text titleText = createTitle(title, titleColor);
+        final HBox titleLayout = createTitleLayout(titleText);
 
-        Text titleText = FXGL.getUIFactory().newText(title, 55.0);
-        titleText.setFill(null);
-        titleText.strokeProperty().bind(titleColor);
-        titleText.setStrokeWidth(1.5);
-
-        double textWidth = titleText.getLayoutBounds().getWidth();
-
-        Rectangle bg = new Rectangle(textWidth + 30, 65, null);
-        bg.setStroke(Color.WHITE);
-        bg.setStrokeWidth(4);
-        bg.setArcWidth(25);
-        bg.setArcHeight(25);
-
-        HBox box = new HBox(titleText);
-        box.setAlignment(Pos.CENTER);
-
-        StackPane titleRoot = new StackPane();
-        titleRoot.getChildren().addAll(bg, box);
-
-        titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30) / 2);
-        titleRoot.setTranslateY(50);
-
-        return titleRoot;
+        return getFormattedTitle(titleText, titleLayout);
     }
 
     @Override
@@ -165,6 +145,40 @@ public class RelictusMenu extends FXGLMenu {
         backgroundImage.setFitWidth(width);
         backgroundImage.setFitHeight(height);
         return backgroundImage;
+    }
+
+    private StackPane getFormattedTitle(Text titleText, HBox box) {
+        double textWidth = titleText.getLayoutBounds().getWidth();
+
+        StackPane titleRoot = new StackPane();
+        titleRoot.getChildren().addAll(createTitleBorder(textWidth), box);
+
+        titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30) / 2);
+        titleRoot.setTranslateY(50);
+        return titleRoot;
+    }
+
+    private HBox createTitleLayout(Text titleText) {
+        HBox box = new HBox(titleText);
+        box.setAlignment(Pos.CENTER);
+        return box;
+    }
+
+    private Text createTitle(String title, SimpleObjectProperty<Color> color) {
+        Text titleText = FXGL.getUIFactory().newText(title, 55.0);
+        titleText.setFill(null);
+        titleText.strokeProperty().bind(color);
+        titleText.setStrokeWidth(1.5);
+        return titleText;
+    }
+
+    private Rectangle createTitleBorder(double textWidth) {
+        Rectangle border = new Rectangle(textWidth + 30, 65, null);
+        border.setStroke(Color.WHITE);
+        border.setStrokeWidth(4);
+        border.setArcWidth(25);
+        border.setArcHeight(25);
+        return border;
     }
 
     private MenuRoot createMenuBodyMainMenu() {
