@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import utils.AudioPlayer;
 import utils.PropertiesLoader;
 
 import java.util.function.Supplier;
@@ -61,10 +60,10 @@ class MenuButton extends Pane {
 
         button.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                AudioPlayer.play(soundMenuPressFilePath);
+                FXGL.getAudioPlayer().playSound(soundMenuPressFilePath);
                 button.fire();
             } else {
-                AudioPlayer.play(soundMenuMoveFilePath);
+                FXGL.getAudioPlayer().playSound(soundMenuMoveFilePath);
             }
         });
     }
