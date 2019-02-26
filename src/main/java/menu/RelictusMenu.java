@@ -97,9 +97,7 @@ public class RelictusMenu extends FXGLMenu {
 
     @Override
     protected Node createVersionView(String version) {
-        Text view = FXGL.getUIFactory().newText(version);
-        view.setTranslateY(FXGL.getAppHeight() - 2);
-        return view;
+        return createVersionTextView(version);
     }
 
     @Override
@@ -139,18 +137,18 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private Texture createBackgroundTexture(double width, double height) {
-        String imagePath = "menu/";
-        String imageName = "menu_background.gif";
-        Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + imageName);
+        final String imagePath = "menu/";
+        final String imageName = "menu_background.gif";
+        final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + imageName);
         backgroundImage.setFitWidth(width);
         backgroundImage.setFitHeight(height);
         return backgroundImage;
     }
 
     private StackPane getFormattedTitle(Text titleText, HBox box) {
-        double textWidth = titleText.getLayoutBounds().getWidth();
+        final double textWidth = titleText.getLayoutBounds().getWidth();
 
-        StackPane titleRoot = new StackPane();
+        final StackPane titleRoot = new StackPane();
         titleRoot.getChildren().addAll(createTitleBorder(textWidth), box);
 
         titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30) / 2);
@@ -159,21 +157,27 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private HBox createTitleLayout(Text titleText) {
-        HBox box = new HBox(titleText);
+        final HBox box = new HBox(titleText);
         box.setAlignment(Pos.CENTER);
         return box;
     }
 
     private Text createTitle(String title, SimpleObjectProperty<Color> color) {
-        Text titleText = FXGL.getUIFactory().newText(title, 55.0);
+        final Text titleText = FXGL.getUIFactory().newText(title, 55.0);
         titleText.setFill(null);
         titleText.strokeProperty().bind(color);
         titleText.setStrokeWidth(1.5);
         return titleText;
     }
 
+    private Text createVersionTextView(String version) {
+        final Text versionText = FXGL.getUIFactory().newText(version);
+        versionText.setTranslateY(FXGL.getAppHeight() - 2.0);
+        return versionText;
+    }
+
     private Rectangle createTitleBorder(double textWidth) {
-        Rectangle border = new Rectangle(textWidth + 30, 65, null);
+        final Rectangle border = new Rectangle(textWidth + 30, 65, null);
         border.setStroke(Color.WHITE);
         border.setStrokeWidth(4);
         border.setArcWidth(25);
@@ -182,25 +186,25 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private MenuRoot createMenuBodyMainMenu() {
-        MenuRoot box = new MenuRoot();
+        final MenuRoot box = new MenuRoot();
 
-        MenuButton itemNewGame = new MenuButton("menu.newGame");
+        final MenuButton itemNewGame = new MenuButton("menu.newGame");
         itemNewGame.setOnAction(e -> fireNewGame());
         box.add(itemNewGame);
 
-        MenuButton itemMultiplayer = new MenuButton("menu.online");
+        final MenuButton itemMultiplayer = new MenuButton("menu.online");
         itemMultiplayer.setOnAction(e -> fireMultiplayer());
         box.add(itemMultiplayer);
 
-        MenuButton itemCredits = new MenuButton("menu.credits");
+        final MenuButton itemCredits = new MenuButton("menu.credits");
         itemCredits.setMenuContent(this::createCredits, this);
         box.add(itemCredits);
 
-        MenuButton itemLogout = new MenuButton("menu.logout");
+        final MenuButton itemLogout = new MenuButton("menu.logout");
         itemLogout.setOnAction(e -> fireLogout());
         box.add(itemLogout);
 
-        MenuButton itemExit = new MenuButton("menu.exit");
+        final MenuButton itemExit = new MenuButton("menu.exit");
         itemExit.setOnAction(e -> fireExit());
         box.add(itemExit);
 
@@ -208,13 +212,13 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private MenuRoot createMenuBodyGameMenu() {
-        MenuRoot box = new MenuRoot();
+        final MenuRoot box = new MenuRoot();
 
-        MenuButton itemResume = new MenuButton("menu.resume");
+        final MenuButton itemResume = new MenuButton("menu.resume");
         itemResume.setOnAction(e -> fireResume());
         box.add(itemResume);
 
-        MenuButton itemExit = new MenuButton("menu.mainMenu");
+        final MenuButton itemExit = new MenuButton("menu.mainMenu");
         itemExit.setOnAction(e -> fireExitToMainMenu());
         box.add(itemExit);
 
