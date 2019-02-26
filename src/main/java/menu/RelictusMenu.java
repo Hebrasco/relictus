@@ -1,14 +1,17 @@
 package menu;
 
-import com.almasb.fxgl.app.FXGLMenu;
-import com.almasb.fxgl.app.MenuItem;
-import com.almasb.fxgl.core.local.Local;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.scene.MenuType;
+import com.almasb.fxgl.app.FXGL;
+import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.particle.ParticleEmitter;
+import com.almasb.fxgl.particle.ParticleSystem;
+import com.almasb.fxgl.scene.FXGLMenu;
+import com.almasb.fxgl.scene.menu.MenuType;
+import com.almasb.fxgl.texture.Texture;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -20,17 +23,23 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import java.util.EnumSet;
+import utils.Particles;
 
 /**
  * @author Daniel Bedrich
  */
 public class RelictusMenu extends FXGLMenu {
-    private VBox emptyVBox = new MenuContent();
+    //private final ArrayList<Animation> animations = new ArrayList<>();
+    private final ParticleSystem particleSystem = new ParticleSystem();
+    private VBox emptyVBox;
+    //private double t = 0.0;
 
-    public RelictusMenu(@NotNull MenuType type) {
-        super(type);
-        inflateMenu(type);
+    public RelictusMenu(GameApplication app, MenuType type, VBox emptyVBox) {
+        super(app, type);
+        this.emptyVBox = emptyVBox;
+        createMenu(type);
+
+        setCursor("cursor.png", new Point2D(0, 0));
     }
 
     @NotNull
@@ -48,7 +57,7 @@ public class RelictusMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        return new Rectangle(width, height, Color.BLACK);
+        return createBackgroundTexture(width, height);
     }
 
     @NotNull
@@ -80,7 +89,12 @@ public class RelictusMenu extends FXGLMenu {
 
     @Override
     protected void switchMenuContentTo(@NotNull Node content) {
-        getMenuContentRoot().getChildren().set(0, content);
+        getContentRoot().getChildren().set(0, content);
+    }
+
+    @Override
+    public void onUpdate(double tpf) {
+        particleSystem.onUpdate(tpf);
     }
 
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
@@ -107,7 +121,7 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private Text createTitle(String title, SimpleObjectProperty<Color> titleColor) {
-        Text titleText = FXGL.getUIFactory().newText(title, 50.0);
+        Text titleText = FXGL.getUIFactory().newText(title, 55.0);
         titleText.setFill(null);
         titleText.strokeProperty().bind(titleColor);
         titleText.setStrokeWidth(1.5);
@@ -123,6 +137,7 @@ public class RelictusMenu extends FXGLMenu {
         return titleBorder;
     }
 
+    // TODO: Profile anlegen können (Profil Name == Online Spieler Name)
     private Text createProfileTextView(String profileName) {
         final Text view = FXGL.getUIFactory().newText(profileName);
         view.setTranslateY((FXGL.getAppHeight() - 2.0));
@@ -136,13 +151,20 @@ public class RelictusMenu extends FXGLMenu {
         return view;
     }
 
+    private Texture createBackgroundTexture(double width, double height) {
+        Texture backgroundImage = FXGL.getAssetLoader().loadTexture("menu/launcher_background.gif");
+        backgroundImage.setFitWidth(width);
+        backgroundImage.setFitHeight(height);
+        return backgroundImage;
+    }
+
     private void playTransition(Node menuBox) {
-        final Node oldMenu = getMenuRoot().getChildren().get(0);
+        final Node oldMenu = getRoot().getChildren().get(0);
         final FadeTransition fadeTransitionOldMenu = new FadeTransition(Duration.seconds(0.33), oldMenu);
         fadeTransitionOldMenu.setToValue(0.0);
         fadeTransitionOldMenu.setOnFinished(event -> {
             menuBox.setOpacity(0.0);
-            getMenuRoot().getChildren().set(0, menuBox);
+            getRoot().getChildren().set(0, menuBox);
             oldMenu.setOpacity(1.0);
 
             final FadeTransition fadeTransitionMenuBox = new FadeTransition(Duration.seconds(0.33), menuBox);
@@ -152,26 +174,28 @@ public class RelictusMenu extends FXGLMenu {
         fadeTransitionOldMenu.play();
     }
 
-    private void inflateMenu(MenuType menuType) {
-        final MenuBox menu;
+    private void createMenu(MenuType menuType) {
+        final MenuBox menu = inflateMenu(menuType);
 
-        if (menuType == MenuType.MAIN_MENU)
-            menu = createMainMenu();
-        else {
-            menu = createInGameMenu();
-        }
+        final double menuPosX = 50.0;
+        final double menuPosY = FXGL.getAppHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
 
-        final double menuX = 50.0;
-        final double menuY = FXGL.getAppHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
+        getRoot().setTranslateX(menuPosX);
+        getRoot().setTranslateY(menuPosY);
 
-        getMenuRoot().setTranslateX(menuX);
-        getMenuRoot().setTranslateY(menuY);
+        // TODO: setTranslateX nicht statisch, sondern dynamisch darstellen
+        // FXGL.getAppWidth() / 2.0 - menu.getLayoutBounds().getWidth() - menuPosX
+        // Problem: Menü breite ist immer 0.0
+        // Credits breite ist FXGL.getAppWidth() * 3 / 5
+        getContentRoot().setTranslateX(256);
+        getContentRoot().setTranslateY(menuPosY);
 
-        getMenuContentRoot().setTranslateX((FXGL.getAppWidth() - 500));
-        getMenuContentRoot().setTranslateY(menuY);
+        ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
+        particleSystem.addParticleEmitter(dustParticleEmitter, 0.0, -FXGL.getAppHeight());
+        getContentRoot().getChildren().add(3, particleSystem.getPane());
 
-        getMenuRoot().getChildren().addAll(menu);
-        getMenuContentRoot().getChildren().add(emptyVBox);
+        getRoot().getChildren().addAll(menu);
+        getContentRoot().getChildren().add(emptyVBox);
 
         activeProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -181,184 +205,79 @@ public class RelictusMenu extends FXGLMenu {
         });
     }
 
-    private MenuBox createMainMenu() {
+    private MenuBox inflateMenu(MenuType menuType) {
         final MenuBox box = new MenuBox();
-        final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
 
-        box.add(createMenuItemNewGame());
-        box.add(createMenuItemOnline());
-        box.add(createMenuItemOptions());
-
-        if (enabledItems.contains(MenuItem.EXTRA)) {
-            box.add(createGameMenuItemExtra());
+        if (isMainMenu(menuType)) {
+            box.add(createMenuItemSingleplayer());
+            box.add(createMenuItemMultiplayer());
+            // TODO: Profile menü hinzufügen (im Profile menü wird der Spielername festgelegt)
+            box.add(createMenuItemCredits());
+            box.add(createMenuItemExit());
+        } else {
+            box.add(createMenuItemResume());
+            box.add(createMenuItemExitMainMenu());
         }
-
-        box.add(createMenuItemExit());
 
         return box;
     }
 
-    private MenuBox createInGameMenu() {
-        final MenuBox box = new MenuBox();
-        final EnumSet<MenuItem> enabledItems = FXGL.getSettings().getEnabledMenuItems();
-
-        box.add(createGameMenuItemResume());
-        box.add(createGameMenuItemOptions());
-
-        if (enabledItems.contains(MenuItem.EXTRA)) {
-            box.add(createGameMenuItemExtra());
-        }
-
-        box.add(createGameMenuItemExit());
-
-        return box;
+    private boolean isMainMenu(MenuType menuType) {
+        return menuType == MenuType.MAIN_MENU;
     }
 
-    private MenuBox createOnlineMenu() {
+    private MenuBox createMultiplayerMenu() {
         return new MenuBox(
-                createMenuItemOnlineMenuConnect(),
-                createMenuItemOnlineMenuHost(),
-                createMenuItemOnlineMenuOptions()
+                createMenuItemMultiplayerConnect(),
+                createMenuItemMultiplayerHost()
         );
     }
 
-    private MenuBox createOptionsMenu() {
-        return new MenuBox(
-                createMenuItemOptionsMenuGameplay(),
-                createMenuItemOptionsMenuControls(),
-                createMenuItemOptionsMenuVideo(),
-                createMenuItemOptionsMenuAudio(),
-                createMenuItemOptionsMenuRestore()
-        );
+    private MenuButton createMenuItemSingleplayer() {
+        final MenuButton singleplayerMenuButton = new MenuButton("menu.singleplayer");
+        singleplayerMenuButton.setOnAction(event -> fireNewGame());
+        return singleplayerMenuButton;
     }
 
-    private MenuBox createExtraMenu() {
-        return new MenuBox(
-                createMenuItemExtraMenuTrophies(),
-                createMenuItemExtraMenuCredits(),
-                createMenuItemExtraMenuFeedback()
-        );
-    }
-
-    private MenuButton createMenuItemNewGame() {
-        final MenuButton newGameMenuButton = new MenuButton("menu.newGame");
-        newGameMenuButton.setOnAction(event -> fireNewGame());
-        return newGameMenuButton;
-    }
-
-    private MenuButton createMenuItemOnline() {
-        final MenuButton onlineMenuButton = new MenuButton("menu.online");
-        onlineMenuButton.setOnAction(event -> onlineMenuButton.setChild(createOnlineMenu(), this));
-        return onlineMenuButton;
-    }
-
-    private MenuButton createMenuItemOptions() {
-        final MenuButton optionsMenuButton = new MenuButton("menu.options");
-        optionsMenuButton.setOnAction(event -> optionsMenuButton.setChild(createOptionsMenu(), this));
-        return optionsMenuButton;
+    private MenuButton createMenuItemMultiplayer() {
+        final MenuButton multiplayerMenuButton = new MenuButton("menu.multiplayer");
+        multiplayerMenuButton.setOnAction(event -> multiplayerMenuButton.setChild(createMultiplayerMenu(), this));
+        return multiplayerMenuButton;
     }
 
     private MenuButton createMenuItemExit() {
-        final MenuButton exitMenuButton = new MenuButton("menu.exit");
+        final MenuButton exitMenuButton = new MenuButton("menu.quit");
         exitMenuButton.setOnAction(event -> fireExit());
         return exitMenuButton;
     }
 
-    private MenuButton createGameMenuItemResume() {
+    private MenuButton createMenuItemResume() {
         final MenuButton resumeMenuButton = new MenuButton("menu.resume");
         resumeMenuButton.setOnAction(event -> fireResume());
         return resumeMenuButton;
     }
 
-    private MenuButton createGameMenuItemOptions() {
-        final MenuButton optionsMenuButton = new MenuButton("menu.options");
-        optionsMenuButton.setChild(createOptionsMenu(), this);
-        return optionsMenuButton;
-    }
-
-    private MenuButton createGameMenuItemExtra() {
-        final MenuButton extraMenuButton = new MenuButton("menu.extra");
-        extraMenuButton.setChild(createExtraMenu(), this);
-        return extraMenuButton;
-    }
-
-    private MenuButton createGameMenuItemExit() {
-        final MenuButton exitMainMenuButton = new MenuButton("menu.mainMenu");
-        exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
-        return exitMainMenuButton;
-    }
-
-    private MenuButton createMenuItemOptionsMenuGameplay() {
-        final MenuButton gameplayMenuButton = new MenuButton("menu.gameplay");
-        gameplayMenuButton.setMenuContent(this::createContentGameplay, this);
-        return gameplayMenuButton;
-    }
-
-    private MenuButton createMenuItemOptionsMenuControls() {
-        final MenuButton controlsMenuButton = new MenuButton("menu.controls");
-        controlsMenuButton.setMenuContent(this::createContentControls, this);
-        return controlsMenuButton;
-    }
-
-    // TODO: Sprache dropdown Menü aus video Einstellungen entfernen (eigene implementation von "createContentVideo()" erstellen)
-    private MenuButton createMenuItemOptionsMenuVideo() {
-        final MenuButton videoMenuButton = new MenuButton("menu.video");
-        videoMenuButton.setMenuContent(this::createContentVideo, this);
-        return videoMenuButton;
-    }
-
-    private MenuButton createMenuItemOptionsMenuAudio() {
-        final MenuButton audioMenuButton = new MenuButton("menu.audio");
-        audioMenuButton.setMenuContent(this::createContentAudio, this);
-        return audioMenuButton;
-    }
-
-    private MenuButton createMenuItemOptionsMenuRestore() {
-        final MenuButton restoreMenuButton = new MenuButton("menu.restore");
-        restoreMenuButton.setOnAction(event -> FXGL.getDisplay().showConfirmationBox(Local.getLocalizedString("menu.settingsRestore"), arg -> {
-            if (arg) {
-                switchMenuContentTo(emptyVBox);
-            }
-        }));
-        return restoreMenuButton;
-    }
-
-    // TODO: Trophäen Menü entfernen
-    private MenuButton createMenuItemExtraMenuTrophies() {
-        final MenuButton trophiesMenuButton = new MenuButton("menu.trophies");
-        trophiesMenuButton.setMenuContent(this::createContentAchievements, this);
-        return trophiesMenuButton;
-    }
-
-    private MenuButton createMenuItemExtraMenuCredits() {
+    private MenuButton createMenuItemCredits() {
         final MenuButton creditsMenuButton = new MenuButton("menu.credits");
         creditsMenuButton.setMenuContent(this::createContentCredits, this);
         return creditsMenuButton;
     }
 
-    // TODO: Feedback menü entfernen
-    private MenuButton createMenuItemExtraMenuFeedback() {
-        final MenuButton feedbackMenuButton = new MenuButton("menu.feedback");
-        feedbackMenuButton.setMenuContent(this::createContentFeedback, this);
-        return feedbackMenuButton;
+    private MenuButton createMenuItemExitMainMenu() {
+        final MenuButton exitMainMenuButton = new MenuButton("menu.mainMenu");
+        exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
+        return exitMainMenuButton;
     }
 
-    // TODO: Multiplayer menu - btn.setChild(create....)
-    private MenuButton createMenuItemOnlineMenuConnect() {
+    private MenuButton createMenuItemMultiplayerConnect() {
         final MenuButton feedbackMenuButton = new MenuButton("multiplayer.connect");
         feedbackMenuButton.setMenuContent(this::createMultiplayerConnect, this);
         return feedbackMenuButton;
     }
 
-    private MenuButton createMenuItemOnlineMenuHost() {
+    private MenuButton createMenuItemMultiplayerHost() {
         final MenuButton feedbackMenuButton = new MenuButton("multiplayer.host");
         feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
-        return feedbackMenuButton;
-    }
-
-    private MenuButton createMenuItemOnlineMenuOptions() {
-        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.options");
-        feedbackMenuButton.setMenuContent(this::createMultiplayerOptions, this);
         return feedbackMenuButton;
     }
 

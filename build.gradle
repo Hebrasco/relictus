@@ -1,11 +1,10 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
 version '0.1.0'
-sourceCompatibility = 11
+sourceCompatibility = 1.8
 mainClassName = 'src.main.java.Main'
 
 repositories {
@@ -13,11 +12,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.almasb:fxgl:11.0-alpha'
+    implementation 'com.github.almasb:fxgl:0.5.4'
     implementation group: 'org.json', name: 'json', version: '20180813'
-}
-
-javafx {
-    version = "11.0.2"
-    modules = [ 'javafx.controls',  'javafx.fxml' ]
 }
