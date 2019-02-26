@@ -1,6 +1,7 @@
 package menu;
 
 import com.almasb.fxgl.app.FXGL;
+import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.ui.FXGLButton;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -9,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import utils.AudioPlayer;
 import utils.PropertiesLoader;
 
@@ -20,7 +22,7 @@ import java.util.function.Supplier;
 class MenuButton extends Pane {
     final FXGLButton button = new FXGLButton();
     private MenuRoot parent = null;
-    private MenuItem cachedContent = new MenuItem();
+    //private MenuItem cachedContent = null;
 
     MenuButton(String key) {
 
@@ -44,13 +46,16 @@ class MenuButton extends Pane {
         parent = root;
     }
 
-    void setMenuContent(Supplier<MenuItem> contentSupplier, RelictusMenu relictusMenu) {
+    void setMenuContent(Supplier<VBox> contentSupplier, RelictusMenu relictusMenu) {
         button.addEventHandler(ActionEvent.ACTION, event -> {
+            /*
             if (cachedContent == null) {
                 cachedContent = contentSupplier.get();
             }
 
             relictusMenu.switchMenuContentTo(cachedContent);
+            */
+            relictusMenu.switchMenuContentTo(contentSupplier.get());
         });
     }
 

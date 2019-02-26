@@ -8,6 +8,7 @@ import com.almasb.fxgl.particle.ParticleSystem;
 import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.scene.menu.MenuType;
 import com.almasb.fxgl.texture.Texture;
+import com.almasb.fxgl.ui.FXGLScrollPane;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
@@ -17,58 +18,37 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utils.CustomCursor;
 import utils.Particles;
+import utils.PropertiesLoader;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.almasb.fxgl.app.FXGL.getSettings;
+import static com.almasb.fxgl.app.FXGL.getUIFactory;
 
 /**
  * @author Daniel Bedrich
  */
 public class RelictusMenu extends FXGLMenu {
     //TODO: Fix game startup loop (Verursacht durch Partikelsystem)
-    //private ParticleSystem particleSystem = new ParticleSystem();
+    private ParticleSystem particleSystem = new ParticleSystem();
 
     public RelictusMenu(GameApplication app, MenuType type) {
         super(app, type);
-        //createMenu(type);
+        createMenu(type);
         setCustomCursor();
-
-        MenuRoot menu;
-        if (type == MenuType.MAIN_MENU) {
-                menu = createMenuBodyMainMenu();
-        } else {
-                menu = createMenuBodyGameMenu();
-        }
-
-        double menuX = 50;
-        double menuY = app.getHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
-
-        menuRoot.setTranslateX(menuX);
-        menuRoot.setTranslateY(menuY);
-
-        contentRoot.setTranslateX(app.getWidth() - 500);
-        contentRoot.setTranslateY(menuY);
-
-        //ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
-        //particleSystem.addParticleEmitter(dustParticleEmitter, 0, app.getHeight());
-        //contentRoot.getChildren().add(3, particleSystem.getPane());
-
-        menuRoot.getChildren().addAll(menu);
-        contentRoot.getChildren().add(EMPTY);
-
-        activeProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                switchMenuTo(menu);
-                switchMenuContentTo(EMPTY);
-            }
-        });
     }
 
     @Override
@@ -117,7 +97,7 @@ public class RelictusMenu extends FXGLMenu {
 
     @Override
     public void onUpdate(double tpf) {
-        //particleSystem.onUpdate(tpf);
+        particleSystem.onUpdate(tpf);
     }
 
     private Texture createBackgroundTexture(double width, double height) {
@@ -176,44 +156,75 @@ public class RelictusMenu extends FXGLMenu {
         return border;
     }
 
-    private MenuRoot createMenuBodyMainMenu() {
-        final MenuRoot box = new MenuRoot();
+    private MenuRoot inflateMenu(MenuType menuType) {
+        final MenuRoot menu = new MenuRoot();
 
-        final MenuButton itemNewGame = new MenuButton("menu.newGame");
-        itemNewGame.setOnAction(e -> fireNewGame());
-        box.add(itemNewGame);
+        if (isMainMenu(menuType)) {
+            menu.add(createMenuItemSingleplayer());
+            menu.add(createMenuItemMultiplayer());
+            menu.add(createMenuItemCredits());
+            menu.add(createMenuItemExit());
+        } else {
+            menu.add(createMenuItemResume());
+            menu.add(createMenuItemExitToMainMenu());
+        }
 
-        final MenuButton itemMultiplayer = new MenuButton("menu.online");
-        itemMultiplayer.setOnAction(e -> fireMultiplayer());
-        box.add(itemMultiplayer);
-
-        final MenuButton itemCredits = new MenuButton("menu.credits");
-        itemCredits.setMenuContent(this::createCredits, this);
-        box.add(itemCredits);
-
-        final MenuButton itemLogout = new MenuButton("menu.logout");
-        itemLogout.setOnAction(e -> fireLogout());
-        box.add(itemLogout);
-
-        final MenuButton itemExit = new MenuButton("menu.exit");
-        itemExit.setOnAction(e -> fireExit());
-        box.add(itemExit);
-
-        return box;
+        return menu;
     }
 
-    private MenuRoot createMenuBodyGameMenu() {
-        final MenuRoot box = new MenuRoot();
+    private MenuRoot createMultiplayerMenu() {
+        return new MenuRoot(
+                createMenuItemMultiplayerConnect(),
+                createMenuItemMultiplayerHost()
+        );
+    }
 
-        final MenuButton itemResume = new MenuButton("menu.resume");
-        itemResume.setOnAction(e -> fireResume());
-        box.add(itemResume);
+    private MenuButton createMenuItemSingleplayer() {
+        final MenuButton singleplayerMenuButton = new MenuButton("menu.singleplayer");
+        singleplayerMenuButton.setOnAction(event -> fireNewGame());
+        return singleplayerMenuButton;
+    }
 
-        final MenuButton itemExit = new MenuButton("menu.mainMenu");
-        itemExit.setOnAction(e -> fireExitToMainMenu());
-        box.add(itemExit);
+    private MenuButton createMenuItemMultiplayer() {
+        final MenuButton multiplayerMenuButton = new MenuButton("menu.multiplayer");
+        multiplayerMenuButton.setOnAction(event -> multiplayerMenuButton.setChild(createMultiplayerMenu(), this));
+        return multiplayerMenuButton;
+    }
 
-        return box;
+    private MenuButton createMenuItemExit() {
+        final MenuButton exitMenuButton = new MenuButton("menu.quit");
+        exitMenuButton.setOnAction(event -> fireExit());
+        return exitMenuButton;
+    }
+
+    private MenuButton createMenuItemResume() {
+        final MenuButton resumeMenuButton = new MenuButton("menu.resume");
+        resumeMenuButton.setOnAction(event -> fireResume());
+        return resumeMenuButton;
+    }
+
+    private MenuButton createMenuItemCredits() {
+        final MenuButton creditsMenuButton = new MenuButton("menu.credits");
+        creditsMenuButton.setMenuContent(this::createCreditsContent, this);
+        return creditsMenuButton;
+    }
+
+    private MenuButton createMenuItemExitToMainMenu() {
+        final MenuButton exitMainMenuButton = new MenuButton("menu.mainMenu");
+        exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
+        return exitMainMenuButton;
+    }
+
+    private MenuButton createMenuItemMultiplayerConnect() {
+        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.connect");
+        //feedbackMenuButton.setMenuContent(this::createMultiplayerConnect, this);
+        return feedbackMenuButton;
+    }
+
+    private MenuButton createMenuItemMultiplayerHost() {
+        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.host");
+        //feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
+        return feedbackMenuButton;
     }
 
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
@@ -222,8 +233,101 @@ public class RelictusMenu extends FXGLMenu {
         return button;
     }
 
-    private MenuItem createCredits() {
-        return new MenuItem(new Pane());
+    private MenuItem createMultiplayerConnect() {
+        // TODO: IP input feld einfügen
+        final MenuItem connectContent = new MenuItem();
+
+        /* TODO: needed?
+        connectContent.setOnOpen();
+        connectContent.setOnClose();
+        */
+        System.out.println("created multiplayer connect");
+        return connectContent;
+    }
+
+    private MenuItem createMultiplayerHost() {
+        return new MenuItem();
+    }
+
+    private MenuContent createCreditsContent() {
+        final ScrollPane pane = new FXGLScrollPane();
+        pane.setPrefWidth(FXGL.getAppWidth() * 3.0 / 5.0);
+        pane.setPrefHeight(FXGL.getAppWidth() / 2.0);
+        pane.setStyle("-fx-background:black;");
+
+        final VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPrefWidth(pane.getPrefWidth() - 15);
+
+        addCreditEntries(vbox);
+        pane.setContent(vbox);
+
+        return new MenuContent(pane);
+    }
+
+    private String[] getCreditsEntries() {
+        return new String[] {
+                "credits.relictusCreatedBy",
+                "credits.kevinOrtmeier",
+                "credits.markusKremer",
+                "credits.laraMarieMann",
+                "credits.romanRubashkin",
+                "credits.danielBedrich",
+                "",
+                "credits.poweredByFXGL",
+                "credits.FXGLAuthor",
+                "credits.FXGLRepo"
+        };
+    }
+
+    private void addCreditEntries(VBox vbox) {
+        final String[] creditEntries = getCreditsEntries();
+
+        for (String credit : creditEntries) {
+            String creditText;
+
+            if (credit.isEmpty()) {
+                creditText = "";
+            } else {
+                creditText = PropertiesLoader.getResourceProperties(credit);
+            }
+
+            if (credit.equals(creditEntries[creditEntries.length - 3])) {
+                creditText += " " + FXGL.getVersion();
+            }
+            vbox.getChildren().add(FXGL.getUIFactory().newText(creditText));
+        }
+    }
+
+    private void createMenu(MenuType menuType) {
+        final MenuRoot menu = inflateMenu(menuType);
+
+        final double menuX = 50;
+        final double menuY = app.getHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
+
+        menuRoot.setTranslateX(menuX);
+        menuRoot.setTranslateY(menuY);
+
+        // TODO: setTranslateX nicht statisch, sondern dynamisch darstellen
+        // FXGL.getAppWidth() / 2.0 - menu.getLayoutBounds().getWidth() - menuPosX
+        // Problem: Menü breite ist immer 0.0
+        // Credits breite ist FXGL.getAppWidth() * 3 / 5
+        contentRoot.setTranslateX(256);
+        contentRoot.setTranslateY(menuY);
+
+        ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
+        particleSystem.addParticleEmitter(dustParticleEmitter, 0, -FXGL.getAppHeight());
+        getContentRoot().getChildren().add(3, particleSystem.getPane());
+
+        menuRoot.getChildren().addAll(menu);
+        contentRoot.getChildren().add(EMPTY);
+
+        activeProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                switchMenuTo(menu);
+                switchMenuContentTo(EMPTY);
+            }
+        });
     }
 
     private void playTransition(Node menu) {
@@ -245,5 +349,9 @@ public class RelictusMenu extends FXGLMenu {
 
     private void setCustomCursor() {
         setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
+    }
+
+    private boolean isMainMenu(MenuType menuType) {
+        return menuType == MenuType.MAIN_MENU;
     }
 }
