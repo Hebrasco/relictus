@@ -11,12 +11,12 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.time.LocalTimer;
 import com.almasb.fxgl.util.Credits;
-import factories.RelictusEntityFactory;
+import com.sun.tools.javac.util.List;
 import factories.RelictusSceneFactory;
-import factories.RelictusType;
-import javafx.scene.input.KeyCode;
+import javafx.geometry.Point2D;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
+import utils.CustomCursor;
+import utils.UIPreferences;
 
 import java.util.Map;
 
@@ -44,18 +44,7 @@ public class Relictus extends GameApplication {
 		//String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
 		String title = "R E L I C T U S"; // Replace with above
 		String version = "0.1"; // Replace with above
-        /*
-		Credits credits = new Credits(
-				List.of(
-						"Relictus created by Kamelrad",
-						"Kevin Ortmeier",
-						"Markus Kremer",
-						"Lara-Marie Mann",
-						"Roman Rubashkin",
-						"Daniel Bedrich"
-				)
-		);
-		*/
+
 		settings.setWidth(windowWidth);
 		settings.setHeight(windowHeight);
 		settings.setTitle(title);
@@ -64,9 +53,8 @@ public class Relictus extends GameApplication {
 		settings.setIntroEnabled(false);
 		settings.setFullScreenAllowed(false);
 		settings.setManualResizeEnabled(false);
-		//settings.setSceneFactory(new RelictusSceneFactory());
-		//settings.setCSS(cssFileName);
-		//settings.setCredits(credits);
+		settings.setSceneFactory(new RelictusSceneFactory());
+		settings.setCSS(cssFileName);
 		settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
 		settings.setSoundMenuPress(soundMenuPressFileName);
 		settings.setSoundMenuSelect(soundMenuSelectFileName);
@@ -76,6 +64,8 @@ public class Relictus extends GameApplication {
 
 	@Override
 	protected void initGame() {
+	    setCustomCursor();
+	    
 		getGameWorld().addEntityFactory(new RelictusEntityFactory());
 		getGameWorld().setLevelFromMap("relictusTileMap.json");
 
@@ -85,8 +75,7 @@ public class Relictus extends GameApplication {
 			getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
 			getGameScene().getViewport().bindToEntity(player, getWidth() / 2 , getHeight() / 2);
 	}
-
-	@Override
+	
 	protected void initPhysics() {
 		getPhysicsWorld().addCollisionHandler(new CollisionHandler(RelictusType.PLAYER, RelictusType.POWERUP) {
 			@Override
@@ -95,7 +84,6 @@ public class Relictus extends GameApplication {
 				getAudioPlayer().playSound("powerup.mp3");
 			}
 		});
-	}
 
 	@Override
 	public void initInput() {
@@ -123,5 +111,9 @@ public class Relictus extends GameApplication {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	private void setCustomCursor() {
+		FXGL.getGameScene().setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
 	}
 }

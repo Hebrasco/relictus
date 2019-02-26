@@ -21,8 +21,8 @@ import java.util.function.Supplier;
  */
 class MenuButton extends Pane {
     final FXGLButton button = new FXGLButton();
-    private MenuBox parent = null;
-    private VBox cachedContent = new MenuContent();
+    private MenuRoot parent = null;
+    //private MenuItem cachedContent = null;
 
     MenuButton(String key) {
 
@@ -30,7 +30,7 @@ class MenuButton extends Pane {
         button.setStyle("-fx-background-color: transparent");
 
         addText(key);
-        //addClickEvents();
+        addClickEvents();
 
         // TODO: Button größe an Textbreite anpassen
         button.setMinWidth(250);
@@ -42,26 +42,29 @@ class MenuButton extends Pane {
         button.setOnAction(e);
     }
 
-    void setParent(MenuBox menuBox) {
-        parent = menuBox;
+    void setParent(MenuRoot root) {
+        parent = root;
     }
 
     void setMenuContent(Supplier<VBox> contentSupplier, RelictusMenu relictusMenu) {
         button.addEventHandler(ActionEvent.ACTION, event -> {
+            /*
             if (cachedContent == null) {
                 cachedContent = contentSupplier.get();
             }
 
             relictusMenu.switchMenuContentTo(cachedContent);
+            */
+            relictusMenu.switchMenuContentTo(contentSupplier.get());
         });
     }
 
-    void setChild(MenuBox menuBox, RelictusMenu relictusMenu) {
+    void setChild(MenuRoot menuRoot, RelictusMenu relictusMenu) {
         final MenuButton back = new MenuButton("menu.back");
-        menuBox.getChildren().add(0, back);
+        menuRoot.getChildren().add(0, back);
 
         back.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(parent));
-        button.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(menuBox));
+        button.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(menuRoot));
     }
 
     private void addClickEvents() {
