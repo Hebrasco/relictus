@@ -48,13 +48,6 @@ class MenuButton extends Pane {
 
     void setMenuContent(Supplier<VBox> contentSupplier, RelictusMenu relictusMenu) {
         button.addEventHandler(ActionEvent.ACTION, event -> {
-            /*
-            if (cachedContent == null) {
-                cachedContent = contentSupplier.get();
-            }
-
-            relictusMenu.switchMenuContentTo(cachedContent);
-            */
             relictusMenu.switchMenuContentTo(contentSupplier.get());
         });
     }
