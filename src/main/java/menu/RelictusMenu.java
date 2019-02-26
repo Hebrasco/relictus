@@ -102,10 +102,7 @@ public class RelictusMenu extends FXGLMenu {
 
     @Override
     protected Node createProfileView(String profileName) {
-        Text view = FXGL.getUIFactory().newText(profileName);
-        view.setTranslateY(FXGL.getAppHeight() - 2);
-        view.setTranslateX(FXGL.getAppWidth() - view.getLayoutBounds().getWidth());
-        return view;
+        return createProfileTextView(profileName);
     }
 
     @Override
@@ -174,6 +171,13 @@ public class RelictusMenu extends FXGLMenu {
         final Text versionText = FXGL.getUIFactory().newText(version);
         versionText.setTranslateY(FXGL.getAppHeight() - 2.0);
         return versionText;
+    }
+
+    private Text createProfileTextView(String profileName) {
+        final Text profileText = FXGL.getUIFactory().newText(profileName);
+        profileText.setTranslateY(FXGL.getAppHeight() - 2);
+        profileText.setTranslateX(FXGL.getAppWidth() - profileText.getLayoutBounds().getWidth());
+        return profileText;
     }
 
     private Rectangle createTitleBorder(double textWidth) {
