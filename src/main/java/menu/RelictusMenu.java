@@ -3,7 +3,6 @@ package menu;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.particle.ParticleEmitter;
-import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.particle.ParticleSystem;
 import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.scene.menu.MenuType;
@@ -11,32 +10,23 @@ import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.FXGLScrollPane;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utils.CustomCursor;
 import utils.Particles;
 import utils.PropertiesLoader;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.almasb.fxgl.app.FXGL.getSettings;
-import static com.almasb.fxgl.app.FXGL.getUIFactory;
 
 /**
  * @author Daniel Bedrich
@@ -233,9 +223,9 @@ public class RelictusMenu extends FXGLMenu {
         return button;
     }
 
-    private MenuItem createMultiplayerConnect() {
+    private MenuContent createMultiplayerConnect() {
         // TODO: IP input feld einfügen
-        final MenuItem connectContent = new MenuItem();
+        final MenuContent connectContent = new MenuContent();
 
         /* TODO: needed?
         connectContent.setOnOpen();
@@ -245,8 +235,8 @@ public class RelictusMenu extends FXGLMenu {
         return connectContent;
     }
 
-    private MenuItem createMultiplayerHost() {
-        return new MenuItem();
+    private MenuContent createMultiplayerHost() {
+        return new MenuContent();
     }
 
     private MenuContent createCreditsContent() {
@@ -305,23 +295,33 @@ public class RelictusMenu extends FXGLMenu {
         final double menuX = 50;
         final double menuY = app.getHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
 
-        menuRoot.setTranslateX(menuX);
-        menuRoot.setTranslateY(menuY);
-
+        setTranslate(menuRoot, menuX, menuY);
+        setTranslate(contentRoot, 256.0, menuY);
         // TODO: setTranslateX nicht statisch, sondern dynamisch darstellen
         // FXGL.getAppWidth() / 2.0 - menu.getLayoutBounds().getWidth() - menuPosX
         // Problem: Menü breite ist immer 0.0
         // Credits breite ist FXGL.getAppWidth() * 3 / 5
-        contentRoot.setTranslateX(256);
-        contentRoot.setTranslateY(menuY);
 
-        ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
-        particleSystem.addParticleEmitter(dustParticleEmitter, 0, -FXGL.getAppHeight());
-        getContentRoot().getChildren().add(3, particleSystem.getPane());
+        setParticles();
 
         menuRoot.getChildren().addAll(menu);
         contentRoot.getChildren().add(EMPTY);
 
+        setListener(menu);
+    }
+
+    private void setTranslate(Pane pane, double PosX, double PosY) {
+        pane.setTranslateX(PosX);
+        pane.setTranslateY(PosY);
+    }
+
+    private void setParticles() {
+        ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
+        particleSystem.addParticleEmitter(dustParticleEmitter, 0, -FXGL.getAppHeight());
+        getContentRoot().getChildren().add(3, particleSystem.getPane());
+    }
+
+    private void setListener(MenuRoot menu) {
         activeProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 switchMenuTo(menu);
