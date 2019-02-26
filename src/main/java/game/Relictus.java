@@ -41,6 +41,7 @@ public class Relictus extends GameApplication {
 		String cssFileName = "ui_style.css";
 		String appIcon = "icon/relictus.png";
 		String soundPath = "menu/";
+		String customFont = "Jura-Medium.ttf";
 		String soundMenuPressFileName = soundPath + "menu_click.wav";
 		String soundMenuSelectFileName = soundPath + "menu_move.wav";
 		//String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
@@ -63,6 +64,10 @@ public class Relictus extends GameApplication {
 		settings.setSoundMenuSelect(soundMenuSelectFileName);
 		settings.setAppIcon(appIcon);
 		settings.setStageStyle(StageStyle.UNDECORATED);
+		settings.setFontUI(customFont);
+		settings.setFontGame(customFont);
+		settings.setFontText(customFont);
+		settings.setFontMono(customFont);
 	}
 
 	@Override
