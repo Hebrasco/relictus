@@ -3,20 +3,34 @@ package game;
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.input.Input;
+import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
+import com.almasb.fxgl.time.LocalTimer;
 import com.almasb.fxgl.util.Credits;
 import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
+import factories.RelictusType;
+import javafx.scene.input.KeyCode;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Kevin Ortmeier
  */
 public class Relictus extends GameApplication {
+	private Entity player;
+	PlayerControl playerComponent;
+	private PhysicsComponent physics;
+
+	private LocalTimer timer;
 
 	@Override
 	protected void initSettings(GameSettings settings) {
@@ -44,8 +58,6 @@ public class Relictus extends GameApplication {
 				)
 		);
 		*/
-
-
 		settings.setWidth(windowWidth);
 		settings.setHeight(windowHeight);
 		settings.setTitle(title);
@@ -63,11 +75,52 @@ public class Relictus extends GameApplication {
 		settings.setAppIcon(appIcon);
 		settings.setStageStyle(StageStyle.UNDECORATED);
 	}
+
 	@Override
 	protected void initGame() {
 		getGameWorld().addEntityFactory(new RelictusEntityFactory());
 		getGameWorld().setLevelFromMap("relictusTileMap.json");
 
+		//getAudioPlayer().playSound("start.mp3");
+		player = getGameWorld().spawn("player", 50, 50);
+
+			getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
+			getGameScene().getViewport().bindToEntity(player, getWidth() / 2 , getHeight() / 2);
+	}
+
+	@Override
+	protected void initPhysics() {
+		getPhysicsWorld().addCollisionHandler(new CollisionHandler(RelictusType.PLAYER, RelictusType.POWERUP) {
+			@Override
+			protected void onCollision(Entity player, Entity powerup) {
+				powerup.removeFromWorld();
+				getAudioPlayer().playSound("powerup.mp3");
+			}
+		});
+	}
+
+	@Override
+	public void initInput() {
+	getInput().addAction(new UserAction("Move Right") {
+		@Override
+		protected void onAction() {
+			player.getComponent(PlayerControl.class).moveRight();
+		}
+	}, KeyCode.D);
+
+		getInput().addAction(new UserAction("Move Left") {
+			@Override
+			protected void onAction() {
+				player.getComponent(PlayerControl.class).moveLeft();
+			}
+		}, KeyCode.A);
+
+		getInput().addAction(new UserAction("jump") {
+			@Override
+			protected void onAction() {
+				player.getComponent(PlayerControl.class).jump();
+			}
+		}, KeyCode.W);
 	}
 
 	public static void main(String[] args) {
