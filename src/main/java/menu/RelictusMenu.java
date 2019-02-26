@@ -32,7 +32,6 @@ import utils.PropertiesLoader;
  * @author Daniel Bedrich
  */
 public class RelictusMenu extends FXGLMenu {
-    //TODO: Fix game startup loop (Verursacht durch Partikelsystem)
     private ParticleSystem particleSystem = new ParticleSystem();
 
     public RelictusMenu(GameApplication app, MenuType type) {
@@ -227,7 +226,7 @@ public class RelictusMenu extends FXGLMenu {
         // TODO: IP input feld einfügen
         final MenuContent connectContent = new MenuContent();
 
-        /* TODO: needed?
+        /*
         connectContent.setOnOpen();
         connectContent.setOnClose();
         */

@@ -1,7 +1,6 @@
 package menu;
 
 import com.almasb.fxgl.app.FXGL;
-import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.ui.FXGLButton;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -22,15 +21,13 @@ import java.util.function.Supplier;
 class MenuButton extends Pane {
     final FXGLButton button = new FXGLButton();
     private MenuRoot parent = null;
-    //private MenuItem cachedContent = null;
 
     MenuButton(String key) {
-
         button.setAlignment(Pos.CENTER_LEFT);
         button.setStyle("-fx-background-color: transparent");
 
         addText(key);
-        addClickEvents();
+        overrideKeyPressedEvents();
 
         // TODO: Button größe an Textbreite anpassen
         button.setMinWidth(250);
@@ -47,26 +44,21 @@ class MenuButton extends Pane {
     }
 
     void setMenuContent(Supplier<VBox> contentSupplier, RelictusMenu relictusMenu) {
-        button.addEventHandler(ActionEvent.ACTION, event -> {
-            relictusMenu.switchMenuContentTo(contentSupplier.get());
-        });
+        button.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuContentTo(contentSupplier.get()));
     }
 
     void setChild(MenuRoot menuRoot, RelictusMenu relictusMenu) {
-        final MenuButton back = new MenuButton("menu.back");
-        menuRoot.getChildren().add(0, back);
+        final MenuButton backButton = new MenuButton("menu.back");
+        menuRoot.getChildren().add(menuRoot.getChildren().size(), backButton);
 
-        back.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(parent));
+        backButton.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(parent));
         button.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(menuRoot));
     }
 
-    private void addClickEvents() {
+    private void overrideKeyPressedEvents() {
         String soundMenuPressFilePath = FXGL.getSettings().getSoundMenuPress();
         String soundMenuMoveFilePath = FXGL.getSettings().getSoundMenuSelect();
 
-        button.setOnMousePressed(e -> AudioPlayer.play(soundMenuPressFilePath));
-        button.setOnMouseEntered(e -> AudioPlayer.play(soundMenuMoveFilePath));
-        // TODO: menu_move.wav beim bewegen mit den Pfeiltasten abspielen (Zurseit wird der menu_klick.wav abgespielt)
         button.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 AudioPlayer.play(soundMenuPressFilePath);
