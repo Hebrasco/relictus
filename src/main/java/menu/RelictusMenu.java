@@ -25,14 +25,20 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import utils.CustomCursor;
 import utils.Particles;
 
+/**
+ * @author Daniel Bedrich
+ */
 public class RelictusMenu extends FXGLMenu {
     //TODO: Fix game startup loop (Verursacht durch Partikelsystem)
     //private ParticleSystem particleSystem = new ParticleSystem();
 
     public RelictusMenu(GameApplication app, MenuType type) {
         super(app, type);
+        //createMenu(type);
+        setCustomCursor();
 
         MenuRoot menu;
         if (type == MenuType.MAIN_MENU) {
@@ -66,15 +72,18 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     @Override
-    public void onUpdate(double tpf) {
-        //particleSystem.onUpdate(tpf);
+    protected Button createActionButton(StringBinding name, Runnable action) {
+        return createActionMenuButton(name.getValue(), action).button;
+    }
+
+    @Override
+    protected Button createActionButton(String name, Runnable action) {
+        return createActionMenuButton(name, action).button;
     }
 
     @Override
     protected Node createBackground(double width, double height) {
-        Rectangle bg = new Rectangle(width, height);
-        bg.setFill(Color.rgb(10, 1, 1));
-        return bg;
+        return createBackgroundTexture(width, height);
     }
 
     @Override
@@ -121,6 +130,43 @@ public class RelictusMenu extends FXGLMenu {
         return view;
     }
 
+    @Override
+    protected void switchMenuTo(Node menu) {
+        Node oldMenu = menuRoot.getChildren().get(0);
+
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.33), oldMenu);
+        ft.setToValue(0);
+        ft.setOnFinished(e -> {
+            menu.setOpacity(0);
+            menuRoot.getChildren().set(0, menu);
+            oldMenu.setOpacity(1);
+
+            FadeTransition ft2 = new FadeTransition(Duration.seconds(0.33), menu);
+            ft2.setToValue(1);
+            ft2.play();
+        });
+        ft.play();
+    }
+
+    @Override
+    protected void switchMenuContentTo(Node content) {
+        contentRoot.getChildren().set(0, content);
+    }
+
+    @Override
+    public void onUpdate(double tpf) {
+        //particleSystem.onUpdate(tpf);
+    }
+
+    private Texture createBackgroundTexture(double width, double height) {
+        String imagePath = "menu/";
+        String imageName = "menu_background.gif";
+        Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + imageName);
+        backgroundImage.setFitWidth(width);
+        backgroundImage.setFitHeight(height);
+        return backgroundImage;
+    }
+
     private MenuRoot createMenuBodyMainMenu() {
         MenuRoot box = new MenuRoot();
 
@@ -161,47 +207,17 @@ public class RelictusMenu extends FXGLMenu {
         return box;
     }
 
-    @Override
-    protected void switchMenuTo(Node menu) {
-        Node oldMenu = menuRoot.getChildren().get(0);
-
-        FadeTransition ft = new FadeTransition(Duration.seconds(0.33), oldMenu);
-        ft.setToValue(0);
-        ft.setOnFinished(e -> {
-            menu.setOpacity(0);
-            menuRoot.getChildren().set(0, menu);
-            oldMenu.setOpacity(1);
-
-            FadeTransition ft2 = new FadeTransition(Duration.seconds(0.33), menu);
-            ft2.setToValue(1);
-            ft2.play();
-        });
-        ft.play();
-    }
-
-    @Override
-    protected void switchMenuContentTo(Node content) {
-        contentRoot.getChildren().set(0, content);
-    }
-
-    @Override
-    protected Button createActionButton(String name, Runnable action) {
-        MenuButton btn = new MenuButton(name);
-        btn.addEventHandler(ActionEvent.ACTION, event -> action.run());
-
-        return btn.button;
-    }
-
-    @Override
-    protected Button createActionButton(StringBinding name, Runnable action) {
-        MenuButton btn = new MenuButton(name.getValue());
-        btn.addEventHandler(ActionEvent.ACTION, event -> action.run());
-
-        return btn.button;
+    private MenuButton createActionMenuButton(String key, Runnable runnable) {
+        final MenuButton button = new MenuButton(key);
+        button.addEventHandler(ActionEvent.ACTION, event -> runnable.run());
+        return button;
     }
 
     private MenuItem createCredits() {
         return new MenuItem(new Pane());
     }
 
+    private void setCustomCursor() {
+        setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
+    }
 }
