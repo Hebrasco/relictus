@@ -3,16 +3,19 @@ package menu;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
-class MenuContent extends VBox {
-    MenuContent(Node... items) {
+/**
+ * @author Daniel Bedrich
+ */
+class MenuItem extends VBox {
+    MenuItem(Node... items) {
 
         if (items.length > 0) {
-            int maxW = (int) items[0].getLayoutBounds().getWidth();
+            int maxWidth = (int) items[0].getLayoutBounds().getWidth();
 
             for (Node n : items) {
-                int w = (int) n.getLayoutBounds().getWidth();
-                if (w > maxW)
-                    maxW = w;
+                int width = (int) n.getLayoutBounds().getWidth();
+                if (width > maxWidth)
+                    maxWidth = width;
             }
 
             for (Node item : items) {
@@ -32,20 +35,10 @@ class MenuContent extends VBox {
     private Runnable onOpen = null;
     private Runnable onClose = null;
 
-    /**
-     * Set on open handler.
-     *
-     * @param onOpenAction method to be called when content opens
-     */
     public void setOnOpen(Runnable onOpenAction) {
         this.onOpen = onOpenAction;
     }
 
-    /**
-     * Set on close handler.
-     *
-     * @param onCloseAction method to be called when content closes
-     */
     public void setOnClose(Runnable onCloseAction) {
         this.onClose = onCloseAction;
     }
