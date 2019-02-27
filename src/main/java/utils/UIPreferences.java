@@ -15,7 +15,7 @@ public class UIPreferences {
 
     private static Boolean isProvenScene(FXGLScene scene) {
         final Class sceneClass = scene.getClass();
-        final Class[] fxglScenes = new Class[] { GameScene.class, FXGLMenu.class, LoadingScene.class };
+        final Class[] fxglScenes = new Class[]{GameScene.class, FXGLMenu.class, LoadingScene.class};
 
         for (Class fxglScene : fxglScenes) {
             if (fxglScene.equals(sceneClass)) {

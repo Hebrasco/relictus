@@ -6,10 +6,10 @@ import java.util.ResourceBundle;
  * @author Daniel Bedrich
  */
 public class PropertiesLoader {
-    private static Localization localization = new Localization();
+    private static final Localization localization = new Localization();
 
     public static String getResourceProperties(String key) {
-        ResourceBundle bundle = localization.selectedLanguage.resourceBundle;
+        final ResourceBundle bundle = localization.selectedLanguage.resourceBundle;
 
         try {
             return bundle.getString(key);

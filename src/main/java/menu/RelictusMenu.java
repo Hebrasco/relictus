@@ -21,7 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utils.CustomCursor;
@@ -32,8 +32,7 @@ import utils.PropertiesLoader;
  * @author Daniel Bedrich
  */
 public class RelictusMenu extends FXGLMenu {
-    //TODO: Fix game startup loop (Verursacht durch Partikelsystem)
-    private ParticleSystem particleSystem = new ParticleSystem();
+    private final ParticleSystem particleSystem = new ParticleSystem();
 
     public RelictusMenu(GameApplication app, MenuType type) {
         super(app, type);
@@ -58,11 +57,7 @@ public class RelictusMenu extends FXGLMenu {
 
     @Override
     protected Node createTitleView(String title) {
-        final SimpleObjectProperty<Color> titleColor = new SimpleObjectProperty<>(Color.WHITE);
-        final Text titleText = createTitle(title, titleColor);
-        final HBox titleLayout = createTitleLayout(titleText);
-
-        return getFormattedTitle(titleText, titleLayout);
+        return createTitleImage();
     }
 
     @Override
@@ -92,36 +87,25 @@ public class RelictusMenu extends FXGLMenu {
 
     private Texture createBackgroundTexture(double width, double height) {
         final String imagePath = "menu/";
-        final String imageName = "menu_background.gif";
-        final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + imageName);
+        final String fileName = "menu_background.gif";
+        final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + fileName);
         backgroundImage.setFitWidth(width);
         backgroundImage.setFitHeight(height);
         return backgroundImage;
     }
 
-    private StackPane getFormattedTitle(Text titleText, HBox box) {
-        final double textWidth = titleText.getLayoutBounds().getWidth();
-
-        final StackPane titleRoot = new StackPane();
-        titleRoot.getChildren().addAll(createTitleBorder(textWidth), box);
-
-        titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30) / 2);
-        titleRoot.setTranslateY(50);
-        return titleRoot;
-    }
-
-    private HBox createTitleLayout(Text titleText) {
-        final HBox box = new HBox(titleText);
-        box.setAlignment(Pos.CENTER);
-        return box;
-    }
-
-    private Text createTitle(String title, SimpleObjectProperty<Color> color) {
-        final Text titleText = FXGL.getUIFactory().newText(title, 55.0);
-        titleText.setFill(null);
-        titleText.strokeProperty().bind(color);
-        titleText.setStrokeWidth(1.5);
-        return titleText;
+    private Texture createTitleImage() {
+        final String imagePath = "menu/";
+        final String fileName = "title.png";
+        final double scaleFactor = 3.0;
+        final double width = FXGL.getAppWidth() / scaleFactor;
+        final double height = FXGL.getAppHeight() / scaleFactor;
+        final double posX = (FXGL.getAppWidth() / 2.0) - (width / 2.0);
+        final Texture titleImage = FXGL.getAssetLoader().loadTexture(imagePath + fileName);
+        titleImage.setFitWidth(width);
+        titleImage.setFitHeight(height);
+        titleImage.setTranslateX(posX);
+        return titleImage;
     }
 
     private Text createVersionTextView(String version) {
@@ -132,18 +116,9 @@ public class RelictusMenu extends FXGLMenu {
 
     private Text createProfileTextView(String profileName) {
         final Text profileText = FXGL.getUIFactory().newText(profileName);
-        profileText.setTranslateY(FXGL.getAppHeight() - 2);
+        profileText.setTranslateY(FXGL.getAppHeight() - 2.0);
         profileText.setTranslateX(FXGL.getAppWidth() - profileText.getLayoutBounds().getWidth());
         return profileText;
-    }
-
-    private Rectangle createTitleBorder(double textWidth) {
-        final Rectangle border = new Rectangle(textWidth + 30, 65, null);
-        border.setStroke(Color.WHITE);
-        border.setStrokeWidth(4);
-        border.setArcWidth(25);
-        border.setArcHeight(25);
-        return border;
     }
 
     private MenuRoot inflateMenu(MenuType menuType) {
@@ -177,7 +152,8 @@ public class RelictusMenu extends FXGLMenu {
 
     private MenuButton createMenuItemMultiplayer() {
         final MenuButton multiplayerMenuButton = new MenuButton("menu.multiplayer");
-        multiplayerMenuButton.setOnAction(event -> multiplayerMenuButton.setChild(createMultiplayerMenu(), this));
+        //multiplayerMenuButton.setChild(createMultiplayerMenu(), this);
+        multiplayerMenuButton.setOnAction(e -> fireMultiplayer()); // TODO: eigene funktion für "fireMultiplayer()" implementieren
         return multiplayerMenuButton;
     }
 
@@ -206,15 +182,15 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private MenuButton createMenuItemMultiplayerConnect() {
-        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.connect");
-        //feedbackMenuButton.setMenuContent(this::createMultiplayerConnect, this);
-        return feedbackMenuButton;
+        final MenuButton mpConnectMenuButton = new MenuButton("multiplayer.connect");
+        mpConnectMenuButton.setMenuContent(this::createMultiplayerConnect, this);
+        return mpConnectMenuButton;
     }
 
     private MenuButton createMenuItemMultiplayerHost() {
-        final MenuButton feedbackMenuButton = new MenuButton("multiplayer.host");
-        //feedbackMenuButton.setMenuContent(this::createMultiplayerHost, this);
-        return feedbackMenuButton;
+        final MenuButton mpHostMenuButton = new MenuButton("multiplayer.host");
+        mpHostMenuButton.setMenuContent(this::createMultiplayerHost, this);
+        return mpHostMenuButton;
     }
 
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
@@ -227,7 +203,7 @@ public class RelictusMenu extends FXGLMenu {
         // TODO: IP input feld einfügen
         final MenuContent connectContent = new MenuContent();
 
-        /* TODO: needed?
+        /*
         connectContent.setOnOpen();
         connectContent.setOnClose();
         */
@@ -256,7 +232,7 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private String[] getCreditsEntries() {
-        return new String[] {
+        return new String[]{
                 "credits.relictusCreatedBy",
                 "credits.kevinOrtmeier",
                 "credits.markusKremer",

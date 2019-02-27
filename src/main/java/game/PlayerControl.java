@@ -39,9 +39,9 @@ public class PlayerControl extends Component {
         texture.playAnimationChannel(isMoving() ? animWalk : animIdle);
     }
 
-private boolean isMoving() {
+    private boolean isMoving() {
         return FXGLMath.abs(physics.getVelocityX()) > 0;
-}
+    }
 
     public void moveRight() {
         getEntity().setScaleX(1);

@@ -5,6 +5,7 @@ import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.scene.LoadingScene;
 import com.almasb.fxgl.scene.SceneFactory;
 import com.almasb.fxgl.scene.menu.MenuType;
+import menu.LoadingScreen;
 import menu.RelictusMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +29,6 @@ public class RelictusSceneFactory extends SceneFactory {
     @NotNull
     @Override
     public LoadingScene newLoadingScene() {
-        // TODO: Eigene LoadingScene Implementieren (Primär für Cursor)
-        return super.newLoadingScene();
+        return new LoadingScreen();
     }
 }
