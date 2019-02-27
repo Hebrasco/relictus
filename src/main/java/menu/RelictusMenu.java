@@ -120,7 +120,6 @@ public class RelictusMenu extends FXGLMenu {
         final String fontName = "CinzelDecorative-Bold.ttf";
         final Text titleText = FXGL.getUIFactory().newText(title);
         final Font font = FXGL.getAssetLoader().loadFont(fontName).newFont(fontSize);
-        titleText.setFill(null);
         titleText.strokeProperty().bind(color);
         titleText.setStrokeWidth(1.5);
         titleText.setFont(font);
