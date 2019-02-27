@@ -6,7 +6,10 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
-import game.PlayerControl;
+import game.player.PlayerControl;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 
 /**
  * @author Kevin Ortmeier
@@ -18,34 +21,32 @@ public class RelictusEntityFactory implements EntityFactory {
         return Entities.builder()
                 .from(data)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
-                .with(new PhysicsComponent())
+                //.with(new PhysicsComponent())
+                .viewFromNode(new Rectangle(data.<Integer>get("width"), data.<Integer>get("height"), Color.CYAN))
                 .build();
     }
 
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
-        PhysicsComponent physics = new PhysicsComponent();
-        physics.setBodyType(BodyType.DYNAMIC);
+        //PhysicsComponent physics = new PhysicsComponent();
+        //physics.setBodyType(BodyType.DYNAMIC);
 
         return Entities.builder()
-                .type(RelictusType.PLAYER)
+                .type(EntityTypes.PLAYER)
                 .from(data)
-                //.viewFromAnimatedTexture("character.png", 3, Duration.seconds(0.5))
                 .bbox(new HitBox(BoundingShape.box(32, 42)))
-                //.viewFromNodeWithBBox(new Rectangle(30, 30, Color.BLUE))
-                .with(physics)
                 .with(new CollidableComponent(true))
                 .with(new PlayerControl())
+                .viewFromNode(new Rectangle(32, 42, Color.RED))
                 .build();
     }
 
     @Spawns("powerup")
     public Entity newPowerUp(SpawnData data) {
         return Entities.builder()
-                .type(RelictusType.POWERUP)
+                .type(EntityTypes.POWERUP)
                 .from(data)
                 .viewFromTextureWithBBox("diamond.png")
-                //.viewFromNodeWithBBox(new Circle(data.<Integer>get("width") / 2, Color.RED))
                 .with(new CollidableComponent(true))
                 .build();
     }

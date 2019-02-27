@@ -1,29 +1,28 @@
 package game.player;
 
-import com.almasb.fxgl.app.FXGL;
-import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.entity.component.Required;
 import com.almasb.fxgl.entity.components.PositionComponent;
+import com.almasb.fxgl.input.Input;
+import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
-import com.almasb.fxgl.time.LocalTimer;
-import javafx.geometry.Pos;
+import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 /**
- * @author Kevin Ortmeier
+ * @author Kevin Ortmeier, Daniel Bedrich
  */
-@Required(PositionComponent.class)
 public class PlayerControl extends Component {
+    private final double speed = 25;
+    private final double jumpVelocity = 20;
+    private final UserAction userActionJump = createMovementAction("Jump", Direction.UP, jumpVelocity);
+    private final UserAction userActionLeft = createMovementAction("Left", Direction.LEFT, speed);
+    private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);
     private PhysicsComponent physics;
     private PositionComponent position;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk;
-
-    private LocalTimer timer;
-    private double speed = 150;
 
     public PlayerControl() {
         animIdle = new AnimationChannel("player.png", 4, 32, 42, Duration.seconds(1), 1, 1);
@@ -34,37 +33,33 @@ public class PlayerControl extends Component {
 
     @Override
     public void onAdded() {
-        timer = FXGL.newLocalTimer();
-        timer.capture();
         entity.setView(texture);
     }
 
     @Override
     public void onUpdate(double tpf) {
-        texture.playAnimationChannel(isMoving() ? animWalk : animIdle);
-        speed = tpf * 200;
+        //texture.playAnimationChannel(physics.isMoving() ? animWalk : animIdle);
     }
 
-    private boolean isMoving() {
-        return FXGLMath.abs(physics.getVelocityX()) > 0;
+    // TODO: isMoving()
+    // TODO: isGrounded()
+
+    public void createInput(Input input) {
+        input.addAction(userActionLeft, KeyCode.A);
+        input.addAction(userActionRight, KeyCode.D);
+        input.addAction(userActionJump, KeyCode.W);
     }
 
-    public void moveRight() {
-        getEntity().setScaleX(1);
-        //physics.setVelocityX(speed);
-        position.translateX(speed);
+    private void move(Direction direction, double speed) {
+        position.translate(direction.vector.multiply(speed));
     }
 
-    public void moveLeft() {
-        getEntity().setScaleX(-1);
-        position.translateX(-speed);
-        //physics.setVelocityX(-speed);
-    }
-
-    public void jump() {
-        if (timer.elapsed(Duration.seconds(1))) {
-            physics.setVelocityY(-200);
-            timer.capture();
-        }
+    private UserAction createMovementAction(String name, Direction direction, double speed) {
+        return new  UserAction(name) {
+            @Override
+            protected void onAction() {
+                move(direction, speed);
+            }
+        };
     }
 }

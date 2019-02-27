@@ -4,15 +4,11 @@ import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
-import com.almasb.fxgl.time.LocalTimer;
+import factories.EntityTypes;
 import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
-import factories.RelictusType;
-import javafx.scene.input.KeyCode;
+import game.player.PlayerControl;
 import javafx.stage.StageStyle;
 import utils.CustomCursor;
 
@@ -21,10 +17,10 @@ import utils.CustomCursor;
  */
 public class Relictus extends GameApplication {
     private Entity player;
-    PlayerControl playerComponent;
-    private PhysicsComponent physics;
 
-    private LocalTimer timer;
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -70,49 +66,29 @@ public class Relictus extends GameApplication {
         getGameWorld().addEntityFactory(new RelictusEntityFactory());
         getGameWorld().setLevelFromMap("relictusTileMap.json");
 
-        //getAudioPlayer().playSound("start.mp3");
         player = getGameWorld().spawn("player", 50, 50);
+        Physics.registerEntity(player);
+
+        //getAudioPlayer().playSound("start.mp3");
 
         getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
         getGameScene().getViewport().bindToEntity(player, getWidth() / 2, getHeight() / 2);
-    }
 
-    protected void initPhysics() {
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(RelictusType.PLAYER, RelictusType.POWERUP) {
-            @Override
-            protected void onCollision(Entity player, Entity powerup) {
-                powerup.removeFromWorld();
-                getAudioPlayer().playSound("powerup.mp3");
-            }
-        });
+        initializeInput();
     }
 
     @Override
-    public void initInput() {
-        getInput().addAction(new UserAction("Move Right") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerControl.class).moveRight();
-            }
-        }, KeyCode.D);
-
-        getInput().addAction(new UserAction("Move Left") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerControl.class).moveLeft();
-            }
-        }, KeyCode.A);
-
-        getInput().addAction(new UserAction("jump") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerControl.class).jump();
-            }
-        }, KeyCode.W);
+    protected void initPhysics() {
+        Physics.addCollisionHandler(EntityTypes.PLAYER, EntityTypes.POWERUP);
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    protected void onUpdate(double tpf) {
+        Physics.onUpdate(tpf);
+    }
+
+    private void initializeInput() {
+        player.getComponent(PlayerControl.class).createInput(getInput());
     }
 
     private void setCustomCursor() {
