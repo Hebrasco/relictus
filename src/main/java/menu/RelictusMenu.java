@@ -57,11 +57,7 @@ public class RelictusMenu extends FXGLMenu {
 
     @Override
     protected Node createTitleView(String title) {
-        final SimpleObjectProperty<Color> titleColor = new SimpleObjectProperty<>(Color.WHITE);
-        final Text titleText = createTitle(title, titleColor);
-        final HBox titleLayout = createTitleLayout(titleText);
-
-        return getFormattedTitle(titleText, titleLayout);
+        return createTitleImage();
     }
 
     @Override
@@ -98,32 +94,16 @@ public class RelictusMenu extends FXGLMenu {
         return backgroundImage;
     }
 
-    private StackPane getFormattedTitle(Text titleText, HBox box) {
-        final double textWidth = titleText.getLayoutBounds().getWidth();
-
-        final StackPane titleRoot = new StackPane();
-        titleRoot.getChildren().add(box);
-
-        titleRoot.setTranslateX(FXGL.getAppWidth() / 2.0 - (textWidth + 30.0) / 2.0);
-        titleRoot.setTranslateY(50.0);
-        return titleRoot;
-    }
-
-    private HBox createTitleLayout(Text titleText) {
-        final HBox box = new HBox(titleText);
-        box.setAlignment(Pos.CENTER);
-        return box;
-    }
-
-    private Text createTitle(String title, SimpleObjectProperty<Color> color) {
-        final double fontSize = 55.0;
-        final String fontName = "CinzelDecorative-Bold.ttf";
-        final Text titleText = FXGL.getUIFactory().newText(title);
-        final Font font = FXGL.getAssetLoader().loadFont(fontName).newFont(fontSize);
-        titleText.strokeProperty().bind(color);
-        titleText.setStrokeWidth(1.5);
-        titleText.setFont(font);
-        return titleText;
+    private Texture createTitleImage() {
+        final double scaleFactor = 3.0;
+        final double width = FXGL.getAppWidth() / scaleFactor;
+        final double height = FXGL.getAppHeight() / scaleFactor;
+        final double posX = (FXGL.getAppWidth() / 2.0) - (width / 2.0);
+        final Texture titleImage = FXGL.getAssetLoader().loadTexture("menu/title.png");
+        titleImage.setFitWidth(width);
+        titleImage.setFitHeight(height);
+        titleImage.setTranslateX(posX);
+        return titleImage;
     }
 
     private Text createVersionTextView(String version) {
