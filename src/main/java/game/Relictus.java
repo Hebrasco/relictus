@@ -71,7 +71,7 @@ public class Relictus extends GameApplication {
         getGameWorld().setLevelFromMap("relictusTileMap.json");
 
         //getAudioPlayer().playSound("start.mp3");
-        player = getGameWorld().spawn("player", 50, 50);
+        player = getGameWorld().spawn("player", 100, 125);
 
         getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
         getGameScene().getViewport().bindToEntity(player, getWidth() / 2, getHeight() / 2);
