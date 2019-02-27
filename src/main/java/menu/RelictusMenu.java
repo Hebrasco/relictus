@@ -87,19 +87,21 @@ public class RelictusMenu extends FXGLMenu {
 
     private Texture createBackgroundTexture(double width, double height) {
         final String imagePath = "menu/";
-        final String imageName = "menu_background.gif";
-        final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + imageName);
+        final String fileName = "menu_background.gif";
+        final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + fileName);
         backgroundImage.setFitWidth(width);
         backgroundImage.setFitHeight(height);
         return backgroundImage;
     }
 
     private Texture createTitleImage() {
+        final String imagePath = "menu/";
+        final String fileName = "title.png";
         final double scaleFactor = 3.0;
         final double width = FXGL.getAppWidth() / scaleFactor;
         final double height = FXGL.getAppHeight() / scaleFactor;
         final double posX = (FXGL.getAppWidth() / 2.0) - (width / 2.0);
-        final Texture titleImage = FXGL.getAssetLoader().loadTexture("menu/title.png");
+        final Texture titleImage = FXGL.getAssetLoader().loadTexture(imagePath + fileName);
         titleImage.setFitWidth(width);
         titleImage.setFitHeight(height);
         titleImage.setTranslateX(posX);
