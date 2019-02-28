@@ -4,17 +4,26 @@ import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.RenderLayer;
+import com.almasb.fxgl.entity.view.ParallaxBackgroundView;
+import com.almasb.fxgl.entity.view.ParallaxTexture;
+import com.almasb.fxgl.entity.view.ScrollingBackgroundView;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
+import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.time.LocalTimer;
 import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
 import factories.RelictusType;
+import javafx.geometry.Orientation;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BackgroundImage;
 import javafx.stage.StageStyle;
 import utils.CustomCursor;
+
+import java.util.Arrays;
 
 /**
  * @author Daniel Bedrich, Kevin Ortmeier
@@ -67,13 +76,18 @@ public class Relictus extends GameApplication {
     protected void initGame() {
         setCustomCursor();
 
+        getGameScene().addGameView(new ParallaxBackgroundView(Arrays.asList(
+            new ParallaxTexture(getAssetLoader().loadTexture("background.png", getWidth(), getHeight()), 0.5)
+        ), Orientation.HORIZONTAL), RenderLayer.BACKGROUND);
+
         getGameWorld().addEntityFactory(new RelictusEntityFactory());
+
         getGameWorld().setLevelFromMap("relictusTileMap.json");
 
         //getAudioPlayer().playSound("start.mp3");
         player = getGameWorld().spawn("player", 100, 125);
 
-        getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
+        getGameScene().getViewport().setBounds(0, 0, 15000, 720);
         getGameScene().getViewport().bindToEntity(player, getWidth() / 2, getHeight() / 2);
     }
 
