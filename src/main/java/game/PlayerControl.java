@@ -1,24 +1,32 @@
-package game;
+package game.player;
 
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.entity.component.Required;
+import com.almasb.fxgl.entity.components.PositionComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.PhysicsWorld;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.time.LocalTimer;
+import javafx.geometry.Pos;
+import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
 /**
  * @author Kevin Ortmeier
  */
+@Required(PositionComponent.class)
 public class PlayerControl extends Component {
     private PhysicsComponent physics;
+    private PositionComponent position;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk;
 
     private LocalTimer timer;
-    private double speed;
+    private double speed = 150;
 
     public PlayerControl() {
         animIdle = new AnimationChannel("player.png", 4, 32, 42, Duration.seconds(1), 1, 1);
@@ -37,6 +45,7 @@ public class PlayerControl extends Component {
     @Override
     public void onUpdate(double tpf) {
         texture.playAnimationChannel(isMoving() ? animWalk : animIdle);
+        speed = tpf * 200;
     }
 
     private boolean isMoving() {
@@ -45,18 +54,18 @@ public class PlayerControl extends Component {
 
     public void moveRight() {
         getEntity().setScaleX(1);
-        physics.setVelocityX(150);
+        position.translateX(speed);
+        physics.setVelocityX(200);
     }
 
     public void moveLeft() {
         getEntity().setScaleX(-1);
-        physics.setVelocityX(-150);
+        physics.setVelocityX(-200);
     }
 
     public void jump() {
-        if (timer.elapsed(Duration.seconds(1))) {
+        if (physics.isOnGround()) {
             physics.setVelocityY(-200);
-            timer.capture();
         }
     }
 }

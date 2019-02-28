@@ -25,6 +25,7 @@ public class RelictusEntityFactory implements EntityFactory {
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
         PhysicsComponent physics = new PhysicsComponent();
+        physics.setGenerateGroundSensor(true);
         physics.setBodyType(BodyType.DYNAMIC);
 
         return Entities.builder()
