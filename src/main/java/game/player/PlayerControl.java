@@ -7,7 +7,6 @@ import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import game.components.ColliderComponent;
-import game.components.PhysicsComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
@@ -22,7 +21,6 @@ public class PlayerControl extends Component {
     private final UserAction userActionLeft = createMovementAction("Left", Direction.LEFT, speed);
     private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);
     private final UserAction userActionDown = createMovementAction("Down", Direction.DOWN, speed);
-    private PhysicsComponent physicsComponent;
     private PositionComponent positionComponent;
     private ColliderComponent colliderComponent;
     private AnimatedTexture texture;
@@ -39,9 +37,9 @@ public class PlayerControl extends Component {
     public void onAdded() {
         entity.setView(texture);
 
-        physicsComponent = entity.getComponent(PhysicsComponent.class);
-        if (physicsComponent == null) {
-            entity.addComponent(new PhysicsComponent());
+        colliderComponent = entity.getComponent(ColliderComponent.class);
+        if (colliderComponent == null) {
+            entity.addComponent(new ColliderComponent(true));
         }
     }
 
@@ -65,7 +63,7 @@ public class PlayerControl extends Component {
                 (entity.getPosition().getX() + direction.vector.multiply(speed).getX()),
                 (entity.getPosition().getY() + direction.vector.multiply(speed).getY())
         );
-        if (!physicsComponent.isCollided(targetVector)) {
+        if (!colliderComponent.isCollided(targetVector)) {
             positionComponent.translate(direction.vector.multiply(speed));
         } else {
             System.out.println("Entity collided");
