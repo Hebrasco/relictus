@@ -9,14 +9,8 @@ import factories.EntityTypes;
 import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
 import game.player.PlayerControl;
-import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.StageStyle;
-import preferences.GamePreferences;
 import utils.CustomCursor;
-
-import java.util.List;
 
 /**
  * @author Daniel Bedrich, Kevin Ortmeier
@@ -82,20 +76,6 @@ public class Relictus extends GameApplication {
 
         getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
         getGameScene().getViewport().bindToEntity(player, getWidth() / 2, getHeight() / 2);
-
-        // FOR TESTING ONLY
-
-        List<Entity> entities = getGameWorld().getEntities();
-        for (Entity entity : entities) {
-            final int posX = entity.getPositionComponent().getGridX(GamePreferences.gridSize);
-            final int posY = entity.getPositionComponent().getGridY(GamePreferences.gridSize);
-            final Point2D entityPos = new Point2D(posX, posY);
-            final int width = (int) entity.getWidth() / GamePreferences.gridSize;
-            final int height = (int) entity.getHeight() / GamePreferences.gridSize;
-
-            System.out.println(entityPos);
-            System.out.println("Size: " + width + " - " + height);
-        }
 
         initializeInput();
     }

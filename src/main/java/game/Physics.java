@@ -3,8 +3,11 @@ package game;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.audio.AudioPlayer;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.physics.*;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.PhysicsWorld;
 import factories.EntityTypes;
+import game.components.ColliderComponent;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
@@ -40,12 +43,9 @@ public class Physics {
                     (entity.getPosition().getX()),
                     (entity.getPosition().getY() + gravity)
             );
-            if (!entity.getComponent(game.components.PhysicsComponent.class).isCollided(targetVector)) {
-                //entity.translateY(gravity);
-            } else {
-                System.out.println("Entity collided");
+            if (!entity.getComponent(ColliderComponent.class).isCollided(targetVector)) {
+                entity.translateY(gravity);
             }
-            //physicsWorld.onUpdate(tpf);
         }*/
     }
 

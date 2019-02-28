@@ -39,7 +39,7 @@ public class PlayerControl extends Component {
 
         colliderComponent = entity.getComponent(ColliderComponent.class);
         if (colliderComponent == null) {
-            entity.addComponent(new ColliderComponent(true));
+            entity.addComponent(new ColliderComponent());
         }
     }
 
@@ -69,7 +69,7 @@ public class PlayerControl extends Component {
     }
 
     private UserAction createMovementAction(String name, Direction direction, double speed) {
-        return new  UserAction(name) {
+        return new UserAction(name) {
             @Override
             protected void onAction() {
                 move(direction, speed);
