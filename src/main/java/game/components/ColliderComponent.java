@@ -3,54 +3,73 @@ package game.components;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.entity.components.PositionComponent;
 import factories.EntityTypes;
 import javafx.geometry.Point2D;
 import preferences.GamePreferences;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Daniel Bedrich
  */
 public class ColliderComponent extends Component {
-    public boolean isCollidable;
+    private boolean isCollidable;
 
     public ColliderComponent(boolean isCollidable) {
         this.isCollidable = isCollidable;
     }
 
     public boolean isCollided(Point2D vector) {
-        final int gridSize = GamePreferences.gridSize;
         final Point2D newPlayerPos = getGridVector(vector);
-        //final List<Entity> entities = FXGL.getGameWorld().getEntitiesAt(newPlayerPos);
         final List<Entity> entities = FXGL.getGameWorld().getEntities();
 
         for (Entity entity : entities) {
-            if (isTypePlatform(entity)) {
-                final int posX = entity.getComponent(PositionComponent.class).getGridX(gridSize);
-                final int posY = entity.getComponent(PositionComponent.class).getGridY(gridSize);
-                final Point2D entityPos = new Point2D(posX, posY);
+            final double posX = entity.getPositionComponent().getX();
+            final double posY = entity.getPositionComponent().getY();
+            final Point2D entityPos = getGridVector(new Point2D(posX, posY));
+            final int width = getGridWidth(entity);
+            final int height = getGridHeight(entity);
+            final List<Point2D> entityTiles = new ArrayList<>();
 
-                System.out.println("Target position " + newPlayerPos + " - " + "Other entity position" + entityPos);
+            if (entity.isType(EntityTypes.PLATFORM)) {
+                for (int i = 0; i <= width; i++) {
+                    for (int k = 0; k <= height; k++) {
+                        Point2D tilePos = new Point2D(entityPos.getX() + i, entityPos.getY() + k);
+                        entityTiles.add(tilePos);
+                    }
+                }
 
-                return newPlayerPos.equals(entityPos);
+                for (Point2D tilePos : entityTiles) {
+                    if (newPlayerPos.equals(tilePos)) {
+                        logCollisionDetected(newPlayerPos, tilePos);
+
+                        return true;
+                    }
+                }
             }
-            //return entity.getComponent(ColliderComponent.class).isCollidable;
         }
         return false;
     }
 
-    private Point2D getGridVector(Point2D vector) {
-        final int gridSize = GamePreferences.gridSize;
-        return new Point2D((int)(vector.getX() / gridSize), (int)(vector.getY() / gridSize));
+    private void logCollisionDetected(Point2D newPlayerPos, Point2D entityPos) {
+        System.out.println("----------- COLLISION DETECTED -----------");
+        System.out.println("Target position " + newPlayerPos);
+        System.out.println("Entity position " + entityPos);
+        System.out.println("------------------- END -------------------");
     }
 
-    private boolean isTypePlatform(Entity entity) {
-        if (entity.hasComponent(TypeComponent.class)) {
-            return entity.getComponent(TypeComponent.class).type.equals(EntityTypes.PLATFORM);
-        } else {
-            return false;
-        }
+    private Point2D getGridVector(Point2D vector) {
+        final int gridSize = GamePreferences.gridSize;
+        return new Point2D((int) (vector.getX() / gridSize), (int) (vector.getY() / gridSize));
+    }
+
+    private int getGridWidth(Entity entity) {
+        final int gridSize = GamePreferences.gridSize;
+        return (int) entity.getWidth() / gridSize;
+    }
+
+    private int getGridHeight(Entity entity) {
+        final int gridSize = GamePreferences.gridSize;
+        return (int) entity.getHeight() / gridSize;
     }
 }

@@ -15,8 +15,8 @@ import javafx.util.Duration;
  * @author Kevin Ortmeier, Daniel Bedrich
  */
 public class PlayerControl extends Component {
-    private final double speed = 15;
-    private final double jumpVelocity = 18;
+    private final double speed = 5;
+    private final double jumpVelocity = 5;
     private final UserAction userActionJump = createMovementAction("Jump", Direction.UP, jumpVelocity);
     private final UserAction userActionLeft = createMovementAction("Left", Direction.LEFT, speed);
     private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);
@@ -60,13 +60,11 @@ public class PlayerControl extends Component {
 
     private void move(Direction direction, double speed) {
         final Point2D targetVector = new Point2D(
-                (entity.getPosition().getX() + direction.vector.multiply(speed).getX()),
-                (entity.getPosition().getY() + direction.vector.multiply(speed).getY())
+                entity.getPosition().getX() + direction.vector.multiply(speed).getX(),
+                entity.getPosition().getY() + direction.vector.multiply(speed).getY()
         );
         if (!colliderComponent.isCollided(targetVector)) {
             positionComponent.translate(direction.vector.multiply(speed));
-        } else {
-            System.out.println("Entity collided");
         }
     }
 
