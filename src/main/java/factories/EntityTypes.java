@@ -4,5 +4,5 @@ package factories;
  * @author Kevin Ortmeier
  */
 public enum EntityTypes {
-    PLAYER, POWERUP;
+    PLAYER, POWERUP, PLATFORM
 }

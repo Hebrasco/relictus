@@ -65,6 +65,9 @@ public class Relictus extends GameApplication {
 
         getGameWorld().addEntityFactory(new RelictusEntityFactory());
         getGameWorld().setLevelFromMap("relictusTileMap.json");
+        // TODO: Nachschauen ob man mit FXGL mehrere JSON laden und einfügen kann
+        // Sollte es nicht funktionieren, dann muss die JSON manipuliert werden, damit wie Welt größer wird.
+        // Das ganze muss dann Prozedural geschehen.
 
         player = getGameWorld().spawn("player", 50, 50);
         Physics.registerEntity(player);
