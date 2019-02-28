@@ -1,4 +1,4 @@
-package game.player;
+package game;
 
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.core.math.FXGLMath;
