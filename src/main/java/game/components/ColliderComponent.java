@@ -1,8 +1,11 @@
 package game.components;
 
 import com.almasb.fxgl.app.FXGL;
+import com.almasb.fxgl.audio.AudioPlayer;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.PhysicsWorld;
 import factories.EntityTypes;
 import javafx.geometry.Point2D;
 import preferences.GamePreferences;
@@ -14,6 +17,23 @@ import java.util.List;
  * @author Daniel Bedrich
  */
 public class ColliderComponent extends Component {
+    private final PhysicsWorld physicsWorld = FXGL.getPhysicsWorld();
+    private final AudioPlayer audioPlayer = FXGL.getAudioPlayer();
+
+    void addCollisionHandler(EntityTypes a, EntityTypes b) {
+        physicsWorld.addCollisionHandler(createCollisionHandler(a, b));
+    }
+
+    private CollisionHandler createCollisionHandler(Object a, Object b) {
+        return new CollisionHandler(a, b) {
+            @Override
+            protected void onCollision(Entity player, Entity powerup) {
+                powerup.removeFromWorld();
+                audioPlayer.playSound("powerup.mp3");
+            }
+        };
+    }
+
     // TODO: Kollidierung an allen 4 Ecken messen
     // Kollidierung wird gerade nur am oberen rechten Punkt gemessen
     public boolean isCollided(Point2D vector) {

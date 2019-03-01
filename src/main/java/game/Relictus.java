@@ -5,7 +5,6 @@ import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.settings.GameSettings;
-import factories.EntityTypes;
 import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
 import game.player.PlayerControl;
@@ -70,7 +69,6 @@ public class Relictus extends GameApplication {
         // Das ganze muss dann Prozedural geschehen.
 
         player = getGameWorld().spawn("player", 50, 50);
-        Physics.registerEntity(player);
 
         //getAudioPlayer().playSound("start.mp3");
 
@@ -82,12 +80,10 @@ public class Relictus extends GameApplication {
 
     @Override
     protected void initPhysics() {
-        Physics.addCollisionHandler(EntityTypes.PLAYER, EntityTypes.POWERUP);
     }
 
     @Override
     protected void onUpdate(double tpf) {
-        Physics.onUpdate(tpf);
     }
 
     private void initializeInput() {

@@ -5,7 +5,7 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import game.components.ColliderComponent;
-import game.player.PlayerControl;
+import game.components.PlayerComponent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -31,8 +31,7 @@ public class RelictusEntityFactory implements EntityFactory {
         return Entities.builder()
                 .type(EntityTypes.PLAYER)
                 .from(data)
-                .with(new ColliderComponent())
-                .with(new PlayerControl())
+                .with(new PlayerComponent())
                 .viewFromNode(new Rectangle(32, 42, Color.RED))
                 .build();
     }
