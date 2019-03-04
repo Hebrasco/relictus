@@ -51,7 +51,6 @@ public class Relictus extends GameApplication {
         settings.setSoundMenuPress(soundMenuPressFileName);
         settings.setSoundMenuSelect(soundMenuSelectFileName);
         settings.setAppIcon(appIcon);
-        settings.setStageStyle(StageStyle.UNDECORATED);
         settings.setFontUI(customFont);
         settings.setFontGame(customFont);
         settings.setFontText(customFont);
