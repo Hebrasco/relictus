@@ -10,7 +10,6 @@ import factories.EntityTypes;
 import javafx.geometry.Point2D;
 import preferences.GamePreferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,56 +33,51 @@ public class ColliderComponent extends Component {
         };
     }
 
-    // TODO: Kollidierung an allen 4 Ecken messen
-    // Kollidierung wird gerade nur am oberen rechten Punkt gemessen
     public boolean isCollided(Point2D vector) {
-        final Point2D newPlayerPos = getGridVector(vector);
         final List<Entity> entities = FXGL.getGameWorld().getEntities();
 
         for (Entity entity : entities) {
             if (entity.isType(EntityTypes.PLATFORM)) {
-                final List<Point2D> entityTiles = getEntityTiles(entity);
-                for (Point2D tilePos : entityTiles) {
-                    if (newPlayerPos.equals(tilePos)) {
-                        return true;
-                    }
-                    // Entity ist nicht auf der neuen Spieler Position
-                }
+                return areRectanglesOverlapping(vector, entity);
             }
             // Entity ist keiner der oben genannten Typen
         }
         return false;
     }
 
-    private List<Point2D> getEntityTiles(Entity entity) {
-        final int width = getEntityGridWidth(entity);
-        final int height = getEntityGridHeight(entity);
-        final double posX = entity.getPositionComponent().getX();
-        final double posY = entity.getPositionComponent().getY();
-        final Point2D entityPos = getGridVector(new Point2D(posX, posY));
+    // Only for static entities
+    private boolean areRectanglesOverlapping(Point2D newPlayerPos, Entity entity) {
+        final double playerPosX = newPlayerPos.getX();
+        final double playerPosY = newPlayerPos.getY();
+        final double playerPosXRange = playerPosX + 32;
+        final double playerPosYRange = playerPosY + 42;
+        final double entityPosX = entity.getPositionComponent().getX();
+        final double entityPosY = entity.getPositionComponent().getY();
+        final double entityPosXRange = entityPosX + entity.getWidth(); // Width returns 0
+        final double entityPosYRange = entityPosY + entity.getHeight(); // Height returns 0
 
-        final List<Point2D> entityTiles = new ArrayList<>();
-        for (int i = 0; i <= width; i++) {
-            for (int k = 0; k <= height; k++) {
-                Point2D tilePos = new Point2D(entityPos.getX() + i, entityPos.getY() + k);
-                entityTiles.add(tilePos);
-            }
-        }
-        return entityTiles;
+        System.out.println("-------------------------------------------------------------------");
+        System.out.println("Player position - X:" + playerPosX + " Y: " + playerPosY);
+        System.out.println("Player range - X:" + playerPosXRange + " Y: " + playerPosYRange);
+        System.out.println("---");
+        System.out.println("Entity position - X:" + entityPosX + " Y: " + entityPosY);
+        System.out.println("Entity range - X:" + entityPosXRange + " Y: " + entityPosYRange);
+
+        return isOverlapping(
+                playerPosX,
+                playerPosXRange,
+                entityPosX,
+                entityPosXRange
+        ) && isOverlapping(
+                playerPosY,
+                playerPosYRange,
+                entityPosY,
+                entityPosYRange
+        );
     }
 
-    private Point2D getGridVector(Point2D vector) {
-        final int gridSize = GamePreferences.gridSize;
-        return new Point2D((int) (vector.getX() / gridSize), (int) (vector.getY() / gridSize));
-    }
-
-    private int getEntityGridWidth(Entity entity) {
-        final int gridSize = GamePreferences.gridSize;
-        return (int) entity.getWidth() / gridSize;
-    }
-
-    private int getEntityGridHeight(Entity entity) {
-        final int gridSize = GamePreferences.gridSize;
-        return (int) entity.getHeight() / gridSize;
+    private boolean isOverlapping(double minA, double maxA, double minB, double maxB) {
+        return Math.max(minA, maxA) >= Math.min(minB, maxB) &&
+                Math.min(minA, maxA) <= Math.max(minB, maxB);
     }
 }
