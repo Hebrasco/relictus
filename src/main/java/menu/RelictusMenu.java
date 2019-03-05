@@ -137,13 +137,6 @@ public class RelictusMenu extends FXGLMenu {
         return menu;
     }
 
-    private MenuRoot createMultiplayerMenu() {
-        return new MenuRoot(
-                createMenuItemMultiplayerConnect(),
-                createMenuItemMultiplayerHost()
-        );
-    }
-
     private MenuButton createMenuItemSingleplayer() {
         final MenuButton singleplayerMenuButton = new MenuButton("menu.singleplayer");
         singleplayerMenuButton.setOnAction(event -> fireNewGame());
@@ -180,39 +173,11 @@ public class RelictusMenu extends FXGLMenu {
         exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
         return exitMainMenuButton;
     }
-
-    private MenuButton createMenuItemMultiplayerConnect() {
-        final MenuButton mpConnectMenuButton = new MenuButton("multiplayer.connect");
-        mpConnectMenuButton.setMenuContent(this::createMultiplayerConnect, this);
-        return mpConnectMenuButton;
-    }
-
-    private MenuButton createMenuItemMultiplayerHost() {
-        final MenuButton mpHostMenuButton = new MenuButton("multiplayer.host");
-        mpHostMenuButton.setMenuContent(this::createMultiplayerHost, this);
-        return mpHostMenuButton;
-    }
-
+    
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
         final MenuButton button = new MenuButton(key);
         button.addEventHandler(ActionEvent.ACTION, event -> runnable.run());
         return button;
-    }
-
-    private MenuContent createMultiplayerConnect() {
-        // TODO: IP input feld einfügen
-        final MenuContent connectContent = new MenuContent();
-
-        /*
-        connectContent.setOnOpen();
-        connectContent.setOnClose();
-        */
-        System.out.println("created multiplayer connect");
-        return connectContent;
-    }
-
-    private MenuContent createMultiplayerHost() {
-        return new MenuContent();
     }
 
     private MenuContent createCreditsContent() {

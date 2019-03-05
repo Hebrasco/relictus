@@ -10,7 +10,6 @@ import utils.CustomCursor;
  * @author Daniel Bedrich
  */
 public class UIPreferences {
-    // TODO: Custom Cursor für loadingScene setzen
     public static void setCustomCursor(FXGLScene scene) {
         if (isProvenScene(scene)) {
             scene.setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
