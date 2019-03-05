@@ -197,6 +197,7 @@ public class RelictusMenu extends FXGLMenu {
                 CREDITS_LARA_MARIE_MANN,
                 CREDITS_ROMAN_RUBASHKIN,
                 CREDITS_DANIEL_BEDRICH,
+                "", // Leerzeile
                 CREDITS_POWERED_BY_FXGL,
                 CREDITS_FXGL_AUTHOR,
                 CREDITS_FXGL_REPO,
