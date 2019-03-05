@@ -8,8 +8,10 @@ import com.almasb.fxgl.settings.GameSettings;
 import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
 import game.player.PlayerControl;
-import javafx.stage.StageStyle;
+import preferences.GamePreferences;
 import utils.CustomCursor;
+
+import static preferences.GamePreferences.*;
 
 /**
  * @author Daniel Bedrich, Kevin Ortmeier
@@ -23,38 +25,24 @@ public class Relictus extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
-        final int windowWidth = 1280;
-        final int windowHeight = 720;
-        final String cssFileName = "ui_style.css";
-        final String appIcon = "icon/relictus.png";
-        final String soundPath = "menu/";
-        final String customFont = "Jura-Medium.ttf";
-        final String soundMenuPressFileName = soundPath + "menu_click.wav";
-        final String soundMenuSelectFileName = soundPath + "menu_move.wav";
-        //final String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
-        //final String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
-        final String title = "R E L I C T U S"; // Replace with above
-        final String version = "0.1"; // Replace with above
-
         settings.setWidth(windowWidth);
         settings.setHeight(windowHeight);
-        settings.setTitle(title);
+        settings.setTitle(gameTitle);
         settings.setVersion(version);
-        settings.setMenuEnabled(true);
-        settings.setIntroEnabled(false);
-        settings.setFullScreenAllowed(false);
-        settings.setManualResizeEnabled(false);
-        settings.setSceneFactory(new RelictusSceneFactory());
+        settings.setMenuEnabled(isMenuEnabled);
+        settings.setIntroEnabled(isIntroEnabled);
+        settings.setFullScreenAllowed(isFullScreenAllowed);
+        settings.setManualResizeEnabled(isManualResizeAllowed);
+        settings.setSceneFactory(sceneFactory);
         settings.setCSS(cssFileName);
-        settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
-        settings.setSoundMenuPress(soundMenuPressFileName);
-        settings.setSoundMenuSelect(soundMenuSelectFileName);
-        settings.setAppIcon(appIcon);
-        settings.setFontUI(customFont);
-        settings.setFontGame(customFont);
-        settings.setFontText(customFont);
-        settings.setFontMono(customFont);
+        settings.setApplicationMode(applicationMode);
+        settings.setSoundMenuPress(menuPath + soundMenuPressFileName);
+        settings.setSoundMenuSelect(menuPath + soundMenuSelectFileName);
+        settings.setAppIcon(iconPath + appIconFileName);
+        settings.setFontUI(menuFont);
+        settings.setFontGame(menuFont);
+        settings.setFontText(menuFont);
+        settings.setFontMono(menuFont);
     }
 
     @Override

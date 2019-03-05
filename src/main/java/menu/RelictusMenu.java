@@ -173,7 +173,7 @@ public class RelictusMenu extends FXGLMenu {
         exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
         return exitMainMenuButton;
     }
-    
+
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
         final MenuButton button = new MenuButton(key);
         button.addEventHandler(ActionEvent.ACTION, event -> runnable.run());
