@@ -21,7 +21,6 @@ public class RelictusEntityFactory implements EntityFactory {
                 .type(EntityTypes.PLATFORM)
                 .from(data)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
-                .viewFromNode(new Rectangle(data.<Integer>get("width"), data.<Integer>get("height"), Color.CYAN))
                 .with(new ColliderComponent())
                 .build();
     }
@@ -32,7 +31,6 @@ public class RelictusEntityFactory implements EntityFactory {
                 .type(EntityTypes.PLAYER)
                 .from(data)
                 .with(new PlayerComponent())
-                .viewFromNode(new Rectangle(32, 42, Color.RED))
                 .build();
     }
 
