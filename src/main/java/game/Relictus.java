@@ -4,15 +4,10 @@ import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.settings.GameSettings;
-import com.almasb.fxgl.time.LocalTimer;
 import factories.RelictusEntityFactory;
 import factories.RelictusSceneFactory;
-import factories.RelictusType;
-import javafx.scene.input.KeyCode;
+import game.player.PlayerControl;
 import javafx.stage.StageStyle;
 import utils.CustomCursor;
 
@@ -21,10 +16,10 @@ import utils.CustomCursor;
  */
 public class Relictus extends GameApplication {
     private Entity player;
-    PlayerControl playerComponent;
-    private PhysicsComponent physics;
 
-    private LocalTimer timer;
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -56,7 +51,6 @@ public class Relictus extends GameApplication {
         settings.setSoundMenuPress(soundMenuPressFileName);
         settings.setSoundMenuSelect(soundMenuSelectFileName);
         settings.setAppIcon(appIcon);
-        settings.setStageStyle(StageStyle.UNDECORATED);
         settings.setFontUI(customFont);
         settings.setFontGame(customFont);
         settings.setFontText(customFont);
@@ -69,50 +63,30 @@ public class Relictus extends GameApplication {
 
         getGameWorld().addEntityFactory(new RelictusEntityFactory());
         getGameWorld().setLevelFromMap("relictusTileMap.json");
+        // TODO: Nachschauen ob man mit FXGL mehrere JSON laden und einfügen kann
+        // Sollte es nicht funktionieren, dann muss die JSON manipuliert werden, damit wie Welt größer wird.
+        // Das ganze muss dann Prozedural geschehen.
+
+        player = getGameWorld().spawn("player", 50, 50);
 
         //getAudioPlayer().playSound("start.mp3");
-        player = getGameWorld().spawn("player", 50, 50);
 
         getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
         getGameScene().getViewport().bindToEntity(player, getWidth() / 2, getHeight() / 2);
-    }
 
-    protected void initPhysics() {
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(RelictusType.PLAYER, RelictusType.POWERUP) {
-            @Override
-            protected void onCollision(Entity player, Entity powerup) {
-                powerup.removeFromWorld();
-                getAudioPlayer().playSound("powerup.mp3");
-            }
-        });
+        initializeInput();
     }
 
     @Override
-    public void initInput() {
-        getInput().addAction(new UserAction("Move Right") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerControl.class).moveRight();
-            }
-        }, KeyCode.D);
-
-        getInput().addAction(new UserAction("Move Left") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerControl.class).moveLeft();
-            }
-        }, KeyCode.A);
-
-        getInput().addAction(new UserAction("jump") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerControl.class).jump();
-            }
-        }, KeyCode.W);
+    protected void initPhysics() {
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    protected void onUpdate(double tpf) {
+    }
+
+    private void initializeInput() {
+        player.getComponent(PlayerControl.class).createInput(getInput());
     }
 
     private void setCustomCursor() {

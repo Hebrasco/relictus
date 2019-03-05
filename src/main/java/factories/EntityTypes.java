@@ -3,6 +3,6 @@ package factories;
 /**
  * @author Kevin Ortmeier
  */
-public enum RelictusType {
-    PLAYER, POWERUP;
+public enum EntityTypes {
+    PLAYER, POWERUP, PLATFORM
 }

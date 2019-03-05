@@ -1,10 +1,14 @@
-package utils;
+package preferences;
 
 import com.almasb.fxgl.scene.FXGLMenu;
 import com.almasb.fxgl.scene.FXGLScene;
 import com.almasb.fxgl.scene.GameScene;
 import com.almasb.fxgl.scene.LoadingScene;
+import utils.CustomCursor;
 
+/**
+ * @author Daniel Bedrich
+ */
 public class UIPreferences {
     // TODO: Custom Cursor für loadingScene setzen
     public static void setCustomCursor(FXGLScene scene) {
