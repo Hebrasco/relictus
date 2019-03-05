@@ -1,8 +1,8 @@
-package factories;
+package data;
 
 /**
  * @author Kevin Ortmeier
  */
 public enum EntityTypes {
-    PLAYER, POWERUP;
+    PLAYER, POWERUP, PLATFORM
 }

@@ -10,23 +10,21 @@ import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.FXGLScrollPane;
 import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utils.CustomCursor;
 import utils.Particles;
 import utils.PropertiesLoader;
+
+import static preferences.GamePreferences.*;
+import static data.MenuKeys.*;
 
 /**
  * @author Daniel Bedrich
@@ -86,22 +84,18 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private Texture createBackgroundTexture(double width, double height) {
-        final String imagePath = "menu/";
-        final String fileName = "menu_background.gif";
-        final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(imagePath + fileName);
+        final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(MENU_PATH + MENU_BACKGROUND_FILE_NAME);
         backgroundImage.setFitWidth(width);
         backgroundImage.setFitHeight(height);
         return backgroundImage;
     }
 
     private Texture createTitleImage() {
-        final String imagePath = "menu/";
-        final String fileName = "title.png";
         final double scaleFactor = 3.0;
         final double width = FXGL.getAppWidth() / scaleFactor;
         final double height = FXGL.getAppHeight() / scaleFactor;
         final double posX = (FXGL.getAppWidth() / 2.0) - (width / 2.0);
-        final Texture titleImage = FXGL.getAssetLoader().loadTexture(imagePath + fileName);
+        final Texture titleImage = FXGL.getAssetLoader().loadTexture(MENU_PATH + MENU_TITLE_IMAGE);
         titleImage.setFitWidth(width);
         titleImage.setFitHeight(height);
         titleImage.setTranslateX(posX);
@@ -137,82 +131,46 @@ public class RelictusMenu extends FXGLMenu {
         return menu;
     }
 
-    private MenuRoot createMultiplayerMenu() {
-        return new MenuRoot(
-                createMenuItemMultiplayerConnect(),
-                createMenuItemMultiplayerHost()
-        );
-    }
-
     private MenuButton createMenuItemSingleplayer() {
-        final MenuButton singleplayerMenuButton = new MenuButton("menu.singleplayer");
+        final MenuButton singleplayerMenuButton = new MenuButton(SINGLEPLAYER);
         singleplayerMenuButton.setOnAction(event -> fireNewGame());
         return singleplayerMenuButton;
     }
 
     private MenuButton createMenuItemMultiplayer() {
-        final MenuButton multiplayerMenuButton = new MenuButton("menu.multiplayer");
-        //multiplayerMenuButton.setChild(createMultiplayerMenu(), this);
+        final MenuButton multiplayerMenuButton = new MenuButton(MULTIPLAYER);
         multiplayerMenuButton.setOnAction(e -> fireMultiplayer()); // TODO: eigene funktion für "fireMultiplayer()" implementieren
         return multiplayerMenuButton;
     }
 
     private MenuButton createMenuItemExit() {
-        final MenuButton exitMenuButton = new MenuButton("menu.quit");
+        final MenuButton exitMenuButton = new MenuButton(QUIT);
         exitMenuButton.setOnAction(event -> fireExit());
         return exitMenuButton;
     }
 
     private MenuButton createMenuItemResume() {
-        final MenuButton resumeMenuButton = new MenuButton("menu.resume");
+        final MenuButton resumeMenuButton = new MenuButton(RESUME);
         resumeMenuButton.setOnAction(event -> fireResume());
         return resumeMenuButton;
     }
 
     private MenuButton createMenuItemCredits() {
-        final MenuButton creditsMenuButton = new MenuButton("menu.credits");
+        final MenuButton creditsMenuButton = new MenuButton(CREDITS);
         creditsMenuButton.setMenuContent(this::createCreditsContent, this);
         return creditsMenuButton;
     }
 
     private MenuButton createMenuItemExitToMainMenu() {
-        final MenuButton exitMainMenuButton = new MenuButton("menu.mainMenu");
+        final MenuButton exitMainMenuButton = new MenuButton(MAIN_MENU);
         exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
         return exitMainMenuButton;
-    }
-
-    private MenuButton createMenuItemMultiplayerConnect() {
-        final MenuButton mpConnectMenuButton = new MenuButton("multiplayer.connect");
-        mpConnectMenuButton.setMenuContent(this::createMultiplayerConnect, this);
-        return mpConnectMenuButton;
-    }
-
-    private MenuButton createMenuItemMultiplayerHost() {
-        final MenuButton mpHostMenuButton = new MenuButton("multiplayer.host");
-        mpHostMenuButton.setMenuContent(this::createMultiplayerHost, this);
-        return mpHostMenuButton;
     }
 
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
         final MenuButton button = new MenuButton(key);
         button.addEventHandler(ActionEvent.ACTION, event -> runnable.run());
         return button;
-    }
-
-    private MenuContent createMultiplayerConnect() {
-        // TODO: IP input feld einfügen
-        final MenuContent connectContent = new MenuContent();
-
-        /*
-        connectContent.setOnOpen();
-        connectContent.setOnClose();
-        */
-        System.out.println("created multiplayer connect");
-        return connectContent;
-    }
-
-    private MenuContent createMultiplayerHost() {
-        return new MenuContent();
     }
 
     private MenuContent createCreditsContent() {
@@ -233,16 +191,17 @@ public class RelictusMenu extends FXGLMenu {
 
     private String[] getCreditsEntries() {
         return new String[]{
-                "credits.relictusCreatedBy",
-                "credits.kevinOrtmeier",
-                "credits.markusKremer",
-                "credits.laraMarieMann",
-                "credits.romanRubashkin",
-                "credits.danielBedrich",
-                "",
-                "credits.poweredByFXGL",
-                "credits.FXGLAuthor",
-                "credits.FXGLRepo"
+                CREDITS_CREATED_BY,
+                CREDITS_KEVIN_ORTMEIER,
+                CREDITS_MARKUS_KREMER,
+                CREDITS_LARA_MARIE_MANN,
+                CREDITS_ROMAN_RUBASHKIN,
+                CREDITS_DANIEL_BEDRICH,
+                "", // Leerzeile
+                CREDITS_POWERED_BY_FXGL,
+                CREDITS_FXGL_AUTHOR,
+                CREDITS_FXGL_REPO,
+
         };
     }
 
@@ -270,9 +229,10 @@ public class RelictusMenu extends FXGLMenu {
 
         final double menuX = 50;
         final double menuY = app.getHeight() / 2.0 - menu.getLayoutBounds().getHeight() / 2.0;
+        final double menuContentX = 256.0;
 
         setTranslate(menuRoot, menuX, menuY);
-        setTranslate(contentRoot, 256.0, menuY);
+        setTranslate(contentRoot, menuContentX, menuY);
         // TODO: setTranslateX nicht statisch, sondern dynamisch darstellen
         // FXGL.getAppWidth() / 2.0 - menu.getLayoutBounds().getWidth() - menuPosX
         // Problem: Menü breite ist immer 0.0
@@ -324,7 +284,7 @@ public class RelictusMenu extends FXGLMenu {
     }
 
     private void setCustomCursor() {
-        setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
+        setCursor(CustomCursor.DEFAULT_CURSOR, CustomCursor.DEFAULT_HOTSPOT);
     }
 
     private boolean isMainMenu(MenuType menuType) {
