@@ -2,6 +2,7 @@ package menu;
 
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.ui.FXGLButton;
+import data.MenuKeys;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
@@ -45,7 +46,7 @@ class MenuButton extends Pane {
     }
 
     void setChild(MenuRoot menuRoot, RelictusMenu relictusMenu) {
-        final MenuButton backButton = new MenuButton("menu.back");
+        final MenuButton backButton = new MenuButton(MenuKeys.BACK);
         menuRoot.getChildren().add(menuRoot.getChildren().size(), backButton);
 
         backButton.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(parent));

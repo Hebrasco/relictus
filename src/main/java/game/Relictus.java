@@ -1,15 +1,13 @@
 package game;
 
-import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.settings.GameSettings;
-import factories.RelictusEntityFactory;
-import factories.RelictusSceneFactory;
 import game.player.PlayerControl;
-import javafx.stage.StageStyle;
 import utils.CustomCursor;
+
+import static preferences.GamePreferences.*;
 
 /**
  * @author Daniel Bedrich, Kevin Ortmeier
@@ -23,46 +21,32 @@ public class Relictus extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
-        final int windowWidth = 1280;
-        final int windowHeight = 720;
-        final String cssFileName = "ui_style.css";
-        final String appIcon = "icon/relictus.png";
-        final String soundPath = "menu/";
-        final String customFont = "Jura-Medium.ttf";
-        final String soundMenuPressFileName = soundPath + "menu_click.wav";
-        final String soundMenuSelectFileName = soundPath + "menu_move.wav";
-        //final String title = propertiesLoader.getResourceProperties("app.title"); // TODO: fix lateinit exception
-        //final String version = propertiesLoader.getResourceProperties("app.version"); // TODO: fix lateinit exception
-        final String title = "R E L I C T U S"; // Replace with above
-        final String version = "0.1"; // Replace with above
-
-        settings.setWidth(windowWidth);
-        settings.setHeight(windowHeight);
-        settings.setTitle(title);
-        settings.setVersion(version);
-        settings.setMenuEnabled(true);
-        settings.setIntroEnabled(false);
-        settings.setFullScreenAllowed(false);
-        settings.setManualResizeEnabled(false);
-        settings.setSceneFactory(new RelictusSceneFactory());
-        settings.setCSS(cssFileName);
-        settings.setApplicationMode(ApplicationMode.DEVELOPER); // bei release version auf "Release" ändern
-        settings.setSoundMenuPress(soundMenuPressFileName);
-        settings.setSoundMenuSelect(soundMenuSelectFileName);
-        settings.setAppIcon(appIcon);
-        settings.setFontUI(customFont);
-        settings.setFontGame(customFont);
-        settings.setFontText(customFont);
-        settings.setFontMono(customFont);
+        settings.setWidth(WINDOW_WIDTH);
+        settings.setHeight(WINDOW_HEIGHT);
+        settings.setTitle(GAME_TITLE);
+        settings.setVersion( VERSION);
+        settings.setMenuEnabled(IS_MENU_ENABLED);
+        settings.setIntroEnabled(IS_INTRO_ENABLED);
+        settings.setFullScreenAllowed(IS_FULL_SCREEN_ALLOWED);
+        settings.setManualResizeEnabled(IS_MANUAL_RESIZE_ALLOWED);
+        settings.setSceneFactory(SCENE_FACTORY);
+        settings.setCSS(CSS_FILE_NAME);
+        settings.setApplicationMode(APPLICATION_MODE);
+        settings.setSoundMenuPress(MENU_PATH + SOUND_MENU_PRESS_FILE_NAME);
+        settings.setSoundMenuSelect(MENU_PATH + SOUND_MENU_SELECT_FILE_NAME);
+        settings.setAppIcon(ICON_PATH + APP_ICON_FILE_NAME);
+        settings.setFontUI(MENU_FONT_FILE_NAME);
+        settings.setFontGame(MENU_FONT_FILE_NAME);
+        settings.setFontText(MENU_FONT_FILE_NAME);
+        settings.setFontMono(MENU_FONT_FILE_NAME);
     }
 
     @Override
     protected void initGame() {
         setCustomCursor();
 
-        getGameWorld().addEntityFactory(new RelictusEntityFactory());
-        getGameWorld().setLevelFromMap("relictusTileMap.json");
+        getGameWorld().addEntityFactory(ENTITY_FACTORY);
+        getGameWorld().setLevelFromMap(TILE_MAP_FILE_NAME);
         // TODO: Nachschauen ob man mit FXGL mehrere JSON laden und einfügen kann
         // Sollte es nicht funktionieren, dann muss die JSON manipuliert werden, damit wie Welt größer wird.
         // Das ganze muss dann Prozedural geschehen.
@@ -90,6 +74,6 @@ public class Relictus extends GameApplication {
     }
 
     private void setCustomCursor() {
-        FXGL.getGameScene().setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
+        FXGL.getGameScene().setCursor(CustomCursor.DEFAULT_CURSOR, CustomCursor.DEFAULT_HOTSPOT);
     }
 }

@@ -10,6 +10,8 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
+import static preferences.GamePreferences.*;
+
 /**
  * @author Daniel Bedrich
  */
@@ -27,7 +29,8 @@ public class Particles {
     }
 
     private static void setParticleEmitterSettings(ParticleEmitter particleEmitter) {
-        final Texture particleTexture = DSLKt.texture("particles/dust.png", 8, 8).brighter().brighter();
+        final int textureSize = 8;
+        final Texture particleTexture = DSLKt.texture(PARTICLES_PATH + MENU_PARTICLE_FILE_NAME, textureSize, textureSize).brighter().brighter();
         final Image particleImage = particleTexture.getImage();
         final BlendMode blendMode = BlendMode.ADD;
         final double emissionRate = 0.01;

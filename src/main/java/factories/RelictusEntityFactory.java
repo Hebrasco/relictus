@@ -4,10 +4,10 @@ import com.almasb.fxgl.entity.*;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import data.EntityTypes;
 import game.components.ColliderComponent;
 import game.components.PlayerComponent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import preferences.GamePreferences;
 
 
 /**
@@ -21,7 +21,6 @@ public class RelictusEntityFactory implements EntityFactory {
                 .type(EntityTypes.PLATFORM)
                 .from(data)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
-                .viewFromNode(new Rectangle(data.<Integer>get("width"), data.<Integer>get("height"), Color.CYAN))
                 .with(new ColliderComponent())
                 .build();
     }
@@ -32,7 +31,6 @@ public class RelictusEntityFactory implements EntityFactory {
                 .type(EntityTypes.PLAYER)
                 .from(data)
                 .with(new PlayerComponent())
-                .viewFromNode(new Rectangle(32, 42, Color.RED))
                 .build();
     }
 
@@ -41,7 +39,7 @@ public class RelictusEntityFactory implements EntityFactory {
         return Entities.builder()
                 .type(EntityTypes.POWERUP)
                 .from(data)
-                .viewFromTextureWithBBox("diamond.png")
+                .viewFromTextureWithBBox(GamePreferences.POWER_UP_FILE_NAME)
                 .with(new CollidableComponent(true))
                 .build();
     }

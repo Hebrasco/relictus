@@ -8,6 +8,6 @@ import utils.CustomCursor;
  */
 public class LoadingScreen extends LoadingScene {
     public LoadingScreen() {
-        setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
+        setCursor(CustomCursor.DEFAULT_CURSOR, CustomCursor.DEFAULT_HOTSPOT);
     }
 }

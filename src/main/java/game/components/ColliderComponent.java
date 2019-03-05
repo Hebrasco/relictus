@@ -6,8 +6,9 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
-import factories.EntityTypes;
+import data.EntityTypes;
 import javafx.geometry.Point2D;
+import preferences.GamePreferences;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ColliderComponent extends Component {
             @Override
             protected void onCollision(Entity player, Entity powerup) {
                 powerup.removeFromWorld();
-                audioPlayer.playSound("powerup.mp3");
+                audioPlayer.playSound(GamePreferences.SOUND_POWERUP);
             }
         };
     }
