@@ -8,7 +8,6 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import factories.EntityTypes;
 import javafx.geometry.Point2D;
-import preferences.GamePreferences;
 
 import java.util.List;
 
@@ -38,7 +37,13 @@ public class ColliderComponent extends Component {
 
         for (Entity entity : entities) {
             if (entity.isType(EntityTypes.PLATFORM)) {
-                return areRectanglesOverlapping(vector, entity);
+                if (entity.getWidth() != 0 && entity.getHeight() != 0) {
+                    final boolean EntitiesAreOverlapping = areRectanglesOverlapping(vector, entity);
+
+                    if (EntitiesAreOverlapping) {
+                        return true;
+                    }
+                }
             }
             // Entity ist keiner der oben genannten Typen
         }
@@ -53,15 +58,27 @@ public class ColliderComponent extends Component {
         final double playerPosYRange = playerPosY + 42;
         final double entityPosX = entity.getPositionComponent().getX();
         final double entityPosY = entity.getPositionComponent().getY();
-        final double entityPosXRange = entityPosX + entity.getWidth(); // Width returns 0
-        final double entityPosYRange = entityPosY + entity.getHeight(); // Height returns 0
+        final double entityPosXRange = entityPosX + entity.getWidth();
+        final double entityPosYRange = entityPosY + entity.getHeight();
 
         System.out.println("-------------------------------------------------------------------");
-        System.out.println("Player position - X:" + playerPosX + " Y: " + playerPosY);
-        System.out.println("Player range - X:" + playerPosXRange + " Y: " + playerPosYRange);
-        System.out.println("---");
-        System.out.println("Entity position - X:" + entityPosX + " Y: " + entityPosY);
-        System.out.println("Entity range - X:" + entityPosXRange + " Y: " + entityPosYRange);
+        System.out.println("Player position: TopLeft:" + playerPosX + ", " + playerPosY);
+        System.out.println("Player range: " + playerPosXRange + ", " + playerPosYRange);
+        System.out.println("Entity position: " + entityPosX + ", " + entityPosY);
+        System.out.println("Entity range: " + entityPosXRange + ", " + entityPosYRange);
+        System.out.println("Colliding: ");
+        System.out.println(isOverlapping(
+                playerPosX,
+                playerPosXRange,
+                entityPosX,
+                entityPosXRange
+                ) && isOverlapping(
+                playerPosY,
+                playerPosYRange,
+                entityPosY,
+                entityPosYRange
+                )
+        );
 
         return isOverlapping(
                 playerPosX,
