@@ -7,7 +7,6 @@ import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import game.components.ColliderComponent;
 import game.components.PlayerPhysicsComponent;
-import game.components.PlayerComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;

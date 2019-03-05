@@ -61,25 +61,6 @@ public class ColliderComponent extends Component {
         final double entityPosXRange = entityPosX + entity.getWidth();
         final double entityPosYRange = entityPosY + entity.getHeight();
 
-        System.out.println("-------------------------------------------------------------------");
-        System.out.println("Player position: TopLeft:" + playerPosX + ", " + playerPosY);
-        System.out.println("Player range: " + playerPosXRange + ", " + playerPosYRange);
-        System.out.println("Entity position: " + entityPosX + ", " + entityPosY);
-        System.out.println("Entity range: " + entityPosXRange + ", " + entityPosYRange);
-        System.out.println("Colliding: ");
-        System.out.println(isOverlapping(
-                playerPosX,
-                playerPosXRange,
-                entityPosX,
-                entityPosXRange
-                ) && isOverlapping(
-                playerPosY,
-                playerPosYRange,
-                entityPosY,
-                entityPosYRange
-                )
-        );
-
         return isOverlapping(
                 playerPosX,
                 playerPosXRange,
