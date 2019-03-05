@@ -10,6 +10,7 @@ import game.components.PlayerPhysicsComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
+import preferences.GamePreferences;
 
 /**
  * @author Kevin Ortmeier, Daniel Bedrich
@@ -28,8 +29,8 @@ public class PlayerControl extends Component {
 
     @Override
     public void onAdded() {
-        animIdle = new AnimationChannel("player.png", 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 1, 1);
-        animWalk = new AnimationChannel("player.png", 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 0, 3);
+        animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 1, 1);
+        animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 0, 3);
 
         texture = new AnimatedTexture(animIdle);
 

@@ -1,11 +1,12 @@
 package utils;
 
 import javafx.geometry.Point2D;
+import preferences.GamePreferences;
 
 /**
  * @author Daniel Bedrich
  */
 public class CustomCursor {
-    public static String defaultCurser = "cursor.png";
-    public static Point2D defaultHotSpot = new javafx.geometry.Point2D(0, 0);
+    public static final String DEFAULT_CURSOR = GamePreferences.CURSOR_FILE_NAME;
+    public static final Point2D DEFAULT_HOTSPOT = new Point2D(0, 0);
 }

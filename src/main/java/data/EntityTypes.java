@@ -1,4 +1,4 @@
-package factories;
+package data;
 
 /**
  * @author Kevin Ortmeier

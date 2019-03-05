@@ -12,7 +12,7 @@ import utils.CustomCursor;
 public class UIPreferences {
     public static void setCustomCursor(FXGLScene scene) {
         if (isProvenScene(scene)) {
-            scene.setCursor(CustomCursor.defaultCurser, CustomCursor.defaultHotSpot);
+            scene.setCursor(CustomCursor.DEFAULT_CURSOR, CustomCursor.DEFAULT_HOTSPOT);
         }
     }
 

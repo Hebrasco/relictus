@@ -4,10 +4,10 @@ import com.almasb.fxgl.entity.*;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import data.EntityTypes;
 import game.components.ColliderComponent;
 import game.components.PlayerComponent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import preferences.GamePreferences;
 
 
 /**
@@ -39,7 +39,7 @@ public class RelictusEntityFactory implements EntityFactory {
         return Entities.builder()
                 .type(EntityTypes.POWERUP)
                 .from(data)
-                .viewFromTextureWithBBox("diamond.png")
+                .viewFromTextureWithBBox(GamePreferences.POWER_UP_FILE_NAME)
                 .with(new CollidableComponent(true))
                 .build();
     }

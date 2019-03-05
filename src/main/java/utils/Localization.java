@@ -3,15 +3,14 @@ package utils;
 import com.almasb.fxgl.app.FXGL;
 import data.Language;
 
+import static preferences.GamePreferences.*;
+
 /**
  * @author Daniel Bedrich
  */
 class Localization {
-    private final String langName = "relictus";
-    private final String languagesPath = "languages/";
-    private final String fileEndingProperties = ".properties";
     Language selectedLanguage = new Language(
-            langName,
-            FXGL.getAssetLoader().loadResourceBundle(languagesPath + langName + fileEndingProperties)
+            LANGUAGE_PROPERTIES_FILE_NAME,
+            FXGL.getAssetLoader().loadResourceBundle(LANGUAGE_PATH + LANGUAGE_PROPERTIES_FILE_NAME)
     );
 }
