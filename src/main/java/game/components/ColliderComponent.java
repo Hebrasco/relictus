@@ -1,21 +1,21 @@
 package game.components;
 
 import com.almasb.fxgl.app.FXGL;
-import com.almasb.fxgl.audio.AudioPlayer;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.PhysicsWorld;
 import data.EntityTypes;
 import javafx.geometry.Point2D;
-import preferences.GamePreferences;
 
 import java.util.List;
 
 /**
+ * Handles the collisions with other entities.
+ *
  * @author Daniel Bedrich
+ * @version 1.0
  */
 public class ColliderComponent extends Component {
+    /*
     private final PhysicsWorld physicsWorld = FXGL.getPhysicsWorld();
     private final AudioPlayer audioPlayer = FXGL.getAudioPlayer();
 
@@ -32,7 +32,13 @@ public class ColliderComponent extends Component {
             }
         };
     }
+    */
 
+    /**
+     * Checks if the new position of this entity will move inside another entity.
+     * @param vector the point coordinates of the new position.
+     * @return true, if the entity will move inside another entity.
+     */
     public boolean isCollided(Point2D vector) {
         final List<Entity> entities = FXGL.getGameWorld().getEntities();
 
@@ -51,12 +57,19 @@ public class ColliderComponent extends Component {
         return false;
     }
 
-    // Only for static entities
-    private boolean areRectanglesOverlapping(Point2D newPlayerPos, Entity entity) {
-        final double playerPosX = newPlayerPos.getX();
-        final double playerPosY = newPlayerPos.getY();
-        final double playerPosXRange = playerPosX + 32;
-        final double playerPosYRange = playerPosY + 42;
+    /**
+     * Checks if two rectangles are overlapping each other.
+     * @implNote Only for static entities.
+     *
+     * @param position the new position of the first entity.
+     * @param entity the entity to compare with.
+     * @return true, if both entities are overlapping each other.
+     */
+    private boolean areRectanglesOverlapping(Point2D position, Entity entity) {
+        final double playerPosX = position.getX();
+        final double playerPosY = position.getY();
+        final double playerPosXRange = playerPosX + 32; // TODO: Spieler breite von PlayerComponent laden
+        final double playerPosYRange = playerPosY + 42; // TODO: Spieler höhe von PlayerComponent laden
         final double entityPosX = entity.getPositionComponent().getX();
         final double entityPosY = entity.getPositionComponent().getY();
         final double entityPosXRange = entityPosX + entity.getWidth();
@@ -75,6 +88,14 @@ public class ColliderComponent extends Component {
         );
     }
 
+    /**
+     * Checks if two lines are overlapping each other.
+     * @param minA the first point of line A.
+     * @param maxA the second point of line A.
+     * @param minB the first point of line B.
+     * @param maxB the second point of line B.
+     * @return true, if both lines are overlapping each other.
+     */
     private boolean isOverlapping(double minA, double maxA, double minB, double maxB) {
         return Math.max(minA, maxA) >= Math.min(minB, maxB) &&
                 Math.min(minA, maxA) <= Math.max(minB, maxB);
