@@ -13,14 +13,23 @@ import javafx.util.Duration;
 import static preferences.GamePreferences.*;
 
 /**
+ * Defines different particle emitters.
+ *
  * @author Daniel Bedrich
+ * @version 1.0
  */
 public class Particles {
-
+    /**
+     * @return the dust particle emitter.
+     */
     public static ParticleEmitter getDustEmitter() {
         return createDustParticleEmitter();
     }
 
+    /**
+     * Creates the dust particle emitter.
+     * @return the particle emitter.
+     */
     private static ParticleEmitter createDustParticleEmitter() {
         final ParticleEmitter particleEmitter = new ParticleEmitter();
         setParticleEmitterSettings(particleEmitter);
@@ -28,6 +37,10 @@ public class Particles {
         return particleEmitter;
     }
 
+    /**
+     * Sets all the dust particle emitter settings.
+     * @param particleEmitter the particle emitter to apply the settings to.
+     */
     private static void setParticleEmitterSettings(ParticleEmitter particleEmitter) {
         final int textureSize = 8;
         final Texture particleTexture = DSLKt.texture(PARTICLES_PATH + MENU_PARTICLE_FILE_NAME, textureSize, textureSize).brighter().brighter();
@@ -49,6 +62,10 @@ public class Particles {
         particleEmitter.setAllowParticleRotation(true);
     }
 
+    /**
+     * Defines the spawn point for the particle that gets emitted.
+     * @return the spawn point.
+     */
     private static Point2D particleSpawnPointArea() {
         final double vectorOrigin = 0.0;
         final double vectorXEnd = FXGL.getAppHeight();
@@ -61,6 +78,10 @@ public class Particles {
         ).multiply(spawnPointMultiplier);
     }
 
+    /**
+     * Defines the particles velocity and direction that gets emitted.
+     * @return the direction.
+     */
     private static Point2D particleVelocity() {
         final double minVelocity = 5.0;
         final double maxVelocity = 15.0;
@@ -80,6 +101,10 @@ public class Particles {
         );
     }
 
+    /**
+     * Defines the particle scale that gets emitted.
+     * @return the scale of the particle.
+     */
     private static Point2D particleScale() {
         final double maxScaleFactor = 0.0075;
 
@@ -89,6 +114,10 @@ public class Particles {
         );
     }
 
+    /**
+     * Defines the particles lifetime.
+     * @return the lifetime in seconds.
+     */
     private static Duration particleExpiration() {
         final int minLifetime = 5;
         final int maxLifetime = 15;
