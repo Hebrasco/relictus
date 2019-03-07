@@ -3,7 +3,10 @@ package data;
 import java.util.ResourceBundle;
 
 /**
+ * This class contains the {@link ResourceBundle} with all texts for the whole game.
+ *
  * @author Daniel Bedrich
+ * @version 1.0
  */
 public class Language {
     public String name;
