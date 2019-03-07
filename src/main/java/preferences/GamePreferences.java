@@ -10,7 +10,7 @@ import factories.RelictusSceneFactory;
 public class GamePreferences {
     // GENERAL
     public static final String GAME_TITLE = "R E L I C T U S";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "1.0";
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
     public static final boolean IS_MENU_ENABLED = true;
