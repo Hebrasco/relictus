@@ -122,7 +122,7 @@ public class RelictusMenu extends FXGLMenu {
             menu.add(createMenuItemSingleplayer());
             menu.add(createMenuItemMultiplayer());
             menu.add(createMenuItemCredits());
-            menu.add(createMenuItemExit());
+            menu.add(createMenuItemQuit());
         } else {
             menu.add(createMenuItemResume());
             menu.add(createMenuItemExitToMainMenu());
@@ -143,10 +143,10 @@ public class RelictusMenu extends FXGLMenu {
         return multiplayerMenuButton;
     }
 
-    private MenuItem createMenuItemExit() {
-        final MenuItem exitMenuButton = new MenuItem(QUIT);
-        exitMenuButton.setOnAction(event -> fireExit());
-        return exitMenuButton;
+    private MenuItem createMenuItemQuit() {
+        final MenuItem quitMenuButton = new MenuItem(QUIT);
+        quitMenuButton.setOnAction(event -> fireExit());
+        return quitMenuButton;
     }
 
     private MenuItem createMenuItemResume() {
@@ -238,12 +238,12 @@ public class RelictusMenu extends FXGLMenu {
         // Problem: Menü breite ist immer 0.0
         // Credits breite ist FXGL.getAppWidth() * 3 / 5
 
-        setParticles();
+        addParticles();
 
         menuRoot.getChildren().addAll(menu);
         contentRoot.getChildren().add(EMPTY);
 
-        setListener(menu);
+        addListener(menu);
     }
 
     private void setTranslate(Pane pane, double PosX, double PosY) {
@@ -251,13 +251,13 @@ public class RelictusMenu extends FXGLMenu {
         pane.setTranslateY(PosY);
     }
 
-    private void setParticles() {
+    private void addParticles() {
         ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
         particleSystem.addParticleEmitter(dustParticleEmitter, 0, -FXGL.getAppHeight());
         getContentRoot().getChildren().add(3, particleSystem.getPane());
     }
 
-    private void setListener(MenuRoot menu) {
+    private void addListener(MenuRoot menu) {
         activeProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 switchMenuTo(menu);
