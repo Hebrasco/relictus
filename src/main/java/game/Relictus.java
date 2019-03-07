@@ -80,7 +80,7 @@ public class Relictus extends GameApplication {
     }
 
     /**
-     * Sets the custom cursor in the game scene.
+     * Sets the custom relictus cursor in the game scene.
      */
     private void setCustomCursor() {
         FXGL.getGameScene().setCursor(CustomCursor.DEFAULT_CURSOR, CustomCursor.DEFAULT_HOTSPOT);
