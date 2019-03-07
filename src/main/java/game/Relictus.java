@@ -82,7 +82,8 @@ public class Relictus extends GameApplication {
 
         getGameWorld().addEntityFactory(new RelictusEntityFactory());
 
-        getGameWorld().setLevelFromMap("relictusTileMap.json");
+        getGameWorld().setLevelFromMap("map_spawn.json");
+        //getGameWorld().setLevelFromMap("map_1.json");
 
         //getAudioPlayer().playSound("start.mp3");
         player = getGameWorld().spawn("player", 100, 125);
