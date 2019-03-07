@@ -18,11 +18,11 @@ import java.util.function.Supplier;
 /**
  * @author Daniel Bedrich
  */
-class MenuButton extends Pane {
+class MenuItem extends Pane {
     final FXGLButton button = new FXGLButton();
     private MenuRoot parent = null;
 
-    MenuButton(String key) {
+    MenuItem(String key) {
         button.setAlignment(Pos.CENTER_LEFT);
         button.setStyle("-fx-background-color: transparent");
         button.setPrefWidth(getTextWidth(key));
@@ -46,7 +46,7 @@ class MenuButton extends Pane {
     }
 
     void setChild(MenuRoot menuRoot, RelictusMenu relictusMenu) {
-        final MenuButton backButton = new MenuButton(MenuKeys.BACK);
+        final MenuItem backButton = new MenuItem(MenuKeys.BACK);
         menuRoot.getChildren().add(menuRoot.getChildren().size(), backButton);
 
         backButton.addEventHandler(ActionEvent.ACTION, event -> relictusMenu.switchMenuTo(parent));

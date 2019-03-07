@@ -131,44 +131,44 @@ public class RelictusMenu extends FXGLMenu {
         return menu;
     }
 
-    private MenuButton createMenuItemSingleplayer() {
-        final MenuButton singleplayerMenuButton = new MenuButton(SINGLEPLAYER);
+    private MenuItem createMenuItemSingleplayer() {
+        final MenuItem singleplayerMenuButton = new MenuItem(SINGLEPLAYER);
         singleplayerMenuButton.setOnAction(event -> fireNewGame());
         return singleplayerMenuButton;
     }
 
-    private MenuButton createMenuItemMultiplayer() {
-        final MenuButton multiplayerMenuButton = new MenuButton(MULTIPLAYER);
+    private MenuItem createMenuItemMultiplayer() {
+        final MenuItem multiplayerMenuButton = new MenuItem(MULTIPLAYER);
         multiplayerMenuButton.setOnAction(e -> fireMultiplayer()); // TODO: eigene funktion für "fireMultiplayer()" implementieren
         return multiplayerMenuButton;
     }
 
-    private MenuButton createMenuItemExit() {
-        final MenuButton exitMenuButton = new MenuButton(QUIT);
+    private MenuItem createMenuItemExit() {
+        final MenuItem exitMenuButton = new MenuItem(QUIT);
         exitMenuButton.setOnAction(event -> fireExit());
         return exitMenuButton;
     }
 
-    private MenuButton createMenuItemResume() {
-        final MenuButton resumeMenuButton = new MenuButton(RESUME);
+    private MenuItem createMenuItemResume() {
+        final MenuItem resumeMenuButton = new MenuItem(RESUME);
         resumeMenuButton.setOnAction(event -> fireResume());
         return resumeMenuButton;
     }
 
-    private MenuButton createMenuItemCredits() {
-        final MenuButton creditsMenuButton = new MenuButton(CREDITS);
+    private MenuItem createMenuItemCredits() {
+        final MenuItem creditsMenuButton = new MenuItem(CREDITS);
         creditsMenuButton.setMenuContent(this::createCreditsContent, this);
         return creditsMenuButton;
     }
 
-    private MenuButton createMenuItemExitToMainMenu() {
-        final MenuButton exitMainMenuButton = new MenuButton(MAIN_MENU);
+    private MenuItem createMenuItemExitToMainMenu() {
+        final MenuItem exitMainMenuButton = new MenuItem(MAIN_MENU);
         exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
         return exitMainMenuButton;
     }
 
-    private MenuButton createActionMenuButton(String key, Runnable runnable) {
-        final MenuButton button = new MenuButton(key);
+    private MenuItem createActionMenuButton(String key, Runnable runnable) {
+        final MenuItem button = new MenuItem(key);
         button.addEventHandler(ActionEvent.ACTION, event -> runnable.run());
         return button;
     }
