@@ -11,7 +11,7 @@ import preferences.GamePreferences;
 
 
 /**
- * This class defines all entities and builds them when they will get spawned.
+ * Defines all entities and builds them when they will get spawned.
  *
  * @author Kevin Ortmeier, Daniel Bedrich
  * @version 1.0

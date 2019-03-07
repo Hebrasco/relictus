@@ -1,7 +1,7 @@
 package data;
 
 /**
- * This enum contains all entity types for spawning into the game world.
+ * Contains all entity types for spawning into the game world.
  *
  * @author Kevin Ortmeier
  * @version 1.0

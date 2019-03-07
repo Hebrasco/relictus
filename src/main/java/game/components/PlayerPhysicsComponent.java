@@ -50,5 +50,4 @@ public class PlayerPhysicsComponent extends Component {
     private boolean isEntityCollided(Point2D targetVector) {
         return entity.getComponent(ColliderComponent.class).isCollided(targetVector);
     }
-
 }

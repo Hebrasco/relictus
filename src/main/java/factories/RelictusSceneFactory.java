@@ -10,7 +10,7 @@ import menu.RelictusMenu;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * This class defines the games game menu, main menu and loading scene.
+ * Defines the games game menu, main menu and loading scene.
  *
  * @author Daniel Bedrich
  * @version 1.0
