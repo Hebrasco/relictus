@@ -27,7 +27,9 @@ import static preferences.GamePreferences.*;
 import static data.MenuKeys.*;
 
 /**
+ * Creates the main menu and game menu.
  * @author Daniel Bedrich
+ * @version 1.0
  */
 public class RelictusMenu extends FXGLMenu {
     private final ParticleSystem particleSystem = new ParticleSystem();
@@ -83,6 +85,12 @@ public class RelictusMenu extends FXGLMenu {
         particleSystem.onUpdate(tpf);
     }
 
+    /**
+     * Creates the background texture with the windows width and height.
+     * @param width the width of the game window.
+     * @param height the height of the game window.
+     * @return the background texture.
+     */
     private Texture createBackgroundTexture(double width, double height) {
         final Texture backgroundImage = FXGL.getAssetLoader().loadTexture(MENU_PATH + MENU_BACKGROUND_FILE_NAME);
         backgroundImage.setFitWidth(width);
@@ -90,6 +98,10 @@ public class RelictusMenu extends FXGLMenu {
         return backgroundImage;
     }
 
+    /**
+     * Creates the title image and scales it to the given factor.
+     * @return the title image.
+     */
     private Texture createTitleImage() {
         final double scaleFactor = 3.0;
         final double width = FXGL.getAppWidth() / scaleFactor;
@@ -102,12 +114,22 @@ public class RelictusMenu extends FXGLMenu {
         return titleImage;
     }
 
+    /**
+     * Creates the version text view.
+     * @param version the version of the game.
+     * @return the {@link Text} object to display.
+     */
     private Text createVersionTextView(String version) {
         final Text versionText = FXGL.getUIFactory().newText(version);
         versionText.setTranslateY(FXGL.getAppHeight() - 2.0);
         return versionText;
     }
 
+    /**
+     * Creates the profile text view.
+     * @param profileName the profile name of the selected profile.
+     * @return the {@link Text} object to display.
+     */
     private Text createProfileTextView(String profileName) {
         final Text profileText = FXGL.getUIFactory().newText(profileName);
         profileText.setTranslateY(FXGL.getAppHeight() - 2.0);
@@ -115,6 +137,11 @@ public class RelictusMenu extends FXGLMenu {
         return profileText;
     }
 
+    /**
+     * Inflates the main menu or game menu, bases on the {@link MenuType}.
+     * @param menuType the type of the menu, that should be inflated.
+     * @return the inflated menu.
+     */
     private MenuRoot inflateMenu(MenuType menuType) {
         final MenuRoot menu = new MenuRoot();
 
@@ -131,48 +158,80 @@ public class RelictusMenu extends FXGLMenu {
         return menu;
     }
 
+    /**
+     * Creates the menu item for the singleplayer with click events.
+     * @return the singleplayer menu item.
+     */
     private MenuButton createMenuItemSingleplayer() {
         final MenuButton singleplayerMenuButton = new MenuButton(SINGLEPLAYER);
         singleplayerMenuButton.setOnAction(event -> fireNewGame());
         return singleplayerMenuButton;
     }
 
+    /**
+     * Creates the menu item for the multiplayer with click events.
+     * @return the multiplayer menu item.
+     */
     private MenuButton createMenuItemMultiplayer() {
         final MenuButton multiplayerMenuButton = new MenuButton(MULTIPLAYER);
         multiplayerMenuButton.setOnAction(e -> fireMultiplayer()); // TODO: eigene funktion für "fireMultiplayer()" implementieren
         return multiplayerMenuButton;
     }
 
+    /**
+     * Creates the menu item for quitting the game with click events.
+     * @return the quit game menu item.
+     */
     private MenuButton createMenuItemExit() {
         final MenuButton exitMenuButton = new MenuButton(QUIT);
         exitMenuButton.setOnAction(event -> fireExit());
         return exitMenuButton;
     }
 
+    /**
+     * Creates the menu item for resuming the game with click events.
+     * @return the resume game menu item.
+     */
     private MenuButton createMenuItemResume() {
         final MenuButton resumeMenuButton = new MenuButton(RESUME);
         resumeMenuButton.setOnAction(event -> fireResume());
         return resumeMenuButton;
     }
 
+    /**
+     * Creates the menu item for the credits with click events.
+     * @return the credits menu item.
+     */
     private MenuButton createMenuItemCredits() {
         final MenuButton creditsMenuButton = new MenuButton(CREDITS);
         creditsMenuButton.setMenuContent(this::createCreditsContent, this);
         return creditsMenuButton;
     }
 
+    /**
+     * Creates the menu item for exiting to main menu with click events.
+     * @return the exit to main menu menu item.
+     */
     private MenuButton createMenuItemExitToMainMenu() {
         final MenuButton exitMainMenuButton = new MenuButton(MAIN_MENU);
         exitMainMenuButton.setOnAction(event -> fireExitToMainMenu());
         return exitMainMenuButton;
     }
 
+    /**
+     * Creates the action menu item.
+     * @return the action button.
+     */
     private MenuButton createActionMenuButton(String key, Runnable runnable) {
         final MenuButton button = new MenuButton(key);
         button.addEventHandler(ActionEvent.ACTION, event -> runnable.run());
         return button;
     }
 
+    /**
+     * Creates the menu content for the credits.
+     * @return the menu content.
+     */
     private MenuContent createCreditsContent() {
         final ScrollPane pane = new FXGLScrollPane();
         pane.setPrefWidth(FXGL.getAppWidth() * 3.0 / 5.0);
@@ -189,6 +248,10 @@ public class RelictusMenu extends FXGLMenu {
         return new MenuContent(pane);
     }
 
+    /**
+     * Creates a string array with all credits entries.
+     * @return the string array.
+     */
     private String[] getCreditsEntries() {
         return new String[]{
                 CREDITS_CREATED_BY,
@@ -205,6 +268,10 @@ public class RelictusMenu extends FXGLMenu {
         };
     }
 
+    /**
+     * Loads and adds all credits entries to the {@link com.almasb.fxgl.scene.FXGLMenu.MenuContent}.
+     * @param vbox the {@link com.almasb.fxgl.scene.FXGLMenu.MenuContent} to add the credits entries to.
+     */
     private void addCreditEntries(VBox vbox) {
         final String[] creditEntries = getCreditsEntries();
 
@@ -224,6 +291,10 @@ public class RelictusMenu extends FXGLMenu {
         }
     }
 
+    /**
+     * Creates and sets up the menu based on the passed {@link MenuType}.
+     * @param menuType the {@link MenuType} of the menu to inflate.
+     */
     private void createMenu(MenuType menuType) {
         final MenuRoot menu = inflateMenu(menuType);
 
@@ -246,17 +317,30 @@ public class RelictusMenu extends FXGLMenu {
         setListener(menu);
     }
 
+    /**
+     * Sets the position of {@link Pane}.
+     * @param pane the pane to set the position on.
+     * @param PosX the X position in pixels.
+     * @param PosY the Y position in pixels.
+     */
     private void setTranslate(Pane pane, double PosX, double PosY) {
         pane.setTranslateX(PosX);
         pane.setTranslateY(PosY);
     }
 
+    /**
+     * Adds the particle effect to the menu.
+     */
     private void setParticles() {
         ParticleEmitter dustParticleEmitter = Particles.getDustEmitter();
         particleSystem.addParticleEmitter(dustParticleEmitter, 0, -FXGL.getAppHeight());
         getContentRoot().getChildren().add(3, particleSystem.getPane());
     }
 
+    /**
+     * Adds the listener for the menu.
+     * @param menu the menu to switch to.
+     */
     private void setListener(MenuRoot menu) {
         activeProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -266,6 +350,10 @@ public class RelictusMenu extends FXGLMenu {
         });
     }
 
+    /**
+     * Plays a transition to the passed menu.
+     * @param menu the menu to play the transition to.
+     */
     private void playTransition(Node menu) {
         Node oldMenu = menuRoot.getChildren().get(0);
 
@@ -283,10 +371,18 @@ public class RelictusMenu extends FXGLMenu {
         fadeTransitionOldMenu.play();
     }
 
+    /**
+     * Sets the custom relictus cursor in the menu scene.
+     */
     private void setCustomCursor() {
         setCursor(CustomCursor.DEFAULT_CURSOR, CustomCursor.DEFAULT_HOTSPOT);
     }
 
+    /**
+     * Checks if the {@link MenuType} equals main menu.
+     * @param menuType the {@link MenuType} to check.
+     * @return true, if the {@link MenuType} is the main menu.
+     */
     private boolean isMainMenu(MenuType menuType) {
         return menuType == MenuType.MAIN_MENU;
     }
