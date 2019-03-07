@@ -24,12 +24,6 @@ public class PlayerPhysicsComponent extends Component {
             if (!isEntityCollided(targetVector)) {
                 entity.translateY(gravity);
             }
-        } else {
-            jumpHeight -= tpf;
-            if (jumpHeight <= 0) {
-                isJump = false;
-                jumpHeight = getJumpHeight();
-            }
         }
     }
 
@@ -51,4 +45,7 @@ public class PlayerPhysicsComponent extends Component {
         return entity.getComponent(ColliderComponent.class).isCollided(targetVector);
     }
 
+    public void enableGravitiy() {
+        isJump = false;
+    }
 }

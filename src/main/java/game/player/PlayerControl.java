@@ -1,6 +1,7 @@
 package game.player;
 
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.entity.components.PositionComponent;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.texture.AnimatedTexture;
@@ -17,13 +18,13 @@ import preferences.GamePreferences;
  */
 public class PlayerControl extends Component {
     private final double speed = 7.5;
-    private final double jumpVelocity = 50.0;
-    private final UserAction userActionJump = createMovementAction("Jump", Direction.UP, jumpVelocity);
+    private final double jumpVelocity = 7.5;
+    private final UserAction userActionJump = createJumpAction("Jump", Direction.UP, jumpVelocity);
     private final UserAction userActionLeft = createMovementAction("Left", Direction.LEFT, speed);
     private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);
-    private final UserAction userActionDown = createMovementAction("Down", Direction.DOWN, speed);
     private ColliderComponent colliderComponent;
     private PlayerPhysicsComponent physicComponent;
+    private PositionComponent positionComponent;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk;
 
@@ -38,6 +39,7 @@ public class PlayerControl extends Component {
 
         colliderComponent = entity.getComponent(ColliderComponent.class);
         physicComponent = entity.getComponent(PlayerPhysicsComponent.class);
+        positionComponent = entity.getPositionComponent();
     }
 
     @Override
@@ -52,10 +54,19 @@ public class PlayerControl extends Component {
         input.addAction(userActionLeft, KeyCode.A);
         input.addAction(userActionRight, KeyCode.D);
         input.addAction(userActionJump, KeyCode.W);
-        input.addAction(userActionDown, KeyCode.S);
     }
 
     private UserAction createMovementAction(String name, Direction direction, double speed) {
+        return new UserAction(name) {
+            @Override
+            protected void onAction() {
+                move(direction, speed);
+            }
+        };
+    }
+
+    // TODO: Wenn im Spingen, richtung merken und input sperren
+    private UserAction createJumpAction(String name, Direction direction, double speed) {
         return new UserAction(name) {
             @Override
             protected void onActionBegin() {
@@ -64,33 +75,35 @@ public class PlayerControl extends Component {
                     move(direction, speed);
                 }
             }
-
-            @Override
-            protected void onAction() {
-                if (!direction.equals(Direction.UP)) {
-                    move(direction, speed);
-                }
-            }
         };
     }
 
     private void move(Direction direction, double speed) {
-        final Point2D targetVector = new Point2D(
-                entity.getPosition().getX() + direction.vector.multiply(speed).getX(),
-                entity.getPosition().getY() + direction.vector.multiply(speed).getY()
-        );
+        final Point2D vector = direction.vector.multiply(speed);
+        final Point2D targetVector = getTargetVector(vector);
 
         if (!colliderComponent.isCollided(targetVector)) {
-            entity.getPositionComponent().translate(direction.vector.multiply(speed));
+            if (direction.equals(Direction.UP)) {
+                jump(vector);
+            } else {
+                positionComponent.translate(vector);
+            }
         }
     }
 
+    private void jump(Point2D vector) {
+        for(int i = 0;  i <= -vector.getY();  i++) {
+            positionComponent.translateY(vector.getY());
+        }
+        physicComponent.enableGravitiy();
+    }
+
     private void enableEntityJump() {
-        entity.getComponent(PlayerPhysicsComponent.class).isJump = true;
+        physicComponent.isJump = true;
     }
 
     private boolean isEntityJump() {
-        return entity.getComponent(PlayerPhysicsComponent.class).isJump;
+        return physicComponent.isJump;
     }
 
     private double getPlayerWidth() {
@@ -103,5 +116,12 @@ public class PlayerControl extends Component {
         // TODO: Fix Component PlayerComponent not found!
         //return entity.getComponent(PlayerComponent.class).playerHeight;
         return 42;
+    }
+
+    private Point2D getTargetVector(Point2D vector) {
+        return new Point2D(
+                entity.getPosition().getX() + vector.getX(),
+                entity.getPosition().getY() + vector.getY()
+        );
     }
 }
