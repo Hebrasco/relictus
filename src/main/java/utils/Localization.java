@@ -10,7 +10,6 @@ import static preferences.GamePreferences.*;
  */
 class Localization {
     Language selectedLanguage = new Language(
-            LANGUAGE_PROPERTIES_FILE_NAME,
             FXGL.getAssetLoader().loadResourceBundle(LANGUAGE_PATH + LANGUAGE_PROPERTIES_FILE_NAME)
     );
 }
