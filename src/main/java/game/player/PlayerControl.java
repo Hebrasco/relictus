@@ -13,7 +13,10 @@ import javafx.util.Duration;
 import preferences.GamePreferences;
 
 /**
+ * Defines the player controls.
+ *
  * @author Kevin Ortmeier, Daniel Bedrich
+ * @version 1.0
  */
 public class PlayerControl extends Component {
     private final double speed = 7.5;
@@ -29,6 +32,7 @@ public class PlayerControl extends Component {
 
     @Override
     public void onAdded() {
+        // TODO: Animationen und Textur in andere Klasse verschieben
         animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 1, 1);
         animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 0, 3);
 
@@ -48,6 +52,10 @@ public class PlayerControl extends Component {
     // TODO: isMoving()
     // TODO: isGrounded()
 
+    /**
+     * Adds the controls to the player input.
+     * @param input the input to add the actions to.
+     */
     public void createInput(Input input) {
         input.addAction(userActionLeft, KeyCode.A);
         input.addAction(userActionRight, KeyCode.D);
@@ -55,6 +63,13 @@ public class PlayerControl extends Component {
         input.addAction(userActionDown, KeyCode.S);
     }
 
+    /**
+     * Creates a {@link UserAction} to move the player around the game world.
+     * @param name the name of the action.
+     * @param direction the direction vector to move to.
+     * @param speed the speed the player should move.
+     * @return the {@link UserAction} with defined actions to move the player.
+     */
     private UserAction createMovementAction(String name, Direction direction, double speed) {
         return new UserAction(name) {
             @Override
@@ -74,6 +89,12 @@ public class PlayerControl extends Component {
         };
     }
 
+    /**
+     * Moves the player in the direction the player presses, if he
+     * won't collide with another entity.
+     * @param direction the direction the player pressed.
+     * @param speed the movement speed of the player.
+     */
     private void move(Direction direction, double speed) {
         final Point2D targetVector = new Point2D(
                 entity.getPosition().getX() + direction.vector.multiply(speed).getX(),
@@ -85,20 +106,33 @@ public class PlayerControl extends Component {
         }
     }
 
+    /**
+     * Enables the jump in the {@link PhysicsComponent}.
+     */
     private void enableEntityJump() {
         entity.getComponent(PhysicsComponent.class).isJump = true;
     }
 
+    /**
+     * Checks in the {@link PhysicsComponent} if the player is jumping or not.
+     * @return true, if the player is currently jumping.
+     */
     private boolean isEntityJump() {
         return entity.getComponent(PhysicsComponent.class).isJump;
     }
 
+    /**
+     * @return the width of the player sprite.
+     */
     private double getPlayerWidth() {
         // TODO: Fix Component PlayerComponent not found!
         //return entity.getComponent(PlayerComponent.class).playerWidth;
         return 32;
     }
 
+    /**
+     * @return the height of the player sprite.
+     */
     private double getPlayerHeight() {
         // TODO: Fix Component PlayerComponent not found!
         //return entity.getComponent(PlayerComponent.class).playerHeight;

@@ -4,7 +4,10 @@ import com.almasb.fxgl.entity.component.Component;
 import javafx.geometry.Point2D;
 
 /**
+ * Handles the physics of the entity.
+ *
  * @author Daniel Bedrich
+ * @version 1.0
  */
 public class PhysicsComponent extends Component {
     public boolean isJump = false;
@@ -33,6 +36,10 @@ public class PhysicsComponent extends Component {
         }
     }
 
+    /**
+     * Creates the new position for the next frame.
+     * @return the new position.
+     */
     private Point2D getTargetVector() {
         return new Point2D(
                 entity.getPosition().getX(),
@@ -40,6 +47,9 @@ public class PhysicsComponent extends Component {
         );
     }
 
+    /**
+     * @return 1
+     */
     private double getJumpHeight() {
         // TODO: Fix PlayerComponent wurde entfernt und kann daher nicht gefunden werden
         //System.out.println(entity.hasComponent(PlayerComponent.class));
@@ -47,8 +57,12 @@ public class PhysicsComponent extends Component {
         return 1; // Tile
     }
 
+    /**
+     * Checks on the {@link ColliderComponent} if the entity will collide with another entity.
+     * @param targetVector the new position in the next frame.
+     * @return true, if this entity will collide with another entity.
+     */
     private boolean isEntityCollided(Point2D targetVector) {
         return entity.getComponent(ColliderComponent.class).isCollided(targetVector);
     }
-
 }

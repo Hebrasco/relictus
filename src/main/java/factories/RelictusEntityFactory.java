@@ -11,10 +11,19 @@ import preferences.GamePreferences;
 
 
 /**
+ * Defines all entities and builds them when they will get spawned.
+ *
  * @author Kevin Ortmeier, Daniel Bedrich
+ * @version 1.0
  */
 public class RelictusEntityFactory implements EntityFactory {
 
+    /**
+     * Builds the platform entity with the given data.
+     * @param data the information about the entity, such as width and height.
+     * @return the platform entity with a {@link com.almasb.fxgl.entity.components.BoundingBoxComponent}
+     * and a {@link ColliderComponent} component.
+     */
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
         return Entities.builder()
@@ -25,6 +34,11 @@ public class RelictusEntityFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * Builds the player entity with the given data.
+     * @param data the information about the entity, such as width and height.
+     * @return the platform entity with a {@link PlayerComponent} component.
+     */
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
         return Entities.builder()
@@ -34,6 +48,12 @@ public class RelictusEntityFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * Builds the power-up entity with the given data.
+     * @param data the information about the entity, such as width and height.
+     * @return the platform entity with a {@link com.almasb.fxgl.entity.components.BoundingBoxComponent}
+     * and a {@link CollidableComponent}.
+     */
     @Spawns("powerup")
     public Entity newPowerUp(SpawnData data) {
         return Entities.builder()

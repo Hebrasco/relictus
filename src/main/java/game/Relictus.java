@@ -10,7 +10,10 @@ import utils.CustomCursor;
 import static preferences.GamePreferences.*;
 
 /**
+ * Handles the complete game activity.
+ *
  * @author Daniel Bedrich, Kevin Ortmeier
+ * @version 1.0
  */
 public class Relictus extends GameApplication {
     private Entity player;
@@ -56,7 +59,7 @@ public class Relictus extends GameApplication {
         //getAudioPlayer().playSound("start.mp3");
 
         getGameScene().getViewport().setBounds(-1500, 0, 1500, 720);
-        getGameScene().getViewport().bindToEntity(player, getWidth() / 2, getHeight() / 2);
+        getGameScene().getViewport().bindToEntity(player, getWidth() / 2.0, getHeight() / 2.0);
 
         initializeInput();
     }
@@ -69,10 +72,16 @@ public class Relictus extends GameApplication {
     protected void onUpdate(double tpf) {
     }
 
+    /**
+     * Initializes input for the player entity.
+     */
     private void initializeInput() {
         player.getComponent(PlayerControl.class).createInput(getInput());
     }
 
+    /**
+     * Sets the custom relictus cursor in the game scene.
+     */
     private void setCustomCursor() {
         FXGL.getGameScene().setCursor(CustomCursor.DEFAULT_CURSOR, CustomCursor.DEFAULT_HOTSPOT);
     }

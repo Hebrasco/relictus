@@ -3,7 +3,10 @@ package game.player;
 import javafx.geometry.Point2D;
 
 /**
+ * Holds the movement direction vectors.
+ *
  * @author Daniel Bedrich
+ * @version 1.0
  */
 public enum Direction {
     UP(new Point2D(0, -1)),
