@@ -13,7 +13,7 @@ public class PlayerComponent extends Component {
     @Override
     public void onAdded() {
         entity.addComponent(new ColliderComponent());
-        entity.addComponent(new PlayerPhysicsComponent());
+        entity.addComponent(new PhysicsComponent());
         entity.addComponent(new PlayerControl());
     }
 }

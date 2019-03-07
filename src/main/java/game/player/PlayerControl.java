@@ -6,7 +6,7 @@ import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import game.components.ColliderComponent;
-import game.components.PlayerPhysicsComponent;
+import game.components.PhysicsComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
@@ -23,7 +23,7 @@ public class PlayerControl extends Component {
     private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);
     private final UserAction userActionDown = createMovementAction("Down", Direction.DOWN, speed);
     private ColliderComponent colliderComponent;
-    private PlayerPhysicsComponent physicComponent;
+    private PhysicsComponent physicComponent;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk;
 
@@ -37,7 +37,7 @@ public class PlayerControl extends Component {
         entity.setView(texture);
 
         colliderComponent = entity.getComponent(ColliderComponent.class);
-        physicComponent = entity.getComponent(PlayerPhysicsComponent.class);
+        physicComponent = entity.getComponent(PhysicsComponent.class);
     }
 
     @Override
@@ -86,11 +86,11 @@ public class PlayerControl extends Component {
     }
 
     private void enableEntityJump() {
-        entity.getComponent(PlayerPhysicsComponent.class).isJump = true;
+        entity.getComponent(PhysicsComponent.class).isJump = true;
     }
 
     private boolean isEntityJump() {
-        return entity.getComponent(PlayerPhysicsComponent.class).isJump;
+        return entity.getComponent(PhysicsComponent.class).isJump;
     }
 
     private double getPlayerWidth() {
