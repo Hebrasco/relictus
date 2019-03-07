@@ -6,7 +6,10 @@ import data.Language;
 import static preferences.GamePreferences.*;
 
 /**
+ * Stores the selected language.
+ *
  * @author Daniel Bedrich
+ * @version 1.0
  */
 class Localization {
     Language selectedLanguage = new Language(
