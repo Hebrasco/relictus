@@ -18,8 +18,7 @@ import preferences.GamePreferences;
  */
 public class PlayerControl extends Component {
     private final double speed = 7.5;
-    private final double jumpVelocity = 7.5;
-    private final UserAction userActionJump = createJumpAction("Jump", Direction.UP, jumpVelocity);
+    private final UserAction userActionJump = createJumpAction();
     private final UserAction userActionLeft = createMovementAction("Left", Direction.LEFT, speed);
     private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);
     private ColliderComponent colliderComponent;
@@ -66,13 +65,12 @@ public class PlayerControl extends Component {
     }
 
     // TODO: Wenn im Spingen, richtung merken und input sperren
-    private UserAction createJumpAction(String name, Direction direction, double speed) {
-        return new UserAction(name) {
+    private UserAction createJumpAction() {
+        return new UserAction("Jump") {
             @Override
             protected void onActionBegin() {
-                if (direction.equals(Direction.UP) && !isEntityJump()) {
-                    enableEntityJump();
-                    move(direction, speed);
+                if (!isEntityJump()) {
+                    move( Direction.UP, speed);
                 }
             }
         };
@@ -84,22 +82,18 @@ public class PlayerControl extends Component {
 
         if (!colliderComponent.isCollided(targetVector)) {
             if (direction.equals(Direction.UP)) {
-                jump(vector);
+                jump();
             } else {
                 positionComponent.translate(vector);
             }
         }
     }
 
-    private void jump(Point2D vector) {
-        for(int i = 0;  i <= -vector.getY();  i++) {
-            positionComponent.translateY(vector.getY());
+    private void jump() {
+        if (!physicComponent.isJump) {
+            physicComponent.jumpPosY = positionComponent.getY();
+            physicComponent.jump();
         }
-        physicComponent.enableGravitiy();
-    }
-
-    private void enableEntityJump() {
-        physicComponent.isJump = true;
     }
 
     private boolean isEntityJump() {

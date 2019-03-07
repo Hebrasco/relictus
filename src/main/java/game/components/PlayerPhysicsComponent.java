@@ -8,21 +8,26 @@ import javafx.geometry.Point2D;
  */
 public class PlayerPhysicsComponent extends Component {
     public boolean isJump = false;
-    private final double gravity = 9.81;
-    private double jumpHeight;
+    private double gravity = 7;
+    public double jumpPosY;
 
     @Override
     public void onAdded() {
-        jumpHeight = getJumpHeight();
+
     }
 
     @Override
     public void onUpdate(double tpf) {
-        if (!isJump) {
-            final Point2D targetVector = getTargetVector();
+        final Point2D targetVector = getTargetVector();
 
-            if (!isEntityCollided(targetVector)) {
-                entity.translateY(gravity);
+        if (!isEntityCollided(targetVector)) {
+            entity.translateY(gravity);
+        }
+
+        if (isJump) {
+            final double pos = entity.getPositionComponent().getY();
+            if (pos < (jumpPosY - 84)) {
+                enableGravitiy();
             }
         }
     }
@@ -45,7 +50,19 @@ public class PlayerPhysicsComponent extends Component {
         return entity.getComponent(ColliderComponent.class).isCollided(targetVector);
     }
 
-    public void enableGravitiy() {
-        isJump = false;
+    private void enableGravitiy() {
+        if (isJump) {
+            gravity *= -1;
+        }
     }
+
+    public void jump() {
+        if (!isJump) {
+            isJump = true;
+            gravity *= -1;
+        }
+    }
+
+    // TODO: isGrounded()
+    // cast raycast zum boden
 }
