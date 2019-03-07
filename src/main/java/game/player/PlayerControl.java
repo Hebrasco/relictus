@@ -1,6 +1,7 @@
 package game.player;
 
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.entity.components.PositionComponent;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.texture.AnimatedTexture;
@@ -20,13 +21,12 @@ import preferences.GamePreferences;
  */
 public class PlayerControl extends Component {
     private final double speed = 7.5;
-    private final double jumpVelocity = 50.0;
-    private final UserAction userActionJump = createMovementAction("Jump", Direction.UP, jumpVelocity);
+    private final UserAction userActionJump = createJumpAction();
     private final UserAction userActionLeft = createMovementAction("Left", Direction.LEFT, speed);
     private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);
-    private final UserAction userActionDown = createMovementAction("Down", Direction.DOWN, speed);
     private ColliderComponent colliderComponent;
     private PhysicsComponent physicComponent;
+    private PositionComponent positionComponent;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk;
 
@@ -42,6 +42,7 @@ public class PlayerControl extends Component {
 
         colliderComponent = entity.getComponent(ColliderComponent.class);
         physicComponent = entity.getComponent(PhysicsComponent.class);
+        positionComponent = entity.getPositionComponent();
     }
 
     @Override
@@ -60,7 +61,6 @@ public class PlayerControl extends Component {
         input.addAction(userActionLeft, KeyCode.A);
         input.addAction(userActionRight, KeyCode.D);
         input.addAction(userActionJump, KeyCode.W);
-        input.addAction(userActionDown, KeyCode.S);
     }
 
     /**
@@ -73,17 +73,24 @@ public class PlayerControl extends Component {
     private UserAction createMovementAction(String name, Direction direction, double speed) {
         return new UserAction(name) {
             @Override
-            protected void onActionBegin() {
-                if (direction.equals(Direction.UP) && !isEntityJump()) {
-                    enableEntityJump();
-                    move(direction, speed);
-                }
-            }
-
-            @Override
             protected void onAction() {
-                if (!direction.equals(Direction.UP)) {
-                    move(direction, speed);
+                move(direction, speed);
+            }
+        };
+    }
+
+    // TODO: Wenn im Spingen, richtung merken und input sperren
+
+    /**
+     * Creates a {@link UserAction} to let the player jump.
+     * @return the {@link UserAction} with defined actions to let the player jump.
+     */
+    private UserAction createJumpAction() {
+        return new UserAction("Jump") {
+            @Override
+            protected void onActionBegin() {
+                if (!isEntityJump()) {
+                    move( Direction.UP, physicComponent.gravity);
                 }
             }
         };
@@ -96,21 +103,26 @@ public class PlayerControl extends Component {
      * @param speed the movement speed of the player.
      */
     private void move(Direction direction, double speed) {
-        final Point2D targetVector = new Point2D(
-                entity.getPosition().getX() + direction.vector.multiply(speed).getX(),
-                entity.getPosition().getY() + direction.vector.multiply(speed).getY()
-        );
+        final Point2D vector = direction.vector.multiply(speed);
+        final Point2D targetVector = getTargetVector(vector);
 
         if (!colliderComponent.isCollided(targetVector)) {
-            entity.getPositionComponent().translate(direction.vector.multiply(speed));
+            if (direction.equals(Direction.UP)) {
+                jump();
+            } else {
+                positionComponent.translate(vector);
+            }
         }
     }
 
     /**
-     * Enables the jump in the {@link PhysicsComponent}.
+     * Lets the player jump
      */
-    private void enableEntityJump() {
-        entity.getComponent(PhysicsComponent.class).isJump = true;
+    private void jump() {
+        if (!physicComponent.isJump) {
+            physicComponent.jumpPosY = positionComponent.getY();
+            physicComponent.jump();
+        }
     }
 
     /**
@@ -118,7 +130,7 @@ public class PlayerControl extends Component {
      * @return true, if the player is currently jumping.
      */
     private boolean isEntityJump() {
-        return entity.getComponent(PhysicsComponent.class).isJump;
+        return physicComponent.isJump;
     }
 
     /**
@@ -137,5 +149,17 @@ public class PlayerControl extends Component {
         // TODO: Fix Component PlayerComponent not found!
         //return entity.getComponent(PlayerComponent.class).playerHeight;
         return 42;
+    }
+
+    /**
+     * Get the target vector, where the player will be in, in the next frame.
+     * @param vector the vector to add.
+     * @return the new vector.
+     */
+    private Point2D getTargetVector(Point2D vector) {
+        return new Point2D(
+                entity.getPosition().getX() + vector.getX(),
+                entity.getPosition().getY() + vector.getY()
+        );
     }
 }

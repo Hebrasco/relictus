@@ -11,27 +11,25 @@ import javafx.geometry.Point2D;
  */
 public class PhysicsComponent extends Component {
     public boolean isJump = false;
-    private final double gravity = 9.81;
-    private double jumpHeight;
+    public double gravity = 7;
+    public double jumpPosY;
 
     @Override
     public void onAdded() {
-        jumpHeight = getJumpHeight();
     }
 
     @Override
     public void onUpdate(double tpf) {
-        if (!isJump) {
-            final Point2D targetVector = getTargetVector();
+        final Point2D targetVector = getTargetVector();
 
-            if (!isEntityCollided(targetVector)) {
-                entity.translateY(gravity);
-            }
-        } else {
-            jumpHeight -= tpf;
-            if (jumpHeight <= 0) {
-                isJump = false;
-                jumpHeight = getJumpHeight();
+        if (!isEntityCollided(targetVector)) {
+            entity.translateY(gravity);
+        }
+
+        if (isJump) {
+            final double pos = entity.getPositionComponent().getY();
+            if (pos < (jumpPosY - 84)) {
+                enableGravitiy();
             }
         }
     }
@@ -48,14 +46,27 @@ public class PhysicsComponent extends Component {
     }
 
     /**
-     * @return 1
+     * Turns the gravity to normal again.
      */
-    private double getJumpHeight() {
-        // TODO: Fix PlayerComponent wurde entfernt und kann daher nicht gefunden werden
-        //System.out.println(entity.hasComponent(PlayerComponent.class));
-        //return entity.getComponent(PlayerComponent.class).playerHeight * 2;
-        return 1; // Tile
+    private void enableGravitiy() {
+        if (isJump) {
+            isJump = false;
+            gravity *= -1;
+        }
     }
+
+    /**
+     * Lets the player jump, by reversing the gravity.
+     */
+    public void jump() {
+        if (!isJump) {
+            isJump = true;
+            gravity *= -1;
+        }
+    }
+
+    // TODO: isGrounded()
+    // cast raycast zum boden
 
     /**
      * Checks on the {@link ColliderComponent} if the entity will collide with another entity.
