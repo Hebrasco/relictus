@@ -35,7 +35,7 @@ public class ColliderComponent extends Component {
     */
 
     /**
-     * Checks if the new position of this entity will move inside another entity.
+     * Checks if the new position of this entity in the next frame will move inside another entity.
      * @param vector the point coordinates of the new position.
      * @return true, if the entity will move inside another entity.
      */
