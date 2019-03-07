@@ -1,7 +1,11 @@
 package data;
 
 /**
+ * This class stores all keys for the texts in the loaded {@link java.util.ResourceBundle}
+ * in the {@link Language} class.
+ *
  * @author Daniel Bedrich
+ * @version 1.0
  */
 public class MenuKeys {
     public static final String BACK = "menu.back";
