@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
 /**
  * @author Daniel Bedrich
  */
-public class PlayerPhysicsComponent extends Component {
+public class PhysicsComponent extends Component {
     public boolean isJump = false;
     private final double gravity = 9.81;
     private double jumpHeight;
