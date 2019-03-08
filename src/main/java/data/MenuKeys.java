@@ -4,7 +4,7 @@ package data;
  * Stores all keys for the texts in the loaded {@link java.util.ResourceBundle}
  * in the {@link Language} class.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Lara-Marie Mann
  * @version 1.0
  */
 public class MenuKeys {

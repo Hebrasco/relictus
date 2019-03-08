@@ -6,7 +6,7 @@ import preferences.GamePreferences;
 /**
  * Stores the custom relictus cursor data.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Markus Kremer
  * @version 1.0
  */
 public class CustomCursor {

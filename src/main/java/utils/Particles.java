@@ -15,7 +15,7 @@ import static preferences.GamePreferences.*;
 /**
  * Defines different particle emitters.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Kevin Ortmeier
  * @version 1.0
  */
 public class Particles {

@@ -7,7 +7,7 @@ import game.player.PlayerControl;
  * Adds all needed components to the player component and
  * contains general information about the player.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Lara-Marie Mann
  * @version 1.0
  */
 public class PlayerComponent extends Component {
