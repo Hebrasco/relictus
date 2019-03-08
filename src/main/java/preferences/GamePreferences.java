@@ -33,7 +33,7 @@ public class GamePreferences {
     // FILE NAMES
     public static final String CSS_FILE_NAME = "ui_style.css";
     public static final String APP_ICON_FILE_NAME = "relictus.png";
-    public static final String TILE_MAP_FILE_NAME = "relictusTileMap.json";
+    public static final String TILE_MAP_FILE_NAME = "bigmap.json";
     public static final String POWER_UP_FILE_NAME = "diamond.png";
     public static final String PLAYER_FILE_NAME = "player.png";
     public static final String CURSOR_FILE_NAME = "cursor.png";
@@ -45,4 +45,5 @@ public class GamePreferences {
     public static final String MENU_PARTICLE_FILE_NAME = "dust.png";
     public static final String MENU_BACKGROUND_FILE_NAME = "menu_background.gif";
     public static final String MENU_TITLE_IMAGE = "title.png";
+    public static final String GAME_BACKGROUND = "background.png";
 }
