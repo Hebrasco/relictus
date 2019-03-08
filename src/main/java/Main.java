@@ -1,16 +1,12 @@
-import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameSettings;
+import game.Relictus;
 
-public class Main extends GameApplication {
-
-    @Override
-    protected void initSettings(GameSettings settings) {
-        settings.setWidth(800);
-        settings.setHeight(600);
-        settings.setTitle("Basic Game App");
-    }
-
+/**
+ * The starting point of the relictus game.
+ * @author Kevin Ortmeier, Markus Kremer, Lara-Marie Mann, Roman Rubaskin, Daniel Bedrich
+ * @version 1.0
+ */
+public class Main {
     public static void main(String[] args) {
-        launch(args);
+        Relictus.main(args);
     }
 }
