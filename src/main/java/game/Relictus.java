@@ -53,8 +53,16 @@ public class Relictus extends GameApplication {
         // TODO: Nachschauen ob man mit FXGL mehrere JSON laden und einfügen kann
         // Sollte es nicht funktionieren, dann muss die JSON manipuliert werden, damit wie Welt größer wird.
         // Das ganze muss dann Prozedural geschehen.
+        getGameScene().addGameView(new ParallaxBackgroundView(Arrays.asList(
+            new ParallaxTexture(getAssetLoader().loadTexture("background.png", getWidth(), getHeight()), 0.5)
+        ), Orientation.HORIZONTAL), RenderLayer.BACKGROUND);
 
-        player = getGameWorld().spawn("player", 50, 50);
+
+        // TODO: getGameWorld().setLevelFromMap("map_spawn.json");
+        //getGameWorld().setLevelFromMap("map_1.json");
+
+        //getAudioPlayer().playSound("start.mp3");
+        player = getGameWorld().spawn("player", 100, 125);
 
         //getAudioPlayer().playSound("start.mp3");
 
