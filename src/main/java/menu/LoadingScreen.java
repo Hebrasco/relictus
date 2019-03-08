@@ -6,7 +6,7 @@ import utils.CustomCursor;
 /**
  * Defines the custom loading scene.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Lara-Marie Mann
  * @version 1.0
  */
 public class LoadingScreen extends LoadingScene {

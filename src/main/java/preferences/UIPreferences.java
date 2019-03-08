@@ -9,7 +9,7 @@ import utils.CustomCursor;
 /**
  * Defines custom UI preferences, such as the custom relictus cursor.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrichm Markus Kremer
  * @version 1.0
  */
 public class UIPreferences {

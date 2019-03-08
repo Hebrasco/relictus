@@ -8,7 +8,7 @@ import static preferences.GamePreferences.*;
 /**
  * Stores the selected language.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Roman Rubashkin
  * @version 1.0
  */
 class Localization {

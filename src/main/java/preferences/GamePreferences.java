@@ -7,7 +7,7 @@ import factories.RelictusSceneFactory;
 /**
  * Stores all the general game preferences, file paths and file names.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Kevin Ortmeier
  * @version 1.0
  */
 public class GamePreferences {

@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
 /**
  * Handles the physics of the entity.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Lara-Marie Mann
  * @version 1.0
  */
 public class PhysicsComponent extends Component {

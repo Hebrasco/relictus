@@ -5,7 +5,7 @@ import javafx.geometry.Point2D;
 /**
  * Holds the movement direction vectors.
  *
- * @author Daniel Bedrich
+ * @author Daniel Bedrich, Markus Kremer
  * @version 1.0
  */
 public enum Direction {
