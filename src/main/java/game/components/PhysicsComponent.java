@@ -10,9 +10,8 @@ import javafx.geometry.Point2D;
  * @version 1.0
  */
 public class PhysicsComponent extends Component {
-    public boolean isJump = false;
-    public double gravity = 7;
-    public double jumpPosY;
+    public int velocity = 1;
+    private double gravity = 1;
 
     @Override
     public void onAdded() {
@@ -23,14 +22,8 @@ public class PhysicsComponent extends Component {
         final Point2D targetVector = getTargetVector();
 
         if (!isEntityCollided(targetVector)) {
-            entity.translateY(gravity);
-        }
-
-        if (isJump) {
-            final double pos = entity.getPositionComponent().getY();
-            if (pos < (jumpPosY - 84)) {
-                enableGravitiy();
-            }
+            velocity += gravity;
+            entity.translateY(velocity);
         }
     }
 
@@ -41,28 +34,16 @@ public class PhysicsComponent extends Component {
     private Point2D getTargetVector() {
         return new Point2D(
                 entity.getPosition().getX(),
-                entity.getPosition().getY() + gravity
+                entity.getPosition().getY() + velocity + gravity
         );
-    }
-
-    /**
-     * Turns the gravity to normal again.
-     */
-    private void enableGravitiy() {
-        if (isJump) {
-            isJump = false;
-            gravity *= -1;
-        }
     }
 
     /**
      * Lets the player jump, by reversing the gravity.
      */
     public void jump() {
-        if (!isJump) {
-            isJump = true;
-            gravity *= -1;
-        }
+        int jumpVelocity = -12;
+        velocity = jumpVelocity;
     }
 
     // TODO: isGrounded()
@@ -74,6 +55,6 @@ public class PhysicsComponent extends Component {
      * @return true, if this entity will collide with another entity.
      */
     private boolean isEntityCollided(Point2D targetVector) {
-        return entity.getComponent(ColliderComponent.class).isCollided(targetVector);
+        return entity.getComponent(ColliderComponent.class).willCollide(targetVector);
     }
 }

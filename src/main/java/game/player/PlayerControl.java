@@ -89,9 +89,7 @@ public class PlayerControl extends Component {
         return new UserAction("Jump") {
             @Override
             protected void onActionBegin() {
-                if (!isEntityJump()) {
-                    move( Direction.UP, physicComponent.gravity);
-                }
+                move(Direction.UP, physicComponent.velocity);
             }
         };
     }
@@ -103,10 +101,11 @@ public class PlayerControl extends Component {
      * @param speed the movement speed of the player.
      */
     private void move(Direction direction, double speed) {
+        // TODO: Add acceleration to left and right movement
         final Point2D vector = direction.vector.multiply(speed);
         final Point2D targetVector = getTargetVector(vector);
 
-        if (!colliderComponent.isCollided(targetVector)) {
+        if (!colliderComponent.willCollide(targetVector)) {
             if (direction.equals(Direction.UP)) {
                 jump();
             } else {
@@ -119,18 +118,8 @@ public class PlayerControl extends Component {
      * Lets the player jump
      */
     private void jump() {
-        if (!physicComponent.isJump) {
-            physicComponent.jumpPosY = positionComponent.getY();
-            physicComponent.jump();
-        }
-    }
-
-    /**
-     * Checks in the {@link PhysicsComponent} if the player is jumping or not.
-     * @return true, if the player is currently jumping.
-     */
-    private boolean isEntityJump() {
-        return physicComponent.isJump;
+        // TODO: Dix multiple jumps
+        physicComponent.jump();
     }
 
     /**

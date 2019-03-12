@@ -36,10 +36,11 @@ public class ColliderComponent extends Component {
 
     /**
      * Checks if the new position of this entity in the next frame will move inside another entity.
+     *
      * @param vector the point coordinates of the new position.
      * @return true, if the entity will move inside another entity.
      */
-    public boolean isCollided(Point2D vector) {
+    public boolean willCollide(Point2D vector) {
         final List<Entity> entities = FXGL.getGameWorld().getEntities();
 
         for (Entity entity : entities) {
@@ -48,6 +49,7 @@ public class ColliderComponent extends Component {
                     final boolean EntitiesAreOverlapping = areRectanglesOverlapping(vector, entity);
 
                     if (EntitiesAreOverlapping) {
+                        //moveToNonCollidingVector(entity);
                         return true;
                     }
                 }
@@ -59,11 +61,11 @@ public class ColliderComponent extends Component {
 
     /**
      * Checks if two rectangles are overlapping each other.
-     * @implNote Only for static entities.
      *
      * @param position the new position of the first entity.
-     * @param entity the entity to compare with.
+     * @param entity   the entity to compare with.
      * @return true, if both entities are overlapping each other.
+     * @implNote Only for static entities.
      */
     private boolean areRectanglesOverlapping(Point2D position, Entity entity) {
         final double playerPosX = position.getX();
@@ -90,6 +92,7 @@ public class ColliderComponent extends Component {
 
     /**
      * Checks if two lines are overlapping each other.
+     *
      * @param minA the first point of line A.
      * @param maxA the second point of line A.
      * @param minB the first point of line B.
@@ -99,5 +102,27 @@ public class ColliderComponent extends Component {
     private boolean isOverlapping(double minA, double maxA, double minB, double maxB) {
         return Math.max(minA, maxA) >= Math.min(minB, maxB) &&
                 Math.min(minA, maxA) <= Math.max(minB, maxB);
+    }
+
+    private void moveToNonCollidingVector(Entity entity) {
+
+        entity.setPosition(nonCollidingVector(entity));
+    }
+
+    // ONLY FOR Direction.DOWN
+    private Point2D nonCollidingVector(Entity entity) {
+        double posX = getEntity().getPositionComponent().getX();
+        double posY = getEntity().getPositionComponent().getY();
+        Point2D vector = new Point2D(posX, posY);
+
+        int i = 1;
+        while (i < getEntity().getPositionComponent().getY() + 42) {
+            if (areRectanglesOverlapping(getEntity().getPositionComponent().getValue(), entity)) {
+                return vector.add(0, posY + i);
+            }
+            i++;
+        }
+
+        return vector;
     }
 }
