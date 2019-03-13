@@ -49,7 +49,7 @@ public class ColliderComponent extends Component {
                     final boolean EntitiesAreOverlapping = areRectanglesOverlapping(vector, entity);
 
                     if (EntitiesAreOverlapping) {
-                        //moveToNonCollidingVector(entity);
+                        getEntity().setPosition(nonCollidingVector(entity));
                         return true;
                     }
                 }
@@ -104,23 +104,26 @@ public class ColliderComponent extends Component {
                 Math.min(minA, maxA) <= Math.max(minB, maxB);
     }
 
-    private void moveToNonCollidingVector(Entity entity) {
-
-        entity.setPosition(nonCollidingVector(entity));
-    }
-
-    // ONLY FOR Direction.DOWN
+    /**
+     * Moves the entity to the edge of the others entity collider.
+     *
+     * @implNote Only fort Direction.DOWN.
+     * @param entity the entity to move it up to.
+     */
     private Point2D nonCollidingVector(Entity entity) {
-        double posX = getEntity().getPositionComponent().getX();
-        double posY = getEntity().getPositionComponent().getY();
-        Point2D vector = new Point2D(posX, posY);
+        final double posX = getEntity().getPositionComponent().getX();
+        final double posY = getEntity().getPositionComponent().getY();
+        final Point2D vector = new Point2D(posX, posY);
 
-        int i = 1;
-        while (i < getEntity().getPositionComponent().getY() + 42) {
-            if (areRectanglesOverlapping(getEntity().getPositionComponent().getValue(), entity)) {
-                return vector.add(0, posY + i);
+        int y = (int) posY;
+        while (y < y + 42) {
+            final Point2D targetVector = new Point2D(posX, y);
+            final boolean overlapping = areRectanglesOverlapping(targetVector, entity);
+            
+            if (overlapping) {
+                return targetVector;
             }
-            i++;
+            y++;
         }
 
         return vector;
