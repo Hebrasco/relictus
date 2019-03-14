@@ -14,6 +14,8 @@ import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 import preferences.GamePreferences;
 
+import static game.components.PlayerComponent.*;
+
 /**
  * Defines the player controls.
  *
@@ -34,8 +36,8 @@ public class PlayerControl extends Component {
     @Override
     public void onAdded() {
         // TODO: Animationen und Textur in andere Klasse verschieben
-        animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) playerWidth(), (int) playerHeight(), Duration.seconds(1), 1, 1);
-        animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) playerWidth(), (int) playerHeight(), Duration.seconds(1), 0, 3);
+        animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, PLAYER_WIDTH, PLAYER_HEIGHT, Duration.seconds(1), 1, 1);
+        animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, PLAYER_WIDTH, PLAYER_HEIGHT, Duration.seconds(1), 0, 3);
 
         texture = new AnimatedTexture(animIdle);
 
@@ -113,20 +115,6 @@ public class PlayerControl extends Component {
                 positionComponent.translate(vector);
             }
         }
-    }
-
-    /**
-     * @return the width of the player sprite.
-     */
-    private double playerWidth() {
-        return entity.getComponent(PlayerComponent.class).playerWidth;
-    }
-
-    /**
-     * @return the height of the player sprite.
-     */
-    private double playerHeight() {
-        return entity.getComponent(PlayerComponent.class).playerHeight;
     }
 
     /**

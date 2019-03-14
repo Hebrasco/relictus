@@ -9,6 +9,6 @@ import com.almasb.fxgl.entity.component.Component;
  * @version 1.0
  */
 public class PlayerComponent extends Component {
-    public double playerWidth = 32;
-    public double playerHeight = 42;
+    public static int PLAYER_WIDTH = 32;
+    public static int PLAYER_HEIGHT = 42;
 }

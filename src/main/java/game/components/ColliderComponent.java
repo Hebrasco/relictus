@@ -8,6 +8,8 @@ import javafx.geometry.Point2D;
 
 import java.util.List;
 
+import static game.components.PlayerComponent.*;
+
 /**
  * Handles the collisions with other entities.
  *
@@ -70,8 +72,8 @@ public class ColliderComponent extends Component {
     private boolean areRectanglesOverlapping(Point2D position, Entity entity) {
         final double playerPosX = position.getX();
         final double playerPosY = position.getY();
-        final double playerPosXRange = playerPosX + 32; // TODO: Spieler breite von PlayerComponent laden
-        final double playerPosYRange = playerPosY + 42; // TODO: Spieler höhe von PlayerComponent laden
+        final double playerPosXRange = playerPosX + PLAYER_WIDTH;
+        final double playerPosYRange = playerPosY + PLAYER_HEIGHT;
         final double entityPosX = entity.getPositionComponent().getX();
         final double entityPosY = entity.getPositionComponent().getY();
         final double entityPosXRange = entityPosX + entity.getWidth();
@@ -116,7 +118,7 @@ public class ColliderComponent extends Component {
         final Point2D vector = new Point2D(posX, posY);
 
         int y = (int) posY;
-        while (y < y + 42) {
+        while (y < (y + PLAYER_HEIGHT)) {
             final Point2D targetVector = new Point2D(posX, y);
             final boolean overlapping = areRectanglesOverlapping(targetVector, entity);
             
