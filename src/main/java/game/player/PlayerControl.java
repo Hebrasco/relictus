@@ -8,6 +8,7 @@ import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import game.components.ColliderComponent;
 import game.components.PhysicsComponent;
+import game.components.PlayerComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
@@ -33,8 +34,8 @@ public class PlayerControl extends Component {
     @Override
     public void onAdded() {
         // TODO: Animationen und Textur in andere Klasse verschieben
-        animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 1, 1);
-        animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 0, 3);
+        animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) playerWidth(), (int) playerHeight(), Duration.seconds(1), 1, 1);
+        animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) playerWidth(), (int) playerHeight(), Duration.seconds(1), 0, 3);
 
         texture = new AnimatedTexture(animIdle);
 
@@ -107,7 +108,7 @@ public class PlayerControl extends Component {
 
         if (!colliderComponent.willCollide(targetVector)) {
             if (direction.equals(Direction.UP)) {
-                jump();
+                physicComponent.jump();
             } else {
                 positionComponent.translate(vector);
             }
@@ -115,29 +116,17 @@ public class PlayerControl extends Component {
     }
 
     /**
-     * Lets the player jump
-     */
-    private void jump() {
-        // TODO: Dix multiple jumps
-        physicComponent.jump();
-    }
-
-    /**
      * @return the width of the player sprite.
      */
-    private double getPlayerWidth() {
-        // TODO: Fix Component PlayerComponent not found!
-        //return entity.getComponent(PlayerComponent.class).playerWidth;
-        return 32;
+    private double playerWidth() {
+        return entity.getComponent(PlayerComponent.class).playerWidth;
     }
 
     /**
      * @return the height of the player sprite.
      */
-    private double getPlayerHeight() {
-        // TODO: Fix Component PlayerComponent not found!
-        //return entity.getComponent(PlayerComponent.class).playerHeight;
-        return 42;
+    private double playerHeight() {
+        return entity.getComponent(PlayerComponent.class).playerHeight;
     }
 
     /**
