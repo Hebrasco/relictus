@@ -1,5 +1,6 @@
 package game.player;
 
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.entity.components.PositionComponent;
 import com.almasb.fxgl.input.Input;
@@ -30,14 +31,16 @@ public class PlayerControl extends Component {
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk;
 
-    @Override
-    public void onAdded() {
-        // TODO: Animationen und Textur in andere Klasse verschieben
+    public PlayerControl() {
         animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 1, 1);
         animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 0, 3);
 
         texture = new AnimatedTexture(animIdle);
+    }
 
+    @Override
+    public void onAdded() {
+        // TODO: Animationen und Textur in andere Klasse verschieben
         entity.setView(texture);
 
         colliderComponent = entity.getComponent(ColliderComponent.class);
@@ -47,10 +50,14 @@ public class PlayerControl extends Component {
 
     @Override
     public void onUpdate(double tpf) {
-        //texture.playAnimationChannel(physics.isMoving() ? animWalk : animIdle);
+       /* if (isMoving()) {
+            if (texture.getAnimationChannel() == animIdle) {
+                texture.loopAnimationChannel(animWalk);
+            }*/
+        //texture.setAnimationChannel(isMoving() ? animWalk : animIdle);
     }
 
-    // TODO: isMoving()
+    // TODO: isMoving() - Wichtig für Player Animations
     // TODO: isGrounded()
 
     /**
@@ -107,6 +114,13 @@ public class PlayerControl extends Component {
         final Point2D targetVector = getTargetVector(vector);
 
         if (!colliderComponent.isCollided(targetVector)) {
+            if (direction.equals(Direction.LEFT)) {
+                getEntity().setScaleX(-1);
+                texture.loopAnimationChannel(animWalk);
+            }
+            if (direction.equals(Direction.RIGHT)) {
+                getEntity().setScaleX(1);
+            }
             if (direction.equals(Direction.UP)) {
                 jump();
             } else {
@@ -163,3 +177,4 @@ public class PlayerControl extends Component {
         );
     }
 }
+
