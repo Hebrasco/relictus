@@ -50,6 +50,7 @@ public class PlayerControl extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        //Funktioniert bzw. kann eingefügt werden wenn isMoving() vorhanden ist
        /* if (isMoving()) {
             if (texture.getAnimationChannel() == animIdle) {
                 texture.loopAnimationChannel(animWalk);
@@ -116,7 +117,6 @@ public class PlayerControl extends Component {
         if (!colliderComponent.isCollided(targetVector)) {
             if (direction.equals(Direction.LEFT)) {
                 getEntity().setScaleX(-1);
-                texture.loopAnimationChannel(animWalk);
             }
             if (direction.equals(Direction.RIGHT)) {
                 getEntity().setScaleX(1);
