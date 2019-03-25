@@ -157,14 +157,16 @@ public class ColliderComponent extends Component {
      */
     private Point2D targetVectorWithSafetyZone(Point2D targetVector, Direction direction) {
         final int safetyZone = 1;
+        Point2D safetyZoneX = new Point2D(safetyZone, 0);
+        Point2D safetyZoneY = new Point2D(0, safetyZone);
         if (direction.equals(Direction.UP)) {
-            targetVector = targetVector.subtract(0, -safetyZone);
+            targetVector = targetVector.add(safetyZoneY);
         } else if (direction.equals(Direction.DOWN)) {
-            targetVector = targetVector.subtract(0, safetyZone);
+            targetVector = targetVector.subtract(safetyZoneY);
         } else if (direction.equals(Direction.LEFT)) {
-            targetVector = targetVector.subtract(-safetyZone, 0);
+            targetVector = targetVector.add(safetyZoneX);
         } else if (direction.equals(Direction.RIGHT)) {
-            targetVector = targetVector.subtract(safetyZone, 0);
+            targetVector = targetVector.subtract(safetyZoneX);
         }
         return targetVector;
     }
