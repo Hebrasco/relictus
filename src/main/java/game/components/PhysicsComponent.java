@@ -1,6 +1,7 @@
 package game.components;
 
 import com.almasb.fxgl.entity.component.Component;
+import game.player.Direction;
 import javafx.geometry.Point2D;
 
 /**
@@ -46,6 +47,7 @@ public class PhysicsComponent extends Component {
         velocity = jumpVelocity;
     }
 
+    // TODO: isMoving()
     // TODO: isGrounded()
     // cast raycast zum boden
 
@@ -55,6 +57,6 @@ public class PhysicsComponent extends Component {
      * @return true, if this entity will collide with another entity.
      */
     private boolean isEntityCollided(Point2D targetVector) {
-        return entity.getComponent(ColliderComponent.class).willCollide(targetVector);
+        return entity.getComponent(ColliderComponent.class).willCollide(targetVector, Direction.DOWN);
     }
 }

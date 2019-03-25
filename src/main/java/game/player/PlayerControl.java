@@ -53,9 +53,6 @@ public class PlayerControl extends Component {
         //texture.playAnimationChannel(physics.isMoving() ? animWalk : animIdle);
     }
 
-    // TODO: isMoving()
-    // TODO: isGrounded()
-
     /**
      * Adds the controls to the player input.
      * @param input the input to add the actions to.
@@ -108,7 +105,7 @@ public class PlayerControl extends Component {
         final Point2D vector = direction.vector.multiply(speed);
         final Point2D targetVector = getTargetVector(vector);
 
-        if (!colliderComponent.willCollide(targetVector)) {
+        if (!colliderComponent.willCollide(targetVector, direction)) {
             if (direction.equals(Direction.UP)) {
                 physicComponent.jump();
             } else {

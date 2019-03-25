@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import data.EntityTypes;
+import game.player.Direction;
 import javafx.geometry.Point2D;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import static game.components.PlayerComponent.*;
  * Handles the collisions with other entities.
  *
  * @author Daniel Bedrich
- * @version 1.0
+ * @version 2.0
  */
 public class ColliderComponent extends Component {
     /*
@@ -40,20 +41,19 @@ public class ColliderComponent extends Component {
      * Checks if the new position of this entity in the next frame will move inside another entity.
      *
      * @param vector the point coordinates of the new position.
+     * @param direction the direction, this entity is heading.
      * @return true, if the entity will move inside another entity.
      */
-    public boolean willCollide(Point2D vector) {
+    public boolean willCollide(Point2D vector, Direction direction) {
         final List<Entity> entities = FXGL.getGameWorld().getEntities();
 
         for (Entity entity : entities) {
             if (entity.isType(EntityTypes.PLATFORM)) {
-                if (entity.getWidth() != 0 && entity.getHeight() != 0) {
-                    final boolean EntitiesAreOverlapping = areRectanglesOverlapping(vector, entity);
+                final boolean EntitiesAreOverlapping = areRectanglesOverlapping(vector, entity);
 
-                    if (EntitiesAreOverlapping) {
-                        getEntity().setPosition(nonCollidingVector(entity));
-                        return true;
-                    }
+                if (EntitiesAreOverlapping) {
+                    getEntity().setPosition(nonCollidingVector(entity, direction));
+                    return true;
                 }
             }
             // Entity ist keiner der oben genannten Typen
@@ -109,25 +109,63 @@ public class ColliderComponent extends Component {
     /**
      * Moves the entity to the edge of the others entity collider.
      *
-     * @implNote Only fort Direction.DOWN.
-     * @param entity the entity to move it up to.
+     * @param entity the entity it will be moved to.
+     * @param direction the direction, this entity is heading.
      */
-    private Point2D nonCollidingVector(Entity entity) {
-        final double posX = getEntity().getPositionComponent().getX();
-        final double posY = getEntity().getPositionComponent().getY();
-        final Point2D vector = new Point2D(posX, posY);
+    private Point2D nonCollidingVector(Entity entity, Direction direction) {
+        final int x = (int) getEntity().getPositionComponent().getX();
+        final int y = (int) getEntity().getPositionComponent().getY();
 
-        int y = (int) posY;
-        while (y < (y + PLAYER_HEIGHT)) {
-            final Point2D targetVector = new Point2D(posX, y);
-            final boolean overlapping = areRectanglesOverlapping(targetVector, entity);
-            
-            if (overlapping) {
-                return targetVector;
-            }
-            y++;
+        Point2D targetVector = new Point2D(x, y);
+        final boolean isXAxis = direction.equals(Direction.LEFT) || direction.equals(Direction.RIGHT);
+        int axisToModify;
+        final int nonModifiedAxis;
+
+        if (isXAxis) {
+            axisToModify = x;
+            nonModifiedAxis = y;
+        } else {
+            axisToModify = y;
+            nonModifiedAxis = x;
         }
 
-        return vector;
+        boolean doOverlap = false;
+        while (!doOverlap) {
+            if (direction.equals(Direction.RIGHT) || direction.equals(Direction.LEFT)) {
+                targetVector = new Point2D(axisToModify, nonModifiedAxis);
+            } else {
+                targetVector = new Point2D(nonModifiedAxis, axisToModify);
+            }
+
+            if (direction.equals(Direction.RIGHT) || direction.equals(Direction.DOWN)) {
+                axisToModify++;
+            } else {
+                axisToModify--;
+            }
+
+            doOverlap = areRectanglesOverlapping(targetVector, entity);
+        }
+        return targetVectorWithSafetyZone(targetVector, direction);
+    }
+
+    /**
+     * Builds the safety zone around the given vector.
+     *
+     * @param targetVector the vector, where this entity will be set to.
+     * @param direction the direction, this entity is heading to.
+     * @return the vector with added safety zone.
+     */
+    private Point2D targetVectorWithSafetyZone(Point2D targetVector, Direction direction) {
+        final int safetyZone = 1;
+        if (direction.equals(Direction.UP)) {
+            targetVector = targetVector.subtract(0, -safetyZone);
+        } else if (direction.equals(Direction.DOWN)) {
+            targetVector = targetVector.subtract(0, safetyZone);
+        } else if (direction.equals(Direction.LEFT)) {
+            targetVector = targetVector.subtract(-safetyZone, 0);
+        } else if (direction.equals(Direction.RIGHT)) {
+            targetVector = targetVector.subtract(safetyZone, 0);
+        }
+        return targetVector;
     }
 }
