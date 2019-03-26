@@ -7,24 +7,38 @@ import javafx.geometry.Point2D;
 /**
  * Handles the physics of the entity.
  *
- * @author Daniel Bedrich, Lara-Marie Mann
- * @version 1.0
+ * @author Daniel Bedrich
+ * @version 1.1
  */
 public class PhysicsComponent extends Component {
+    private final double gravity = 1.0;
     public int velocity = 1;
-    private double gravity = 1;
-
-    @Override
-    public void onAdded() {
-    }
 
     @Override
     public void onUpdate(double tpf) {
         final Point2D targetVector = getTargetVector();
+        final Direction direction = getMovingDirection();
 
-        if (!isEntityCollided(targetVector)) {
+        if (!isEntityCollided(targetVector, direction)) {
             velocity += gravity;
             entity.translateY(velocity);
+        } else {
+            if (direction.equals(Direction.UP)) {
+                velocity = 0;
+            }
+        }
+    }
+
+    /**
+     * The direction, the entity is moving.
+     *
+     * @return {@link Direction}.UP, if entity is moving up on y axis.
+     */
+    private Direction getMovingDirection() {
+        if (velocity < 0) {
+            return Direction.UP;
+        } else {
+            return Direction.DOWN;
         }
     }
 
@@ -56,7 +70,7 @@ public class PhysicsComponent extends Component {
      * @param targetVector the new position in the next frame.
      * @return true, if this entity will collide with another entity.
      */
-    private boolean isEntityCollided(Point2D targetVector) {
-        return entity.getComponent(ColliderComponent.class).willCollide(targetVector, Direction.DOWN);
+    private boolean isEntityCollided(Point2D targetVector, Direction direction) {
+        return entity.getComponent(ColliderComponent.class).willCollide(targetVector, direction);
     }
 }
