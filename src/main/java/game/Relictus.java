@@ -69,8 +69,8 @@ public class Relictus extends GameApplication {
 
         //getAudioPlayer().playSound("start.mp3");
 
-        getGameScene().getViewport().setBounds(0, 0, WINDOW_WIDTH * 2, 720);
-        getGameScene().getViewport().bindToEntity(player, getWidth() / 2.0, getHeight() / 2.0);
+        getGameScene().getViewport().setBounds(0, 0, WINDOW_WIDTH * 2, WINDOW_HEIGHT);
+        getGameScene().getViewport().bindToEntity(player, WINDOW_WIDTH / 2.0, WINDOW_HEIGHT / 2.0);
 
         initializeInput();
     }

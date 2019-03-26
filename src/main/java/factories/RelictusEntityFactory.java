@@ -6,7 +6,9 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import data.EntityTypes;
 import game.components.ColliderComponent;
+import game.components.PhysicsComponent;
 import game.components.PlayerComponent;
+import game.player.PlayerControl;
 import preferences.GamePreferences;
 
 
@@ -45,6 +47,9 @@ public class RelictusEntityFactory implements EntityFactory {
                 .type(EntityTypes.PLAYER)
                 .from(data)
                 .with(new PlayerComponent())
+                .with(new ColliderComponent())
+                .with(new PhysicsComponent())
+                .with(new PlayerControl())
                 .build();
     }
 

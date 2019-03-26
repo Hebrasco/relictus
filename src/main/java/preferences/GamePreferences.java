@@ -18,7 +18,7 @@ public class GamePreferences {
     public static final int WINDOW_HEIGHT = 720;
     public static final boolean IS_MENU_ENABLED = true;
     public static final boolean IS_INTRO_ENABLED = false;
-    public static final boolean IS_FULL_SCREEN_ALLOWED = false;
+    public static final boolean IS_FULL_SCREEN_ALLOWED = true; // TODO: Refresh fullscreen width and height to pc display
     public static final boolean IS_MANUAL_RESIZE_ALLOWED = false;
     public static final RelictusSceneFactory SCENE_FACTORY = new RelictusSceneFactory();
     public static final RelictusEntityFactory ENTITY_FACTORY = new RelictusEntityFactory();
