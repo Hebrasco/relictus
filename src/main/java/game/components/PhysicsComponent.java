@@ -13,6 +13,7 @@ import javafx.geometry.Point2D;
 public class PhysicsComponent extends Component {
     private final double gravity = 1.0;
     public int velocity = 1;
+    private boolean isGrounded = false;
 
     @Override
     public void onUpdate(double tpf) {
@@ -22,9 +23,12 @@ public class PhysicsComponent extends Component {
         if (!isEntityCollided(targetVector, direction)) {
             velocity += gravity;
             entity.translateY(velocity);
+
         } else {
             if (direction.equals(Direction.UP)) {
                 velocity = 0;
+            } else if (direction.equals(Direction.DOWN)) {
+                isGrounded = true;
             }
         }
     }
@@ -57,13 +61,14 @@ public class PhysicsComponent extends Component {
      * Lets the player jump, by reversing the gravity.
      */
     public void jump() {
-        int jumpVelocity = -12;
-        velocity = jumpVelocity;
+        if (isGrounded) {
+            int jumpVelocity = -12;
+            velocity = jumpVelocity;
+            isGrounded = false;
+        }
     }
 
     // TODO: isMoving()
-    // TODO: isGrounded()
-    // cast raycast zum boden
 
     /**
      * Checks on the {@link ColliderComponent} if the entity will collide with another entity.
