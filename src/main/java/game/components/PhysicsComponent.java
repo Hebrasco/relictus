@@ -1,6 +1,7 @@
 package game.components;
 
 import com.almasb.fxgl.entity.component.Component;
+import game.player.Direction;
 import javafx.geometry.Point2D;
 
 /**
@@ -60,6 +61,7 @@ public class PhysicsComponent extends Component {
         velocity = jumpVelocity;
     }
 
+    // TODO: isMoving()
     // TODO: isGrounded()
     // cast raycast zum boden
 

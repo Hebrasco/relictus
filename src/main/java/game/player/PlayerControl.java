@@ -8,10 +8,13 @@ import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import game.components.ColliderComponent;
 import game.components.PhysicsComponent;
+import game.components.PlayerComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 import preferences.GamePreferences;
+
+import static game.components.PlayerComponent.*;
 
 /**
  * Defines the player controls.
@@ -33,8 +36,8 @@ public class PlayerControl extends Component {
     @Override
     public void onAdded() {
         // TODO: Animationen und Textur in andere Klasse verschieben
-        animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 1, 1);
-        animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, (int) getPlayerWidth(), (int) getPlayerHeight(), Duration.seconds(1), 0, 3);
+        animIdle = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, PLAYER_WIDTH, PLAYER_HEIGHT, Duration.seconds(1), 1, 1);
+        animWalk = new AnimationChannel(GamePreferences.PLAYER_FILE_NAME, 4, PLAYER_WIDTH, PLAYER_HEIGHT, Duration.seconds(1), 0, 3);
 
         texture = new AnimatedTexture(animIdle);
 
@@ -49,9 +52,6 @@ public class PlayerControl extends Component {
     public void onUpdate(double tpf) {
         //texture.playAnimationChannel(physics.isMoving() ? animWalk : animIdle);
     }
-
-    // TODO: isMoving()
-    // TODO: isGrounded()
 
     /**
      * Adds the controls to the player input.
@@ -105,39 +105,13 @@ public class PlayerControl extends Component {
         final Point2D vector = direction.vector.multiply(speed);
         final Point2D targetVector = getTargetVector(vector);
 
-        if (!colliderComponent.willCollide(targetVector)) {
+        if (!colliderComponent.willCollide(targetVector, direction)) {
             if (direction.equals(Direction.UP)) {
-                jump();
+                physicComponent.jump();
             } else {
                 positionComponent.translate(vector);
             }
         }
-    }
-
-    /**
-     * Lets the player jump
-     */
-    private void jump() {
-        // TODO: Dix multiple jumps
-        physicComponent.jump();
-    }
-
-    /**
-     * @return the width of the player sprite.
-     */
-    private double getPlayerWidth() {
-        // TODO: Fix Component PlayerComponent not found!
-        //return entity.getComponent(PlayerComponent.class).playerWidth;
-        return 32;
-    }
-
-    /**
-     * @return the height of the player sprite.
-     */
-    private double getPlayerHeight() {
-        // TODO: Fix Component PlayerComponent not found!
-        //return entity.getComponent(PlayerComponent.class).playerHeight;
-        return 42;
     }
 
     /**
