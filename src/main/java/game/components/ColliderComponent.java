@@ -45,14 +45,14 @@ public class ColliderComponent extends Component {
      * @return true, if the entity will move inside another entity.
      */
     public boolean willCollide(Point2D vector, Direction direction) {
-        final List<Entity> entities = FXGL.getGameWorld().getEntities();
+        final List<Entity> otherEntities = FXGL.getGameWorld().getEntities();
 
-        for (Entity entity : entities) {
-            if (entity.isType(EntityTypes.PLATFORM)) {
-                final boolean EntitiesAreOverlapping = areRectanglesOverlapping(vector, entity);
+        for (Entity other : otherEntities) {
+            if (other.isType(EntityTypes.PLATFORM)) {
+                final boolean EntitiesAreOverlapping = areRectanglesOverlapping(vector, other);
 
                 if (EntitiesAreOverlapping) {
-                    getEntity().setPosition(nonCollidingVector(entity, direction));
+                    entity.setPosition(nonCollidingVector(other, direction));
                     return true;
                 }
             }
@@ -109,12 +109,12 @@ public class ColliderComponent extends Component {
     /**
      * Moves the entity to the edge of the others entity collider.
      *
-     * @param entity the entity it will be moved to.
+     * @param other the entity it will be moved to.
      * @param direction the direction, this entity is heading.
      */
-    private Point2D nonCollidingVector(Entity entity, Direction direction) {
-        final int x = (int) getEntity().getPositionComponent().getX();
-        final int y = (int) getEntity().getPositionComponent().getY();
+    private Point2D nonCollidingVector(Entity other, Direction direction) {
+        final int x = (int) entity.getPositionComponent().getX();
+        final int y = (int) entity.getPositionComponent().getY();
 
         Point2D targetVector = new Point2D(x, y);
         final boolean isXAxis = direction.equals(Direction.LEFT) || direction.equals(Direction.RIGHT);
@@ -143,7 +143,7 @@ public class ColliderComponent extends Component {
                 axisToModify--;
             }
 
-            doOverlap = areRectanglesOverlapping(targetVector, entity);
+            doOverlap = areRectanglesOverlapping(targetVector, other);
         }
         return targetVectorWithSafetyZone(targetVector, direction);
     }

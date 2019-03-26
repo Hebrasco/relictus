@@ -11,8 +11,8 @@ import javafx.geometry.Point2D;
  * @version 1.1
  */
 public class PhysicsComponent extends Component {
-    private final double gravity = 1.0;
     public int velocity = 1;
+    private final double gravity = 1.0;
     private boolean isGrounded = false;
 
     @Override
@@ -62,7 +62,7 @@ public class PhysicsComponent extends Component {
      */
     public void jump() {
         if (isGrounded) {
-            int jumpVelocity = -12;
+            final int jumpVelocity = -12;
             velocity = jumpVelocity;
             isGrounded = false;
         }
