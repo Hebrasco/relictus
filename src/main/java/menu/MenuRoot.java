@@ -4,15 +4,20 @@ import javafx.scene.layout.VBox;
 
 /**
  * @author Daniel Bedrich
+ * @version 1.0
  */
 class MenuRoot extends VBox {
-    MenuRoot(MenuButton... items) {
-        for (MenuButton item : items) {
+    MenuRoot(MenuItem... items) {
+        for (MenuItem item : items) {
             add(item);
         }
     }
 
-    void add(MenuButton item) {
+    /**
+     * Adds the {@link MenuItem} to its Children
+     * @param item
+     */
+    void add(MenuItem item) {
         item.setParent(this);
         getChildren().addAll(item);
     }

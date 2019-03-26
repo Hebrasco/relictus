@@ -4,8 +4,6 @@ import com.almasb.fxgl.entity.component.Component;
 import game.player.Direction;
 import javafx.geometry.Point2D;
 
-import javax.jnlp.DownloadService;
-
 /**
  * Handles the physics of the entity.
  *

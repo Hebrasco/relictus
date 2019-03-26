@@ -6,11 +6,13 @@ import data.Language;
 import static preferences.GamePreferences.*;
 
 /**
- * @author Daniel Bedrich
+ * Stores the selected language.
+ *
+ * @author Daniel Bedrich, Roman Rubashkin
+ * @version 1.0
  */
 class Localization {
     Language selectedLanguage = new Language(
-            LANGUAGE_PROPERTIES_FILE_NAME,
             FXGL.getAssetLoader().loadResourceBundle(LANGUAGE_PATH + LANGUAGE_PROPERTIES_FILE_NAME)
     );
 }

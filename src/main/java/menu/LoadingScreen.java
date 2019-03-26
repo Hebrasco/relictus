@@ -4,7 +4,10 @@ import com.almasb.fxgl.scene.LoadingScene;
 import utils.CustomCursor;
 
 /**
- * @author Daniel Bedrich
+ * Defines the custom loading scene.
+ *
+ * @author Daniel Bedrich, Lara-Marie Mann
+ * @version 1.0
  */
 public class LoadingScreen extends LoadingScene {
     public LoadingScreen() {

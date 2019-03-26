@@ -10,7 +10,10 @@ import menu.RelictusMenu;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * @author Daniel Bedrich
+ * Defines the games game menu, main menu and loading scene.
+ *
+ * @author Daniel Bedrich, Roman Rubashkin
+ * @version 1.0
  */
 public class RelictusSceneFactory extends SceneFactory {
 
