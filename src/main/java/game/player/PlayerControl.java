@@ -23,7 +23,7 @@ import static game.components.PlayerComponent.*;
  * @version 1.0
  */
 public class PlayerControl extends Component {
-    private final double speed = 7.5;
+    private final double speed = 5.5;
     private final UserAction userActionJump = createJumpAction();
     private final UserAction userActionLeft = createMovementAction("Left", Direction.LEFT, speed);
     private final UserAction userActionRight = createMovementAction("Right", Direction.RIGHT, speed);

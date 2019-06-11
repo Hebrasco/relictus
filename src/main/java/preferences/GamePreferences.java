@@ -16,6 +16,8 @@ public class GamePreferences {
     public static final String VERSION = "1.0";
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
+    public static final int WORLD_WIDTH = 3070;
+    public static final int WORLD_HEIGHT = 720;
     public static final boolean IS_MENU_ENABLED = true;
     public static final boolean IS_INTRO_ENABLED = false;
     public static final boolean IS_FULL_SCREEN_ALLOWED = true; // TODO: Refresh fullscreen width and height to pc display
