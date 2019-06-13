@@ -1,7 +1,7 @@
 import game.Relictus;
 
 /**
- * The starting point of the relictus game.
+ * The starting point of the RELICTUS game.
  * @author Kevin Ortmeier, Markus Kremer, Lara-Marie Mann, Roman Rubaskin, Daniel Bedrich
  * @version 1.0
  */
